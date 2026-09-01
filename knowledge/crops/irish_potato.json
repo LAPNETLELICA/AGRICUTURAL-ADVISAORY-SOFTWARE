@@ -1,0 +1,18 @@
+{
+  "crop_id": "irish-potato",
+  "name": "Irish potato",
+  "family": "Solanaceae",
+  "cycle_length_days": 100,
+  "tolerance_profile": {
+    "note": "Placeholder only; Developer 2 must replace with sourced, validated tolerances."
+  },
+  "growth_stages": ["pre-planting", "planting", "vegetative", "flowering", "maturity", "post-harvest"],
+  "storage_behaviour": "Developer 2 validation required.",
+  "version": "0.1.0-demo",
+  "status": "draft",
+  "source": {
+    "title": "Crop-Centered Agricultural Advisory System v3.0",
+    "section": "Sections 5.1, 17.1 and 18.2"
+  }
+}
+

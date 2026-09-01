@@ -1,0 +1,42 @@
+{
+  "rules": [
+    {
+      "rule_id": "demo.potato.rain-confirmation.001",
+      "crop_id": "irish-potato",
+      "domain": "T6",
+      "version": "0.1.0-demo",
+      "priority": 180,
+      "status": "draft",
+      "source": {
+        "title": "Crop-Centered Agricultural Advisory System v3.0",
+        "section": "Section 5.3"
+      },
+      "conditions": [
+        {
+          "field": "present.weather.consecutive_rain_days",
+          "operator": "gte",
+          "value": 3
+        }
+      ],
+      "candidate": {
+        "candidate_id": "demo.potato.confirm-timing",
+        "type": "timing",
+        "name": "confirm_planting_window",
+        "summary": "Review the planting window against rain continuity and crop maturity timing.",
+        "reasons": [
+          "Three consecutive rain days were reported in the supplied evidence."
+        ],
+        "warnings": [
+          "A validated crop calendar must also confirm maturity before the dry season."
+        ],
+        "actions": [
+          "Confirm the local planting calendar before planting."
+        ],
+        "score_components": {
+          "timing_fit": 2.0,
+          "cultivation_period_relevance": 2.5
+        }
+      }
+    }
+  ]
+}

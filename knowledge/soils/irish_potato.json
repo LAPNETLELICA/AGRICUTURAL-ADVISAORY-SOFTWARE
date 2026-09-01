@@ -1,0 +1,46 @@
+{
+  "rules": [
+    {
+      "rule_id": "demo.potato.soil-drainage.001",
+      "crop_id": "irish-potato",
+      "domain": "T2",
+      "version": "0.1.0-demo",
+      "priority": 220,
+      "status": "draft",
+      "source": {
+        "title": "Crop-Centered Agricultural Advisory System v3.0",
+        "section": "Sections 5.2 and 17.1"
+      },
+      "conditions": [
+        {
+          "field": "present.soil.drainage",
+          "operator": "in",
+          "value": [
+            "poor",
+            "waterlogged"
+          ]
+        }
+      ],
+      "candidate": {
+        "candidate_id": "demo.potato.improve-drainage",
+        "type": "soil_action",
+        "name": "improve_plot_drainage",
+        "summary": "Improve drainage before treating the plot as suitable for this crop.",
+        "reasons": [
+          "The supplied plot evidence indicates poor drainage."
+        ],
+        "warnings": [
+          "This demo action is not a substitute for a validated soil assessment."
+        ],
+        "actions": [
+          "Prepare drainage channels or raised beds after agronomic validation."
+        ],
+        "score_components": {
+          "soil_fit": 1.0,
+          "soil_improvement_potential": 3.0,
+          "soil_crop_relevance": 3.0
+        }
+      }
+    }
+  ]
+}
