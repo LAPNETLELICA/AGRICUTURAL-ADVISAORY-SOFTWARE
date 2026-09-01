@@ -1,0 +1,2 @@
+"""Replaceable integration adapters."""
+

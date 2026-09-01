@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agricultural-advisory-engine"
+version = "1.0.0"
+description = "Crop-centered, explainable agricultural advisory engine"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "fastapi==0.141.1",
+  "pydantic==2.13.4",
+  "uvicorn[standard]==0.52.4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx>=0.28,<1.0",
+  "mypy>=1.14,<2.0",
+  "pytest>=8.3,<9.0",
+  "pytest-cov>=6.0,<7.0",
+  "ruff>=0.9,<1.0",
+]
+
+[project.scripts]
+agricultural-advisory-api = "api.app:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["api", "engine", "integrations", "languages"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+markers = [
+  "scenario: end-to-end crop-centered scenario tests",
+  "integration: integration boundary tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["api", "engine", "integrations", "languages"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 85
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+plugins = ["pydantic.mypy"]
+packages = ["api", "engine", "integrations", "languages"]
