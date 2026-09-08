@@ -1,6 +1,13 @@
 {
-  "knowledge_version": "0.1.0-demo",
-  "description": "Draft fixtures split across the conception book's Section 14 domains",
-  "repository_layout": "section-14",
-  "production_ready": false
+  "version": "0.2.0",
+  "authored_at": "2026-09-08T12:00:00Z",
+  "production_ready": false,
+  "sources": [
+    {
+      "crop_id": "tomato",
+      "document": "Guide technique IFATI (Arrêté Min. n° 086/MINEFOP Cameroun) & SDRdag 2016",
+      "status": "draft",
+      "notes": "Arbre décisionnel complet pour la culture de la tomate (T1-T7)."
+    }
+  ]
 }

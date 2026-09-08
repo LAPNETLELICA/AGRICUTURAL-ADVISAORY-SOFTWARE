@@ -1,0 +1,34 @@
+{
+  "rules": [
+    {
+      "rule_id": "TOMATO-T1-PROFILE-001",
+      "crop_id": "tomato",
+      "domain": "T1",
+      "version": "0.1.0",
+      "priority": 100,
+      "status": "draft",
+      "source": {
+        "title": "Guide technique IFATI & Document v3.0 — T1 Profil Tomate",
+        "section": "Section 5.1"
+      },
+      "conditions": [],
+      "candidate": {
+        "candidate_id": "tomato-profile-context",
+        "type": "advisory",
+        "name": "crop_profile_context",
+        "summary": "Ancrer l'ensemble des décisions et recommandations sur le profil agronomique de la tomate.",
+        "reasons": [
+          "L'arbre T1 (Profil de culture) constitue la racine obligatoire de toute décision consultative."
+        ],
+        "warnings": [],
+        "actions": [
+          "Confirmer le stade phénologique actuel (pépinière, repiquage, floraison ou récolte) et les observations de la parcelle."
+        ],
+        "score_components": {
+          "crop_fit": 1.0,
+          "cultivation_period_relevance": 1.0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "rules": [
+    {
+      "rule_id": "TOMATO-T4-TOPO-001",
+      "crop_id": "tomato",
+      "domain": "T4",
+      "version": "0.1.0",
+      "priority": 65,
+      "status": "draft",
+      "source": {
+        "title": "Document de conception v3.0 & SDRdag 2016 — T4 Topographie & Terrain",
+        "section": "Section 5.4"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.topography.slope",
+          "operator": "eq",
+          "value": "steep"
+        }
+      ],
+      "candidate": {
+        "candidate_id": "tomato-slope-management",
+        "type": "practice",
+        "name": "Aménager les parcelles en pente contre le ruissellement et l'érosion",
+        "summary": "Sur parcelles en pente dans l'Ouest Cameroun, la culture de la tomate nécessite des aménagements anti-érosifs pour éviter le ravinement des billons et le déchaussement des plants.",
+        "reasons": [
+          "Le ruissellement intense lessive la fumure de fond et favorise la dissémination des spores fongiques du sol.",
+          "Le paillage naturel et le billonnage selon les courbes de niveau freinent la vitesse de l'eau."
+        ],
+        "warnings": [
+          "Ne jamais orienter les billons dans le sens de la plus grande pente."
+        ],
+        "actions": [
+          "Tracer les billons perpendiculairement à la pente en suivant strictement les courbes de niveau.",
+          "Installer des fascines, cordons pierreux ou bandes d'herbe fixatrices (ex: vétiver) en amont."
+        ],
+        "score_components": {
+          "topography_fit": 1.0,
+          "practice_fit": 2.0
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}

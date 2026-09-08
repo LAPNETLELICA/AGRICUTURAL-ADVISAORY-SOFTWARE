@@ -1,0 +1,53 @@
+{
+  "rules": [
+    {
+      "rule_id": "TOMATO-T5-WEATHER-001",
+      "crop_id": "tomato",
+      "domain": "T5",
+      "version": "0.1.0",
+      "priority": 85,
+      "status": "draft",
+      "source": {
+        "title": "Guide IFATI Cameroun (MINEFOP) & Document v3.0 — T5 Fortes Pluies & Risque Mildiou",
+        "section": "Section 5.5"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.weather.rain_intensity",
+          "operator": "eq",
+          "value": "heavy"
+        }
+      ],
+      "candidate": {
+        "candidate_id": "tomato-heavy-rain-blight-protection",
+        "type": "advisory",
+        "name": "Protection intensive contre le mildiou et les maladies foliaires en période de fortes pluies",
+        "summary": "Les fortes pluies et l'humidité saturante (juillet-septembre) créent un risque critique d'explosion du mildiou (Phytophthora infestans) et du flétrissement bactérien sur tomate.",
+        "reasons": [
+          "Le mildiou détruit le feuillage et fait pourrir les fruits en quelques jours sous forte humidité.",
+          "Les éclaboussures d'eau transmettent les spores du sol vers les feuilles inférieures."
+        ],
+        "warnings": [
+          "Ne jamais pulvériser de fongicide de contact sous une pluie battante (lessivage immédiat) ; appliquer dès une accalmie.",
+          "Arrêter les traitements chimiques au moins 7 jours avant le début de la récolte (délai avant récolte - DAR)."
+        ],
+        "actions": [
+          "Effeuiller la base des tiges sur 20 à 30 cm de hauteur pour éviter tout contact avec le sol humide.",
+          "Appliquer un fongicide préventif cuprique (bouillie bordelaise / oxychlorure de cuivre) ou systémique (mancozèbe + métalaxyl) dès accalmie.",
+          "Maintenir un paillage épais au pied pour stopper les projections telluriques lors des averses."
+        ],
+        "score_components": {
+          "weather_fit": 2.0,
+          "regional_risk_fit": 2.0,
+          "future_risk": 2.0
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": [
+        "T7"
+      ]
+    }
+  ]
+}
