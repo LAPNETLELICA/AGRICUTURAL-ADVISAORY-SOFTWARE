@@ -1,0 +1,49 @@
+{
+  "rules": [
+    {
+      "rule_id": "POTATO-T5-WEATHER-001",
+      "crop_id": "potato",
+      "domain": "T5",
+      "version": "0.1.0",
+      "priority": 80,
+      "status": "draft",
+      "source": {
+        "title": "Document de conception v3.0 — scénario pomme de terre à Bafoussam avec fortes pluies; validation agronomique requise",
+        "section": "Section 5.5"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.weather.rain_intensity",
+          "operator": "eq",
+          "value": "heavy"
+        }
+      ],
+      "candidate": {
+        "candidate_id": "potato-heavy-rain-monitoring",
+        "type": "advisory",
+        "name": "Renforcer la surveillance en période de fortes pluies",
+        "summary": "Les fortes pluies doivent être prises en compte dans le conseil pour la culture cible.",
+        "reasons": [
+          "Le scénario de référence v3.0 utilise la pomme de terre avec de fortes pluies."
+        ],
+        "warnings": [
+          "Le catalogue actuel ne contient pas de seuil chiffré validé."
+        ],
+        "actions": [
+          "Surveiller les conditions de la parcelle et les risques associés aux fortes pluies."
+        ],
+        "score_components": {
+          "weather_fit": 1.0,
+          "regional_risk_fit": 1.0,
+          "future_risk": 1.0
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": [
+        "T7"
+      ]
+    }
+  ]
+}

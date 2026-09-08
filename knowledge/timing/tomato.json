@@ -1,0 +1,50 @@
+{
+  "rules": [
+    {
+      "rule_id": "TOMATO-T6-TIMING-001",
+      "crop_id": "tomato",
+      "domain": "T6",
+      "version": "0.1.0",
+      "priority": 90,
+      "status": "draft",
+      "source": {
+        "title": "Guide IFATI Cameroun & SDRdag 2016 — T6 Fenêtre de Plantation & Pépinière",
+        "section": "Section 5.6"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "future.weather.three_consecutive_rain_days",
+          "operator": "eq",
+          "value": true
+        }
+      ],
+      "candidate": {
+        "candidate_id": "tomato-planting-window-confirmation",
+        "type": "timing",
+        "name": "Confirmer la fenêtre de repiquage de la tomate après la phase de pépinière",
+        "summary": "Après 4 semaines d'élevage en pépinière (plants de 20-30 cm avec 3 à 5 vraies feuilles), le repiquage en plein champ est validé dès confirmation de l'installation des pluies (3 jours consécutifs de pluie).",
+        "reasons": [
+          "Un sol humide et meuble assure un bon taux de reprise et le développement rapide des racines adventives.",
+          "Le cycle total de 110 à 140 jours exige un positionnement précis pour débuter la récolte ~60 jours après repiquage."
+        ],
+        "warnings": [
+          "Ne jamais repiquer en plein soleil de mi-journée ; privilégier la fin d'après-midi ou un temps couvert.",
+          "Habituer les plants au soleil (endurcissement) 3 à 5 jours avant la mise en place définitive."
+        ],
+        "actions": [
+          "Arroser abondamment les planches de pépinière 2 heures avant l'arrachage pour préserver la motte racinaire.",
+          "Repiquer à bonne profondeur (jusqu'aux premières feuilles pour stimuler les racines adventives) en respectant 1 m x 0,5 m.",
+          "Effectuer un arrosage de tassement immédiat au goulot sans mouiller le feuillage."
+        ],
+        "score_components": {
+          "timing_fit": 2.0,
+          "cultivation_period_relevance": 2.5
+        },
+        "conflict_group": "planting_action",
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}

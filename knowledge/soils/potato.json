@@ -1,0 +1,46 @@
+{
+  "rules": [
+    {
+      "rule_id": "POTATO-T2-SOIL-001",
+      "crop_id": "potato",
+      "domain": "T2",
+      "version": "0.1.0",
+      "priority": 50,
+      "status": "draft",
+      "source": {
+        "title": "Document de conception v3.0 — T2 Aptitude du Sol & Amélioration",
+        "section": "Section 5.2"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.soil.drainage",
+          "operator": "in",
+          "value": ["poor", "waterlogged"]
+        }
+      ],
+      "candidate": {
+        "candidate_id": "potato-soil-assessment",
+        "type": "soil_action",
+        "name": "Évaluer et améliorer le drainage du sol selon les besoins de la pomme de terre",
+        "summary": "Le sol doit être évalué par rapport à la tolérance de la culture avant de proposer une action d'amélioration.",
+        "reasons": [
+          "Le T2 évalue l'aptitude du sol par rapport à la culture cible."
+        ],
+        "warnings": [
+          "Les actions et seuils agronomiques doivent être validés avant la production."
+        ],
+        "actions": [
+          "Aménager des billons surélevés pour favoriser l'évacuation de l'eau excédentaire."
+        ],
+        "score_components": {
+          "soil_fit": 1.0,
+          "soil_improvement_potential": 1.0
+        },
+        "conflict_group": "soil_action",
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}

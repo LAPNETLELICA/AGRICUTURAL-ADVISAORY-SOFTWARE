@@ -1,0 +1,47 @@
+{
+  "rules": [
+    {
+      "rule_id": "TOMATO-T3-REGION-001",
+      "crop_id": "tomato",
+      "domain": "T3",
+      "version": "0.1.0",
+      "priority": 70,
+      "status": "draft",
+      "source": {
+        "title": "Document de conception v3.0 & Guide IFATI Cameroun — T3 Contexte Régional Ouest",
+        "section": "Section 5.3"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "region",
+          "operator": "exists",
+          "value": null
+        }
+      ],
+      "candidate": {
+        "candidate_id": "tomato-region-qualification",
+        "type": "advisory",
+        "name": "Qualifier l'exposition régionale aux risques climatiques et parasitaires (Ouest Cameroun)",
+        "summary": "Dans les hauts plateaux de l'Ouest Cameroun (Bafoussam, Dschang, Foumban, altitude 1000-1800m), le climat frais est propice à la tomate mais expose la culture à une pression élevée de mildiou et de flétrissement bactérien.",
+        "reasons": [
+          "L'architecture v3.0 qualifie les risques de la culture selon l'altitude et le profil épidémiologique régional.",
+          "La tomate partage avec la pomme de terre une vulnérabilité critique aux maladies cryptogamiques et bactériennes en milieu d'altitude humide."
+        ],
+        "warnings": [
+          "Éviter les bas-fonds inondables ou mal drainés pendant la saison des pluies d'août à octobre."
+        ],
+        "actions": [
+          "Privilégier les variétés tolérantes au flétrissement bactérien (ex: Cobra F1, Rio Grande) dans les zones d'altitude.",
+          "Prévoir un programme préventif fongicide et des abris ou tuteurages adaptés."
+        ],
+        "score_components": {
+          "regional_risk_fit": 1.0
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}

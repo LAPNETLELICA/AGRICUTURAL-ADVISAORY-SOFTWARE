@@ -1,0 +1,2 @@
+# Backend 2 itself uses only the Python standard library.
+# Backend 1 integration requires the dependencies of the Backend 1 project (notably pydantic).

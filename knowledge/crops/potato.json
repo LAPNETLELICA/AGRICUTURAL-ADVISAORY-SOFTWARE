@@ -1,0 +1,26 @@
+{
+  "crop_id": "potato",
+  "name": "Pomme de terre",
+  "family": "Solanaceae",
+  "cycle_length_days": 100,
+  "tolerance_profile": {
+    "optimal_ph": [5.0, 6.5],
+    "optimal_temperature_c": [15, 20],
+    "critical_temp_max_c": 30,
+    "critical_temp_min_c": 5
+  },
+  "growth_stages": [
+    "pre-planting",
+    "planting",
+    "vegetative",
+    "flowering",
+    "maturity",
+    "post-harvest"
+  ],
+  "storage_behaviour": "Conservation en clayettes ventilées à l'obscurité (10-14°C) pour éviter le verdissement et la solanine.",
+  "version": "0.1.0",
+  "status": "draft",
+  "source": {
+    "title": "Document de conception v3.0 — scénario de référence; validation agronomique requise"
+  }
+}

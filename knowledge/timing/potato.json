@@ -1,0 +1,45 @@
+{
+  "rules": [
+    {
+      "rule_id": "POTATO-T6-TIMING-001",
+      "crop_id": "potato",
+      "domain": "T6",
+      "version": "0.1.0",
+      "priority": 90,
+      "status": "draft",
+      "source": {
+        "title": "Document de conception v3.0 — T6 Calendrier; validation agronomique requise",
+        "section": "Section 5.6"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "future.weather.three_consecutive_rain_days",
+          "operator": "eq",
+          "value": true
+        }
+      ],
+      "candidate": {
+        "candidate_id": "potato-planting-window",
+        "type": "timing",
+        "name": "Évaluer la fenêtre de plantation",
+        "summary": "La fenêtre de plantation doit être alignée sur les conditions de pluie et la maturité attendue.",
+        "reasons": [
+          "Le T6 utilise notamment trois jours consécutifs de pluie et l'alignement avec la maturité."
+        ],
+        "warnings": [
+          "La durée de cycle et les seuils saisonniers ne sont pas renseignés dans ce catalogue initial."
+        ],
+        "actions": [
+          "Vérifier que la fenêtre de culture permet d'atteindre la maturité dans la période prévue."
+        ],
+        "score_components": {
+          "timing_fit": 1.0
+        },
+        "conflict_group": "planting_action",
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}

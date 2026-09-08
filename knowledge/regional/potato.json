@@ -1,0 +1,45 @@
+{
+  "rules": [
+    {
+      "rule_id": "POTATO-T3-REGION-001",
+      "crop_id": "potato",
+      "domain": "T3",
+      "version": "0.1.0",
+      "priority": 70,
+      "status": "draft",
+      "source": {
+        "title": "Document de conception v3.0 — T3 Contexte Régional & Géographique",
+        "section": "Section 5.3"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "region",
+          "operator": "exists",
+          "value": null
+        }
+      ],
+      "candidate": {
+        "candidate_id": "potato-region-qualification",
+        "type": "advisory",
+        "name": "Qualifier le risque régional pour la culture",
+        "summary": "La région et la localité servent à qualifier l'exposition au risque de la culture sélectionnée.",
+        "reasons": [
+          "Dans l'architecture v3.0, la région qualifie la culture et ne sélectionne plus la culture."
+        ],
+        "warnings": [
+          "Le catalogue régional détaillé doit être complété et validé."
+        ],
+        "actions": [
+          "Fournir la localité et, si disponible, l'altitude et les risques observés."
+        ],
+        "score_components": {
+          "regional_risk_fit": 1.0
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "crop_id": "tomato",
+  "name": "Tomate",
+  "family": "Solanaceae",
+  "cycle_length_days": 125,
+  "tolerance_profile": {
+    "optimal_temperature_c": [20, 24],
+    "optimal_day_temp_c": 25,
+    "optimal_night_temp_c": 17,
+    "critical_temp_max_c": 35,
+    "critical_temp_min_c": 10,
+    "optimal_ph": [5.5, 7.0],
+    "waterlogging_tolerance": "none",
+    "water_needs": "400 à 750 mm sur le cycle ; arrosage régulier au pied de 5 à 15 L/plant/semaine par temps frais et 20 à 35 L en période aride ; intolérance absolue à l'asphyxie racinaire et au stress hydrique (cause de nécrose apicale et de coulure)",
+    "nutrient_needs": "Fumure de fond organique (2 à 5 t/1000 m² ou compost/fiente bien décomposée) ; fertilisation minérale N-P-K fractionnée (12-14-19 ou 12-12-17 à J+10-15 puis J+30) ; apport impératif de Nitrate de Calcium pour prévenir la nécrose apicale ('cul noir') ; engrais foliaire (20-20-20) avant floraison",
+    "spacing": "Lignes espacées de 1,00 m à 1,20 m, écartement de 50 à 80 cm sur la ligne (environ 20 000 à 25 000 poquets/ha)",
+    "recommended_varieties": {
+      "indeterminate": ["Cobra", "Nadira", "Rio Grande", "Lindo", "Panthere 17"],
+      "determinate": ["Pendulina jaune", "Mei Mei"]
+    }
+  },
+  "growth_stages": [
+    "pepiniere",
+    "repiquage_reprise",
+    "croissance_vegetative",
+    "floraison_nouaison",
+    "grossissement_maturation",
+    "recolte"
+  ],
+  "storage_behaviour": "Périssable. Récolte au stade tournant (jaune virant au rose) pour expédition/marché (conservation 1 à 2 semaines à 10-13 °C) ; orange virant au rouge pour consommation directe ; rouge vif pour transformation.",
+  "version": "0.1.0",
+  "status": "draft",
+  "source": {
+    "title": "Guide technique IFATI (Arrêté Min. n° 086/MINEFOP Cameroun) & SDRdag 2016 (Solanum lycopersicum)"
+  }
+}
