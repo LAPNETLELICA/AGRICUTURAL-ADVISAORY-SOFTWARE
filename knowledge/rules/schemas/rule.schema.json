@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/agricultural-advisory/rule.schema.json",
+  "title": "Crop-Centered Advisory Rule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rule_id", "crop_id", "domain", "version", "status", "source", "candidate"],
+  "properties": {
+    "rule_id": {"type": "string", "pattern": "^[-A-Za-z0-9_.:]{1,100}$"},
+    "crop_id": {"type": "string", "pattern": "^[-A-Za-z0-9_.:*]{1,100}$"},
+    "domain": {"enum": ["T1", "T2", "T3", "T4", "T5", "T6", "T7"]},
+    "version": {"type": "string", "minLength": 1},
+    "priority": {"type": "integer", "minimum": 0, "maximum": 1000},
+    "status": {"enum": ["draft", "validated", "deprecated", "test_only"]},
+    "source": {"$ref": "#/$defs/source"},
+    "condition_mode": {"enum": ["all", "any"]},
+    "conditions": {"type": "array", "items": {"$ref": "#/$defs/condition"}},
+    "candidate": {"$ref": "#/$defs/candidate"},
+    "requires_trees": {"type": "array", "items": {"enum": ["T1", "T2", "T3", "T4", "T5", "T6", "T7"]}}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "uri": {"type": ["string", "null"]},
+        "section": {"type": ["string", "null"]},
+        "validated_by": {"type": ["string", "null"]},
+        "validated_at": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "operator"],
+      "properties": {
+        "field": {"type": "string", "minLength": 1},
+        "operator": {"enum": ["eq", "ne", "gt", "gte", "lt", "lte", "in", "not_in", "contains", "exists", "not_exists", "between"]},
+        "value": {}
+      }
+    },
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["constraint_id", "kind", "effect", "condition", "reason"],
+      "properties": {
+        "constraint_id": {"type": "string"},
+        "kind": {"enum": ["hard", "soft"]},
+        "effect": {"enum": ["exclude_if", "require", "penalize_if"]},
+        "condition": {"$ref": "#/$defs/condition"},
+        "reason": {"type": "string", "minLength": 1},
+        "penalty": {"type": "number", "minimum": 0}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "type", "name", "summary"],
+      "properties": {
+        "candidate_id": {"type": "string"},
+        "type": {"enum": ["soil_action", "practice", "timing", "advisory", "risk_alert"]},
+        "name": {"type": "string", "minLength": 1},
+        "summary": {"type": "string", "minLength": 1},
+        "reasons": {"type": "array", "items": {"type": "string"}},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "actions": {"type": "array", "items": {"type": "string"}},
+        "score_components": {"type": "object", "additionalProperties": {"type": "number"}},
+        "conflict_group": {"type": ["string", "null"]},
+        "constraints": {"type": "array", "items": {"$ref": "#/$defs/constraint"}}
+      }
+    }
+  }
+}

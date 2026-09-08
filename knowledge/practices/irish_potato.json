@@ -1,0 +1,41 @@
+{
+  "rules": [
+    {
+      "rule_id": "demo.potato.rotation.001",
+      "crop_id": "irish-potato",
+      "domain": "T7",
+      "version": "0.1.0-demo",
+      "priority": 160,
+      "status": "draft",
+      "source": {
+        "title": "Crop-Centered Agricultural Advisory System v3.0",
+        "section": "Section 5.3"
+      },
+      "conditions": [
+        {
+          "field": "present.practices.repeated_crop_family",
+          "operator": "eq",
+          "value": true
+        }
+      ],
+      "candidate": {
+        "candidate_id": "demo.potato.rotate-family",
+        "type": "practice",
+        "name": "rotate_crop_family",
+        "summary": "Avoid repeating the same crop family where the validated rotation rule applies.",
+        "reasons": [
+          "The supplied practice evidence reports a repeated crop family."
+        ],
+        "warnings": [],
+        "actions": [
+          "Ask Developer 2's validated rotation catalogue for a locally appropriate next crop."
+        ],
+        "score_components": {
+          "practice_fit": 2.0,
+          "relevant_history_fit": 1.0,
+          "practice_relevance": 2.5
+        }
+      }
+    }
+  ]
+}
