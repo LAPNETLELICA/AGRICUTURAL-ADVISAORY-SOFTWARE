@@ -1,0 +1,6 @@
+{
+  "knowledge_version": "0.1.0-demo",
+  "description": "Draft fixtures split across the conception book's Section 14 domains",
+  "repository_layout": "section-14",
+  "production_ready": false
+}

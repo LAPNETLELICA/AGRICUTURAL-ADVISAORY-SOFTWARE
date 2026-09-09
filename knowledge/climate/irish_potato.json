@@ -1,0 +1,57 @@
+{
+  "rules": [
+    {
+      "rule_id": "demo.potato.heavy-rain-risk.001",
+      "crop_id": "irish-potato",
+      "domain": "T5",
+      "version": "0.1.0-demo",
+      "priority": 300,
+      "status": "draft",
+      "source": {
+        "title": "Crop-Centered Agricultural Advisory System v3.0",
+        "section": "Sections 5.1 and 17.1"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.weather.rainfall_class",
+          "operator": "eq",
+          "value": "heavy"
+        },
+        {
+          "field": "future.month",
+          "operator": "between",
+          "value": [
+            7,
+            9
+          ]
+        }
+      ],
+      "candidate": {
+        "candidate_id": "demo.potato.late-blight-watch",
+        "type": "risk_alert",
+        "name": "late_blight_watch",
+        "summary": "Increase crop monitoring during the heavy-rain risk period.",
+        "reasons": [
+          "The conception baseline links Solanaceae risk with heavy rain from July to September."
+        ],
+        "warnings": [
+          "Watch for crop-specific disease symptoms; image evidence alone must not create false certainty."
+        ],
+        "actions": [
+          "Inspect plants frequently and escalate suspected disease to a qualified expert."
+        ],
+        "score_components": {
+          "regional_risk_fit": 3.0,
+          "weather_fit": 2.0,
+          "weather_change_urgency": 3.0,
+          "regional_risk": 3.0,
+          "future_risk": 3.0
+        }
+      },
+      "requires_trees": [
+        "T7"
+      ]
+    }
+  ]
+}

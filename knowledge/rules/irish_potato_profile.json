@@ -1,0 +1,34 @@
+{
+  "rules": [
+    {
+      "rule_id": "demo.potato.profile.001",
+      "crop_id": "irish-potato",
+      "domain": "T1",
+      "version": "0.1.0-demo",
+      "priority": 100,
+      "status": "draft",
+      "source": {
+        "title": "Crop-Centered Agricultural Advisory System v3.0",
+        "section": "Sections 5 and 17.1"
+      },
+      "conditions": [],
+      "candidate": {
+        "candidate_id": "demo.potato.profile-advisory",
+        "type": "advisory",
+        "name": "crop_profile_context",
+        "summary": "Keep all advice anchored to the selected Irish potato crop profile.",
+        "reasons": [
+          "The Crop Profile tree is the required root of every advisory decision."
+        ],
+        "warnings": [],
+        "actions": [
+          "Confirm the current crop stage and plot observations."
+        ],
+        "score_components": {
+          "crop_fit": 1.0,
+          "cultivation_period_relevance": 0.5
+        }
+      }
+    }
+  ]
+}
