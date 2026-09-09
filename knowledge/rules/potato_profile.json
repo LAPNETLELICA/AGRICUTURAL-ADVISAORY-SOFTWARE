@@ -1,0 +1,34 @@
+{
+  "rules": [
+    {
+      "rule_id": "POTATO-T1-PROFILE-001",
+      "crop_id": "potato",
+      "domain": "T1",
+      "version": "0.1.0",
+      "priority": 100,
+      "status": "draft",
+      "source": {
+        "title": "Document de conception v3.0 — T1 Profil Pomme de Terre",
+        "section": "Section 5.1"
+      },
+      "conditions": [],
+      "candidate": {
+        "candidate_id": "potato-profile-context",
+        "type": "advisory",
+        "name": "crop_profile_context",
+        "summary": "Ancrer l'ensemble des conseils sur le profil de la pomme de terre.",
+        "reasons": [
+          "L'arbre T1 est la racine obligatoire de la décision."
+        ],
+        "warnings": [],
+        "actions": [
+          "Confirmer le stade actuel de culture et la variété."
+        ],
+        "score_components": {
+          "crop_fit": 1.0,
+          "cultivation_period_relevance": 1.0
+        }
+      }
+    }
+  ]
+}

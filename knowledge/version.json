@@ -1,6 +1,28 @@
 {
-  "knowledge_version": "0.1.0-demo",
+  "knowledge_version": "0.2.0",
+  "version": "0.2.0",
   "description": "Draft fixtures split across the conception book's Section 14 domains",
   "repository_layout": "section-14",
-  "production_ready": false
+  "authored_at": "2026-09-08T12:00:00Z",
+  "production_ready": false,
+  "sources": [
+    {
+      "crop_id": "irish-potato",
+      "document": "Crop-Centered Agricultural Advisory System v3.0",
+      "status": "draft",
+      "notes": "Collaboration fixtures for engine integration. Developer 2 must provide agronomic values."
+    },
+    {
+      "crop_id": "potato",
+      "document": "Document de conception v3.0 — scénario de référence",
+      "status": "draft",
+      "notes": "Spécifications de référence pour la pomme de terre en milieu d'altitude."
+    },
+    {
+      "crop_id": "tomato",
+      "document": "Guide technique IFATI (Arrêté Min. n° 086/MINEFOP Cameroun) & SDRdag 2016",
+      "status": "draft",
+      "notes": "Arbre décisionnel complet pour la culture de la tomate (T1-T7)."
+    }
+  ]
 }

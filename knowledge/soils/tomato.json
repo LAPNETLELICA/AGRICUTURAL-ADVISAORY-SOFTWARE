@@ -1,0 +1,48 @@
+{
+  "rules": [
+    {
+      "rule_id": "TOMATO-T2-SOIL-001",
+      "crop_id": "tomato",
+      "domain": "T2",
+      "version": "0.1.0",
+      "priority": 75,
+      "status": "draft",
+      "source": {
+        "title": "Guide IFATI Cameroun & SDRdag 2016 — T2 Sol & Amendement",
+        "section": "Section 5.2"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.soil.ph",
+          "operator": "lt",
+          "value": 5.5
+        }
+      ],
+      "candidate": {
+        "candidate_id": "tomato-soil-acidity-correction",
+        "type": "soil_action",
+        "name": "Corriger l'acidité du sol par amendement calcaire et matière organique",
+        "summary": "Le pH est inférieur à 5,5 (fréquent dans les sols ferrallitiques d'altitude de l'Ouest Cameroun). Un amendement calcaire est obligatoire avant l'apport de matière organique pour favoriser la disponibilité du calcium et éviter la nécrose apicale.",
+        "reasons": [
+          "La tomate requiert un pH optimal entre 5,5 et 7,0 pour assimiler le calcium et le phosphore.",
+          "Les sols acides d'altitude sous Solanacées nécessitent un chaulage correcteur ou un apport de cendre de bois."
+        ],
+        "warnings": [
+          "Ne jamais apporter la chaux simultanément avec un engrais azoté ammoniacal (risque de volatilisation)."
+        ],
+        "actions": [
+          "Apporter 200 à 300 g/m² de chaux agricole dolomitique ou 300 à 500 g/m² de cendre de bois 3 à 4 semaines avant repiquage.",
+          "Enfouir 3 à 5 kg/m² de compost mûr ou fiente désinfectée pour reconstituer le complexe argilo-humique."
+        ],
+        "score_components": {
+          "soil_fit": 1.0,
+          "soil_improvement_potential": 2.5
+        },
+        "conflict_group": "soil_action",
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}

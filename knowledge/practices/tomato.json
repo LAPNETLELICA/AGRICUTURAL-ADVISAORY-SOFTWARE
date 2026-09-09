@@ -1,0 +1,53 @@
+{
+  "rules": [
+    {
+      "rule_id": "TOMATO-T7-PRACTICE-001",
+      "crop_id": "tomato",
+      "domain": "T7",
+      "version": "0.1.0",
+      "priority": 80,
+      "status": "draft",
+      "source": {
+        "title": "Guide IFATI Cameroun & SDRdag 2016 — T7 Pratiques Culturales, Rotation & Carence Calcium",
+        "section": "Section 5.7"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.observations",
+          "operator": "exists",
+          "value": null
+        }
+      ],
+      "candidate": {
+        "candidate_id": "tomato-integrated-crop-practices",
+        "type": "practice",
+        "name": "Appliquer les pratiques culturales intégrées : tuteurage, prévention du cul noir et rotation stricte",
+        "summary": "Conduire la tomate avec un tuteurage rigide (palissage), une suppression systématique des gourmands (1 à 2 tiges conservées), un apport calcique contre le cul noir (nécrose apicale) et une rotation sans Solanacées pendant 3 à 4 ans.",
+        "reasons": [
+          "Le tuteurage et l'ébourgeonnage concentrent la sève sur les fruits et améliorent l'aération contre les maladies.",
+          "La carence en calcium provoquée par les à-coups d'arrosage induit la nécrose apicale irréversible du fruit.",
+          "La rotation sans Solanacées (pomme de terre, piment, aubergine) assainit le sol des nématodes et du flétrissement bactérien."
+        ],
+        "warnings": [
+          "Ne jamais tailler les gourmands par temps de pluie (les plaies humides favorisent l'inoculation du chancre bactérien).",
+          "Désinfecter les sécateurs à l'eau de javel ou à l'alcool entre chaque ligne."
+        ],
+        "actions": [
+          "Installer des piquets tuteurs de 1,5 à 2 m dans les 15 jours suivant la reprise et attacher souplement les tiges.",
+          "Pincer régulièrement les pousses axillaires (gourmands) pour ne laisser qu'une seule tige vigoureuse (ou deux).",
+          "Effectuer des pulvérisations foliaires de chlorure ou nitrate de calcium dès la formation des premières grappes.",
+          "Établir un plan d'assolement alternant la tomate avec des graminées (maïs) ou des Fabacées (haricot, soja)."
+        ],
+        "score_components": {
+          "practice_fit": 2.0,
+          "relevant_history_fit": 1.5,
+          "practice_relevance": 2.5
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}

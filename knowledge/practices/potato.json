@@ -1,0 +1,46 @@
+{
+  "rules": [
+    {
+      "rule_id": "POTATO-T7-RISK-001",
+      "crop_id": "potato",
+      "domain": "T7",
+      "version": "0.1.0",
+      "priority": 60,
+      "status": "draft",
+      "source": {
+        "title": "Document de conception v3.0 — T7 Pratiques, Rotation & Risques; validation agronomique requise",
+        "section": "Section 5.7"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.observations",
+          "operator": "exists",
+          "value": null
+        }
+      ],
+      "candidate": {
+        "candidate_id": "potato-risk-monitoring",
+        "type": "practice",
+        "name": "Surveillance culturale ciblée",
+        "summary": "Les observations, pratiques, rotation et risques doivent être interprétés spécifiquement pour la culture cible.",
+        "reasons": [
+          "Le T7 filtre les pratiques et risques selon leur pertinence pour la culture."
+        ],
+        "warnings": [
+          "Aucune maladie ou seuil d'intervention n'est inventé dans ce catalogue."
+        ],
+        "actions": [
+          "Documenter les observations de la parcelle et l'historique pertinent de la culture."
+        ],
+        "score_components": {
+          "practice_fit": 1.0,
+          "relevant_history_fit": 1.0
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}
