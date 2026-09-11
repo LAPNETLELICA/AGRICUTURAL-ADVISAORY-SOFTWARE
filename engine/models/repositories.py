@@ -62,4 +62,3 @@ class InMemoryCropPassportRepository:
     def save(self, passport: CropPassport) -> None:
         with self._lock:
             self._items[passport.passport_id] = passport.model_copy(deep=True)
-

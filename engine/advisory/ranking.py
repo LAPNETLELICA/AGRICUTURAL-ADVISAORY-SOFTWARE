@@ -14,4 +14,3 @@ class Ranker:
             ),
         )
         return [item.model_copy(update={"rank": index}) for index, item in enumerate(ordered, 1)]
-

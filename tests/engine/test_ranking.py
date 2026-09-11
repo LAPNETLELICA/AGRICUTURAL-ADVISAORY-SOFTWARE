@@ -31,4 +31,3 @@ def test_ranker_orders_score_then_priority_then_identifier(context, make_rule):
         "candidate-c",
     ]
     assert [item.rank for item in ranked] == [1, 2, 3, 4]
-

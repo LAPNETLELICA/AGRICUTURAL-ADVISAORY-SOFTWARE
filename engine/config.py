@@ -22,6 +22,7 @@ class Settings:
     knowledge_path: Path = Path("knowledge")
     sms_max_length: int = 160
     cors_origins: tuple[str, ...] = ("http://localhost:3000", "http://localhost:8080")
+    database_url: str | None = None
 
     @property
     def allowed_knowledge_statuses(self) -> frozenset[str]:
@@ -50,8 +51,7 @@ class Settings:
             knowledge_path=Path(os.getenv("KNOWLEDGE_PATH", "knowledge")),
             sms_max_length=sms_max_length,
             cors_origins=_csv(
-                os.getenv(
-                    "CORS_ORIGINS", "http://localhost:3000,http://localhost:8080"
-                )
+                os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:8080")
             ),
+            database_url=os.getenv("DATABASE_URL") or None,
         )

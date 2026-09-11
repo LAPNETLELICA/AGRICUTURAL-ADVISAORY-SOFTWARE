@@ -1,4 +1,5 @@
 import pytest
+
 from backend2.provider import KnowledgeProvider
 
 
@@ -19,9 +20,7 @@ def test_provider_gets_crop_profile():
 def test_provider_rule_definitions_filtering():
     provider = KnowledgeProvider()
     rules = provider.get_relevant_rule_definitions(
-        crop_id="potato",
-        context={"test": True},
-        trees=["weather", "timing"]
+        crop_id="potato", context={"test": True}, trees=["weather", "timing"]
     )
     assert len(rules) >= 2
     assert all(r.tree in ["weather", "timing"] for r in rules)
@@ -52,12 +51,8 @@ def test_provider_gets_tomato_profile():
 def test_provider_tomato_tree_filtering():
     provider = KnowledgeProvider()
     rules = provider.get_relevant_rule_definitions(
-        crop_id="tomato",
-        context={"test": True},
-        trees=["weather", "timing", "practices_risks"]
+        crop_id="tomato", context={"test": True}, trees=["weather", "timing", "practices_risks"]
     )
     assert len(rules) >= 3
     assert all(r.crop_id == "tomato" for r in rules)
     assert all(r.tree in ["weather", "timing", "practices_risks"] for r in rules)
-
-

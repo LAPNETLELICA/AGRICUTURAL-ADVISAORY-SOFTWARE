@@ -6,7 +6,6 @@ from api.dependencies import ContainerDependency
 from engine.models.requests import AdvisoryRequest, MobileAdvisoryRequest
 from engine.models.responses import Recommendation
 
-
 router = APIRouter(prefix="/api/v1/advisory", tags=["advisory"])
 
 

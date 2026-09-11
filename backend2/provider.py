@@ -24,7 +24,9 @@ class KnowledgeProvider:
     def list_crops(self) -> list[str]:
         return self.repository.get_crop_ids()
 
-    def get_relevant_rule_definitions(self, crop_id: str, context: Any = None, trees: list[Any] | None = None):
+    def get_relevant_rule_definitions(
+        self, crop_id: str, context: Any = None, trees: list[Any] | None = None
+    ):
         if trees is None:
             trees = []
         return self.repository.get_relevant_rule_definitions(crop_id, trees)
@@ -39,7 +41,14 @@ class KnowledgeProvider:
         definitions = self.get_relevant_rule_definitions(crop_id, context, trees)
         try:
             from engine.models.domain import Candidate, Condition, Constraint, Rule
-            from engine.models.enums import ConditionMode, ConditionOperator, ConstraintEffect, ConstraintKind, RuleStatus, TreeId
+            from engine.models.enums import (
+                ConditionMode,
+                ConditionOperator,
+                ConstraintEffect,
+                ConstraintKind,
+                RuleStatus,
+                TreeId,
+            )
         except ImportError as exc:
             raise RuntimeError(
                 "Backend 1 contracts are missing. Supply engine/models and engine/interfaces "
@@ -58,7 +67,9 @@ class KnowledgeProvider:
         result = []
         for item in definitions:
             conditions = [
-                Condition(field=c.field, operator=enum_value(ConditionOperator, c.operator), value=c.value)
+                Condition(
+                    field=c.field, operator=enum_value(ConditionOperator, c.operator), value=c.value
+                )
                 for c in item.conditions
             ]
             constraints = [

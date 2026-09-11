@@ -42,4 +42,3 @@ class VoiceFormatter:
         if recommendation.warnings:
             sections.append(f"Warning: {recommendation.warnings[0]}")
         return " ".join(sections)
-

@@ -77,7 +77,9 @@ print(f"Nombre de règles chargées : {len(rules)}")
 
 # 5. Utiliser le KnowledgeProvider pour filtrer par arbres de décision
 provider = KnowledgeProvider(repo)
-relevant = provider.get_relevant_rule_definitions("potato", context=None, trees=["weather", "timing"])
+relevant = provider.get_relevant_rule_definitions(
+    "potato", context=None, trees=["weather", "timing"]
+)
 for r in relevant:
     print(f"- {r.rule_id} [{r.tree}]: {r.candidate.name}")
 ```

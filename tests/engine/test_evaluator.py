@@ -42,9 +42,7 @@ def test_empty_rule_matches_and_builds_candidate(context, make_rule):
 
 
 def test_missing_evidence_is_insufficient(context, make_rule):
-    rule = make_rule(
-        conditions=[Condition(field="present.missing", operator="eq", value=1)]
-    )
+    rule = make_rule(conditions=[Condition(field="present.missing", operator="eq", value=1)])
     result = RuleEvaluator().evaluate(rule, context)
     assert result.outcome is EvaluationOutcome.INSUFFICIENT
     assert result.missing_fields == ["present.missing"]
@@ -81,4 +79,3 @@ def test_exists_and_not_exists(context):
     assert evaluator.evaluate_condition(
         Condition(field="present.unknown", operator="not_exists"), context
     ).matched
-

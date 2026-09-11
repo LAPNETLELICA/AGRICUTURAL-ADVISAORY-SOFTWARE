@@ -33,4 +33,3 @@ class SMSSimulator:
     def inbox(self, recipient_id: str) -> list[DeliveryReceipt]:
         with self._lock:
             return [item.model_copy(deep=True) for item in self._messages.get(recipient_id, [])]
-

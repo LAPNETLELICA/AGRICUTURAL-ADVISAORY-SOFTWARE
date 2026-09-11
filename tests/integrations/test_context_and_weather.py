@@ -11,9 +11,7 @@ from engine.models.requests import (
 
 def test_weather_failure_is_explicit_and_farmer_evidence_is_preserved():
     root = Path(__file__).resolve().parents[2]
-    container = build_container(
-        Settings(environment="test", knowledge_path=root / "knowledge")
-    )
+    container = build_container(Settings(environment="test", knowledge_path=root / "knowledge"))
     request = MobileAdvisoryRequest(
         farmer_id="farmer-weather",
         crop_id="irish-potato",
@@ -42,6 +40,4 @@ def test_irrelevant_request_history_is_not_injected(container):
     result = container.engine.advise(AdvisoryRequest.from_mobile(request))
     trace = container.traces.get(result.trace_id)
     assert trace is not None
-    assert [item["crop_id"] for item in trace.relevant_history_used["history"]] == [
-        "irish-potato"
-    ]
+    assert [item["crop_id"] for item in trace.relevant_history_used["history"]] == ["irish-potato"]

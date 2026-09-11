@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -20,14 +23,23 @@ def create_app(
 ) -> FastAPI:
     resolved_settings = settings or Settings.from_env()
     resolved_container = container or build_container(resolved_settings)
+
+    @asynccontextmanager
+    async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+        yield
+        if resolved_container.database is not None:
+            resolved_container.database.close()
+
     app = FastAPI(
         title="Crop-Centered Agricultural Advisory API",
         version=__version__,
         description=(
             "Explainable rule-based advisory engine. Demo knowledge is not production agronomy."
         ),
+        lifespan=lifespan,
     )
     app.state.container = resolved_container
+
     if resolved_settings.cors_origins:
         app.add_middleware(
             CORSMiddleware,

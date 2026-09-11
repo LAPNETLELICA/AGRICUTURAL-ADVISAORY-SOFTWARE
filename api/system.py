@@ -12,7 +12,6 @@ from engine.models.responses import (
     RecommendationDetail,
 )
 
-
 router = APIRouter(prefix="/api/v1", tags=["system"])
 
 

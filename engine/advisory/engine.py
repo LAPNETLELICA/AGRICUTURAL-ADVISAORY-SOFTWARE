@@ -83,9 +83,7 @@ class AdvisoryEngine:
         eligible, constraint_decisions, penalties = self._constraint_processor.apply(
             evaluations, context
         )
-        strategy = (
-            self._sms_scoring if context.channel is Channel.SMS else self._mobile_scoring
-        )
+        strategy = self._sms_scoring if context.channel is Channel.SMS else self._mobile_scoring
         scored = strategy.score(eligible, penalties)
         ranked = self._ranker.rank(scored)
         resolution = self._conflict_resolver.resolve(ranked)

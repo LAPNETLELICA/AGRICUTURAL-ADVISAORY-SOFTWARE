@@ -3,9 +3,7 @@ from engine.models.enums import EvaluationOutcome, TreeId
 
 
 def _risk_rule(container, context):
-    rules = container.knowledge.get_relevant_rules(
-        "irish-potato", context, [TreeId.WEATHER]
-    )
+    rules = container.knowledge.get_relevant_rules("irish-potato", context, [TreeId.WEATHER])
     return next(rule for rule in rules if rule.rule_id == "demo.potato.heavy-rain-risk.001")
 
 

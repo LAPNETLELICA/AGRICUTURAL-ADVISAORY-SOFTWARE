@@ -44,4 +44,3 @@ class StaticWeatherProvider:
         self, region: str | None, locality: str | None, crop_id: str
     ) -> dict[str, Any] | None:
         return dict(self._forecast) if self._forecast else None
-

@@ -21,7 +21,6 @@ from engine.models.enums import (
     EvaluationOutcome,
 )
 
-
 _MISSING = object()
 
 

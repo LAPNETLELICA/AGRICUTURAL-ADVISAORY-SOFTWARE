@@ -49,4 +49,3 @@ class RankerContract(Protocol):
 
 class ConflictResolverContract(Protocol):
     def resolve(self, ranked: list[ScoredCandidate]) -> ConflictResolution: ...
-

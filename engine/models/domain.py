@@ -25,7 +25,6 @@ from engine.models.enums import (
     TreeId,
 )
 
-
 IDENTIFIER_PATTERN = r"^[-A-Za-z0-9_.:]{1,100}$"
 RULE_CROP_PATTERN = r"^(?:\*|[-A-Za-z0-9_.:]{1,100})$"
 
@@ -63,12 +62,17 @@ class Condition(StrictModel):
         value_free = {ConditionOperator.EXISTS, ConditionOperator.NOT_EXISTS}
         if self.operator not in value_free and self.value is None:
             raise ValueError(f"operator {self.operator} requires a value")
-        if self.operator is ConditionOperator.BETWEEN:
-            if not isinstance(self.value, (list, tuple)) or len(self.value) != 2:
-                raise ValueError("between requires a two-value list")
-        if self.operator in {ConditionOperator.IN, ConditionOperator.NOT_IN}:
-            if not isinstance(self.value, (list, tuple, set, frozenset)):
-                raise ValueError(f"operator {self.operator} requires a collection")
+        if self.operator is ConditionOperator.BETWEEN and (
+            not isinstance(self.value, (list, tuple)) or len(self.value) != 2
+        ):
+            raise ValueError("between requires a two-value list")
+
+        if self.operator in {
+            ConditionOperator.IN,
+            ConditionOperator.NOT_IN,
+        } and not isinstance(self.value, (list, tuple, set, frozenset)):
+            raise ValueError(f"operator {self.operator} requires a collection")
+
         return self
 
 
@@ -146,8 +150,7 @@ class Rule(StrictModel):
     @model_validator(mode="after")
     def validate_hard_constraint_governance(self) -> Rule:
         has_hard = any(
-            constraint.kind is ConstraintKind.HARD
-            for constraint in self.candidate.constraints
+            constraint.kind is ConstraintKind.HARD for constraint in self.candidate.constraints
         )
         if has_hard and self.status not in {RuleStatus.VALIDATED, RuleStatus.TEST_ONLY}:
             raise ValueError("hard constraints require validated knowledge")

@@ -5,7 +5,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 REQUIRED_DIRECTORIES = (
     "engine/advisory",
     "engine/models",
@@ -58,14 +57,10 @@ def validate_layout(root: Path) -> list[str]:
         if not (root / path).is_dir()
     ]
     failures.extend(
-        f"missing required file: {path}"
-        for path in REQUIRED_FILES
-        if not (root / path).is_file()
+        f"missing required file: {path}" for path in REQUIRED_FILES if not (root / path).is_file()
     )
     failures.extend(
-        f"legacy path must not exist: {path}"
-        for path in FORBIDDEN_PATHS
-        if (root / path).exists()
+        f"legacy path must not exist: {path}" for path in FORBIDDEN_PATHS if (root / path).exists()
     )
     return failures
 

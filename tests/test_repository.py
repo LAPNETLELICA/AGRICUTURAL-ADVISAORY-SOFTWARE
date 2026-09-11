@@ -46,5 +46,3 @@ def test_irish_potato_profile_and_rules_exist():
     assert profile.crop_id == "irish-potato"
     rules = [r for r in repo.get_rules() if r.crop_id == "irish-potato"]
     assert len(rules) >= 5
-
-

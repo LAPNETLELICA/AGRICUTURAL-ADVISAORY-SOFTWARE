@@ -52,4 +52,3 @@ def test_no_conflict_group_keeps_all_candidates(context, make_rule):
     result = ConflictResolver().resolve(without_groups)
     assert len(result.active) == 3
     assert result.conflicts == []
-

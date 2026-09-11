@@ -4,4 +4,3 @@ from integrations.weather.providers import (
 )
 
 __all__ = ["StaticWeatherProvider", "UnavailableWeatherProvider"]
-

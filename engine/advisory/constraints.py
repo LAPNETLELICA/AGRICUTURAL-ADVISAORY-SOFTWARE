@@ -8,7 +8,11 @@ from engine.models.domain import (
     ConstraintDecision,
     RuleEvaluation,
 )
-from engine.models.enums import ConstraintEffect, ConstraintKind
+from engine.models.enums import (
+    ConstraintEffect,
+    ConstraintKind,
+    EvaluationOutcome,
+)
 
 
 class ConstraintProcessor:
@@ -25,7 +29,11 @@ class ConstraintProcessor:
         penalties: dict[str, float] = {}
 
         for evaluation in evaluations:
+            if evaluation.outcome is not EvaluationOutcome.MATCHED:
+                continue
+
             candidate = evaluation.candidate
+
             if candidate is None:
                 continue
             excluded = False
@@ -37,9 +45,11 @@ class ConstraintProcessor:
                     triggered = evidence.matched
 
                 constraint_excluded = triggered and constraint.kind is ConstraintKind.HARD
-                penalty = constraint.penalty if (
-                    triggered and constraint.kind is ConstraintKind.SOFT
-                ) else 0.0
+                penalty = (
+                    constraint.penalty
+                    if (triggered and constraint.kind is ConstraintKind.SOFT)
+                    else 0.0
+                )
                 excluded = excluded or constraint_excluded
                 penalties[candidate.candidate_id] = (
                     penalties.get(candidate.candidate_id, 0.0) + penalty

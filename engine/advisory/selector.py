@@ -5,7 +5,6 @@ from __future__ import annotations
 from engine.models.domain import AgriculturalContext
 from engine.models.enums import Channel, Objective, TreeId
 
-
 TREE_ORDER = list(TreeId)
 
 
@@ -62,4 +61,3 @@ class CropTreeSelector:
     @staticmethod
     def _weather_uncertain(context: AgriculturalContext) -> bool:
         return any("weather" in item.lower() for item in context.uncertainty)
-

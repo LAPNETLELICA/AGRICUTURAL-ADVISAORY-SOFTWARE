@@ -108,4 +108,3 @@ class HealthResponse(StrictModel):
     version: str
     environment: str
     knowledge_loaded: bool
-

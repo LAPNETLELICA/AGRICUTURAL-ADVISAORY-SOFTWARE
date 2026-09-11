@@ -12,8 +12,8 @@ from integrations.knowledge import JSONKnowledgeProvider
 
 def test_demo_knowledge_loads_with_development_statuses(container):
     metadata = container.knowledge.metadata()
-    assert metadata["crop_count"] == 1
-    assert metadata["rule_count"] == 5
+    assert metadata["crop_count"] == 3
+    assert metadata["rule_count"] == 18
     assert metadata["production_ready"] is False
 
 
@@ -60,9 +60,7 @@ def test_duplicate_rule_id_is_rejected(tmp_path: Path):
         "candidate": candidate,
     }
     second = {**rule, "candidate": {**candidate, "candidate_id": "candidate-2"}}
-    (tmp_path / "rules" / "rules.json").write_text(
-        json.dumps([rule, second]), encoding="utf-8"
-    )
+    (tmp_path / "rules" / "rules.json").write_text(json.dumps([rule, second]), encoding="utf-8")
     with pytest.raises(KnowledgeValidationError, match="duplicate rule_id"):
         JSONKnowledgeProvider(tmp_path, {"test_only"})
 
@@ -99,8 +97,6 @@ def test_domain_rule_in_wrong_section_14_folder_is_rejected(tmp_path: Path):
         },
     }
     (tmp_path / "crops" / "crop.json").write_text(json.dumps(crop), encoding="utf-8")
-    (tmp_path / "soils" / "wrong-domain.json").write_text(
-        json.dumps([rule]), encoding="utf-8"
-    )
+    (tmp_path / "soils" / "wrong-domain.json").write_text(json.dumps([rule]), encoding="utf-8")
     with pytest.raises(KnowledgeValidationError, match="soils requires domain T2"):
         JSONKnowledgeProvider(tmp_path, {"test_only"})

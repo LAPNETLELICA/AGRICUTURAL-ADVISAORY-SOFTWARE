@@ -147,4 +147,3 @@ class SMSDeliveryRequest(StrictModel):
     crop_id: str = Field(pattern=IDENTIFIER_PATTERN)
     message: str = Field(min_length=1, max_length=918)
     recommendation_id: str | None = Field(default=None, pattern=IDENTIFIER_PATTERN)
-

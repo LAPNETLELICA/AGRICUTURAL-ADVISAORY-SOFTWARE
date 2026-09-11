@@ -12,7 +12,6 @@ from engine.exceptions import KnowledgeValidationError
 from engine.models.domain import AgriculturalContext, CropProfile, Rule
 from engine.models.enums import RuleStatus, TreeId
 
-
 KnowledgeModel = TypeVar("KnowledgeModel", CropProfile, Rule)
 
 RULE_DIRECTORIES: tuple[tuple[str, TreeId | None], ...] = (

@@ -13,7 +13,6 @@ from engine.models.responses import (
     SMSAdvisoryResponse,
 )
 
-
 router = APIRouter(prefix="/api/v1", tags=["sms"])
 
 

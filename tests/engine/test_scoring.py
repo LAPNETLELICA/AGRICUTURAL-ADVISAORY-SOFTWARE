@@ -38,12 +38,9 @@ def test_sms_priority_uses_only_sms_components(context, make_rule):
 
 
 def test_configurable_weight_and_constraint_penalty(context, make_rule):
-    evaluation = RuleEvaluator().evaluate(
-        make_rule(score_components={"crop_fit": 2.0}), context
-    )
+    evaluation = RuleEvaluator().evaluate(make_rule(score_components={"crop_fit": 2.0}), context)
     scored = MobileScoringStrategy(weights={"crop_fit": 1.5}).score(
         [evaluation], {"test.candidate.1": 1.0}
     )[0]
     assert scored.score == 2.0
     assert scored.constraint_penalty == 1.0
-

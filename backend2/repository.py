@@ -72,7 +72,11 @@ class KnowledgeRepository:
                 payload = self._read_json_file(file)
                 if not payload:
                     continue
-                if isinstance(payload, dict) and "rules" in payload and isinstance(payload["rules"], list):
+                if (
+                    isinstance(payload, dict)
+                    and "rules" in payload
+                    and isinstance(payload["rules"], list)
+                ):
                     raw_rules = payload["rules"]
                 elif isinstance(payload, list):
                     raw_rules = payload
@@ -145,7 +149,9 @@ class KnowledgeRepository:
                     )
         return result
 
-    def get_relevant_rule_definitions(self, crop_id: str, selected_trees: list[Any]) -> list[RuleDefinition]:
+    def get_relevant_rule_definitions(
+        self, crop_id: str, selected_trees: list[Any]
+    ) -> list[RuleDefinition]:
         tree_identifiers = set()
         for t in selected_trees:
             val = str(t.value if hasattr(t, "value") else t).lower()
@@ -156,9 +162,8 @@ class KnowledgeRepository:
                 tree_identifiers.add(TREE_TO_DOMAIN[val].lower())
 
         return [
-            rule for rule in self.get_rules()
-            if rule.crop_id in {crop_id, "*"} and (
-                rule.tree.lower() in tree_identifiers
-                or rule.domain.lower() in tree_identifiers
-            )
+            rule
+            for rule in self.get_rules()
+            if rule.crop_id in {crop_id, "*"}
+            and (rule.tree.lower() in tree_identifiers or rule.domain.lower() in tree_identifiers)
         ]

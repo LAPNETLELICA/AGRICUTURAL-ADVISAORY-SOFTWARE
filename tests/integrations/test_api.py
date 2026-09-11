@@ -22,7 +22,7 @@ def test_health_and_crop_catalogue(client):
     assert crop.json()["family"] == "Solanaceae"
     version = client.get("/api/v1/knowledge/version")
     assert version.status_code == 200
-    assert version.json()["knowledge_version"] == "0.1.0-demo"
+    assert version.json()["knowledge_version"] == "0.2.0"
     root = client.get("/")
     assert root.status_code == 200
     assert root.json()["docs"] == "/docs"

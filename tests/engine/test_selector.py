@@ -39,4 +39,3 @@ def test_sms_selects_proactive_priority_trees(context):
 def test_expand_preserves_order_and_root():
     selected = CropTreeSelector().expand([TreeId.SOIL], [TreeId.WEATHER, TreeId.SOIL])
     assert selected == [TreeId.CROP_PROFILE, TreeId.SOIL, TreeId.WEATHER]
-

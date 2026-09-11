@@ -142,4 +142,3 @@ class CropContextBuilder:
                 seen.add(key)
                 result.append(event)
         return result
-

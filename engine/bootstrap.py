@@ -18,12 +18,27 @@ from engine.advisory.scoring import (
 )
 from engine.advisory.selector import CropTreeSelector
 from engine.config import Settings
-from engine.interfaces.providers import WeatherProvider
+from engine.interfaces.providers import (
+    CropPassportRepository,
+    HistoryProvider,
+    RecommendationRepository,
+    SMSProvider,
+    TraceRecorder,
+    WeatherProvider,
+)
 from engine.models.history import InMemoryHistoryProvider
 from engine.models.repositories import (
     InMemoryCropPassportRepository,
     InMemoryRecommendationRepository,
     InMemoryTraceRecorder,
+)
+from integrations.database import (
+    Database,
+    PostgresCropPassportRepository,
+    PostgresHistoryProvider,
+    PostgresRecommendationRepository,
+    PostgresSMSProvider,
+    PostgresTraceRecorder,
 )
 from integrations.knowledge import JSONKnowledgeProvider
 from integrations.sms.simulator import SMSSimulator
@@ -36,13 +51,14 @@ from languages.formatters import MobileFormatter, SMSFormatter, VoiceFormatter
 @dataclass(slots=True)
 class ApplicationContainer:
     settings: Settings
+    database: Database | None
     engine: AdvisoryEngine
     knowledge: JSONKnowledgeProvider
-    recommendations: InMemoryRecommendationRepository
-    traces: InMemoryTraceRecorder
-    passports: InMemoryCropPassportRepository
-    history: InMemoryHistoryProvider
-    sms: SMSSimulator
+    recommendations: RecommendationRepository
+    traces: TraceRecorder
+    passports: CropPassportRepository
+    history: HistoryProvider
+    sms: SMSProvider
     translator: PassthroughTranslator
     speech: DisabledSpeechProvider
     mobile_formatter: MobileFormatter
@@ -59,21 +75,43 @@ def build_container(
         settings.knowledge_path,
         allowed_statuses=settings.allowed_knowledge_statuses,
     )
-    recommendations = InMemoryRecommendationRepository()
-    traces = InMemoryTraceRecorder()
-    passports = InMemoryCropPassportRepository()
-    history = InMemoryHistoryProvider()
-    sms = SMSSimulator()
+
+    database: Database | None = None
+
+    recommendations: RecommendationRepository
+    traces: TraceRecorder
+    passports: CropPassportRepository
+    history: HistoryProvider
+    sms: SMSProvider
+
+    if settings.database_url:
+        database = Database(settings.database_url)
+        database.ping()
+
+        recommendations = PostgresRecommendationRepository(database.sessions)
+        traces = PostgresTraceRecorder(database.sessions)
+        passports = PostgresCropPassportRepository(database.sessions)
+        history = PostgresHistoryProvider(database.sessions)
+        sms = PostgresSMSProvider(database.sessions)
+    else:
+        recommendations = InMemoryRecommendationRepository()
+        traces = InMemoryTraceRecorder()
+        passports = InMemoryCropPassportRepository()
+        history = InMemoryHistoryProvider()
+        sms = SMSSimulator()
+
     translator = PassthroughTranslator()
     speech = DisabledSpeechProvider()
     evaluator = RuleEvaluator()
     passport_service = CropPassportService(passports)
+
     context_builder = CropContextBuilder(
         crop_provider=knowledge,
         history_provider=history,
-        weather_provider=weather_provider or UnavailableWeatherProvider(),
+        weather_provider=(weather_provider or UnavailableWeatherProvider()),
         passport_repository=passports,
     )
+
     engine = AdvisoryEngine(
         context_builder=context_builder,
         tree_selector=CropTreeSelector(),
@@ -90,8 +128,10 @@ def build_container(
         history_provider=history,
         passport_service=passport_service,
     )
+
     return ApplicationContainer(
         settings=settings,
+        database=database,
         engine=engine,
         knowledge=knowledge,
         recommendations=recommendations,
