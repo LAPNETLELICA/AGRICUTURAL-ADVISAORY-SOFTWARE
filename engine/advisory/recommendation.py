@@ -57,19 +57,13 @@ class RecommendationBuilder:
             primary = self._item(resolution.active[0])
             alternatives = [self._item(item) for item in resolution.active[1:]]
             reasons = _unique(
-                reason
-                for item in resolution.active
-                for reason in item.candidate.reasons
+                reason for item in resolution.active for reason in item.candidate.reasons
             )
             warnings = _unique(
-                warning
-                for item in resolution.active
-                for warning in item.candidate.warnings
+                warning for item in resolution.active for warning in item.candidate.warnings
             )
             actions = _unique(
-                action
-                for item in resolution.active
-                for action in item.candidate.actions
+                action for item in resolution.active for action in item.candidate.actions
             )
             rule_references = _unique(item.candidate.rule_id for item in resolution.active)
             score_breakdown = [
@@ -82,8 +76,7 @@ class RecommendationBuilder:
                 for item in resolution.active
             ]
             if any(
-                item.candidate.rule_status is not RuleStatus.VALIDATED
-                for item in resolution.active
+                item.candidate.rule_status is not RuleStatus.VALIDATED for item in resolution.active
             ):
                 warnings.append(
                     "Development knowledge was used; Developer 2 agronomic validation is required."

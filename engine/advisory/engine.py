@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from contextlib import nullcontext
 from datetime import UTC, datetime
 from uuid import uuid4
 
@@ -22,6 +23,7 @@ from engine.interfaces.providers import (
     KnowledgeProvider,
     RecommendationRepository,
     TraceRecorder,
+    TransactionManager,
 )
 from engine.models.domain import AgriculturalContext, Rule, RuleEvaluation
 from engine.models.enums import Channel, EvaluationOutcome, TreeId
@@ -53,6 +55,7 @@ class AdvisoryEngine:
         recommendation_repository: RecommendationRepository,
         history_provider: HistoryProvider,
         passport_service: CropPassportService,
+        transaction_manager: TransactionManager | None = None,
     ) -> None:
         self._context_builder = context_builder
         self._tree_selector = tree_selector
@@ -68,6 +71,7 @@ class AdvisoryEngine:
         self._recommendation_repository = recommendation_repository
         self._history_provider = history_provider
         self._passport_service = passport_service
+        self._transaction_manager = transaction_manager
 
     def advise(self, request: AdvisoryRequest) -> Recommendation:
         started_at = datetime.now(UTC)
@@ -83,9 +87,7 @@ class AdvisoryEngine:
         eligible, constraint_decisions, penalties = self._constraint_processor.apply(
             evaluations, context
         )
-        strategy = (
-            self._sms_scoring if context.channel is Channel.SMS else self._mobile_scoring
-        )
+        strategy = self._sms_scoring if context.channel is Channel.SMS else self._mobile_scoring
         scored = strategy.score(eligible, penalties)
         ranked = self._ranker.rank(scored)
         resolution = self._conflict_resolver.resolve(ranked)
@@ -127,24 +129,30 @@ class AdvisoryEngine:
             actions=recommendation.actions,
             started_at=started_at,
         )
-        self._trace_recorder.record(trace)
-        self._recommendation_repository.save(recommendation)
-        self._passport_service.record_decision(
-            request.passport_id,
-            recommendation.recommendation_id,
-            trace.trace_id,
+        transaction = (
+            self._transaction_manager.transaction()
+            if self._transaction_manager is not None
+            else nullcontext()
         )
-        self._history_provider.append(
-            request.farmer_id,
-            {
-                "crop_id": request.crop_id,
-                "crop_family": context.crop_profile.family if context.crop_profile else None,
-                "event_type": "recommendation",
-                "recommendation_id": recommendation.recommendation_id,
-                "trace_id": trace.trace_id,
-                "recorded_at": trace.completed_at.isoformat(),
-            },
-        )
+        with transaction:
+            self._trace_recorder.record(trace)
+            self._recommendation_repository.save(recommendation)
+            self._passport_service.record_decision(
+                request.passport_id,
+                recommendation.recommendation_id,
+                trace.trace_id,
+            )
+            self._history_provider.append(
+                request.farmer_id,
+                {
+                    "crop_id": request.crop_id,
+                    "crop_family": context.crop_profile.family if context.crop_profile else None,
+                    "event_type": "recommendation",
+                    "recommendation_id": recommendation.recommendation_id,
+                    "trace_id": trace.trace_id,
+                    "recorded_at": trace.completed_at.isoformat(),
+                },
+            )
         return recommendation
 
     def _evaluate_forest(
