@@ -5,6 +5,7 @@ All external systems and Developer 2 knowledge enter through these protocols.
 
 from __future__ import annotations
 
+from contextlib import AbstractContextManager
 from typing import Any, Protocol
 
 from engine.models.domain import (
@@ -93,3 +94,7 @@ class CropPassportRepository(Protocol):
     def find(self, farmer_id: str, crop_id: str, plot_ref: str) -> CropPassport | None: ...
 
     def save(self, passport: CropPassport) -> None: ...
+
+
+class TransactionManager(Protocol):
+    def transaction(self) -> AbstractContextManager[None]: ...

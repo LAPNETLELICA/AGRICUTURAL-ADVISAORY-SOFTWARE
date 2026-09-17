@@ -23,7 +23,9 @@ from engine.interfaces.providers import (
     HistoryProvider,
     RecommendationRepository,
     SMSProvider,
+    SpeechProvider,
     TraceRecorder,
+    TranslationProvider,
     WeatherProvider,
 )
 from engine.models.history import InMemoryHistoryProvider
@@ -40,6 +42,7 @@ from integrations.database import (
     PostgresSMSProvider,
     PostgresTraceRecorder,
 )
+from integrations.database.uow import DatabaseUnitOfWork
 from integrations.knowledge import JSONKnowledgeProvider
 from integrations.sms.simulator import SMSSimulator
 from integrations.speech.disabled import DisabledSpeechProvider
@@ -59,8 +62,8 @@ class ApplicationContainer:
     passports: CropPassportRepository
     history: HistoryProvider
     sms: SMSProvider
-    translator: PassthroughTranslator
-    speech: DisabledSpeechProvider
+    translator: TranslationProvider
+    speech: SpeechProvider
     mobile_formatter: MobileFormatter
     sms_formatter: SMSFormatter
     voice_formatter: VoiceFormatter
@@ -70,6 +73,9 @@ def build_container(
     settings: Settings,
     *,
     weather_provider: WeatherProvider | None = None,
+    translation_provider: TranslationProvider | None = None,
+    speech_provider: SpeechProvider | None = None,
+    sms_provider: SMSProvider | None = None,
 ) -> ApplicationContainer:
     knowledge = JSONKnowledgeProvider(
         settings.knowledge_path,
@@ -84,24 +90,27 @@ def build_container(
     history: HistoryProvider
     sms: SMSProvider
 
+    transaction_manager: DatabaseUnitOfWork | None = None
+
     if settings.database_url:
         database = Database(settings.database_url)
         database.ping()
+        transaction_manager = DatabaseUnitOfWork(database.sessions)
 
         recommendations = PostgresRecommendationRepository(database.sessions)
         traces = PostgresTraceRecorder(database.sessions)
         passports = PostgresCropPassportRepository(database.sessions)
         history = PostgresHistoryProvider(database.sessions)
-        sms = PostgresSMSProvider(database.sessions)
+        sms = sms_provider or PostgresSMSProvider(database.sessions)
     else:
         recommendations = InMemoryRecommendationRepository()
         traces = InMemoryTraceRecorder()
         passports = InMemoryCropPassportRepository()
         history = InMemoryHistoryProvider()
-        sms = SMSSimulator()
+        sms = sms_provider or SMSSimulator()
 
-    translator = PassthroughTranslator()
-    speech = DisabledSpeechProvider()
+    translator = translation_provider or PassthroughTranslator()
+    speech = speech_provider or DisabledSpeechProvider()
     evaluator = RuleEvaluator()
     passport_service = CropPassportService(passports)
 
@@ -127,6 +136,7 @@ def build_container(
         recommendation_repository=recommendations,
         history_provider=history,
         passport_service=passport_service,
+        transaction_manager=transaction_manager,
     )
 
     return ApplicationContainer(

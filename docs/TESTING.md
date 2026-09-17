@@ -167,3 +167,13 @@ def test_conflict_records_winner_loser_priority_and_evidence(...): ...
 - Keep knowledge fixtures clearly `test_only` or `draft`.
 - Never place secrets, phone numbers, images, or real farmer context in the repository.
 - Freeze validated regression outcomes only after Developer 2/agronomy approval.
+
+## Production PostgreSQL integration suite
+
+The normal unit suite never connects to a configured `DATABASE_URL`. To run database reliability tests safely, create an **ephemeral** PostgreSQL database and set `TEST_DATABASE_URL`:
+
+```sh
+TEST_DATABASE_URL=postgresql+psycopg://user:password@localhost:5432/agrisense_test pytest -m integration tests/integration/test_postgres_production.py
+```
+
+The suite migrates the ephemeral database to Alembic head, verifies connectivity/revision, and proves that the shared UnitOfWork rolls back repository writes atomically. Never point `TEST_DATABASE_URL` at production.

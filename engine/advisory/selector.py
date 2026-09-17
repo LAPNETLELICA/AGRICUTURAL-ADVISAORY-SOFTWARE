@@ -34,7 +34,8 @@ class CropTreeSelector:
             Objective.EDUCATION,
         }
         if (
-            context.past
+            context.past.get("history")
+            or context.past.get("passport")
             or present.get("practices")
             or present.get("observations")
             or objective in practice_objectives

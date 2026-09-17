@@ -480,3 +480,18 @@ PowerShell execution policy.
 - [`docs/VALIDATION_REPORT.md`](docs/VALIDATION_REPORT.md)
 - [`knowledge/README.md`](knowledge/README.md)
 - `docs/reference/Agricultural_Advisory_Architecture_v3_EN.pdf` (source conception book)
+
+## V1 completion additions (2026-09)
+
+The backend now also includes a built-in management dashboard, local V1 authentication,
+knowledge import with whole-forest validation, education delivery derived from T1-T7,
+provider configuration/injection points, a voice text-fallback endpoint, readiness checks,
+and a proactive SMS sandbox with an Android/Wi-Fi receiver page.
+
+Start the API and open `http://127.0.0.1:8000/dashboard`. In development, if no
+`ADMIN_PASSWORD` is configured, the local-only bootstrap account is `admin` /
+`change-me-now`. Set explicit authentication secrets and credentials in production.
+
+See `docs/V1_IMPLEMENTATION_STATUS.md` for the exact implemented scope and the external
+release blockers that cannot be fabricated in code (notably agronomist validation and
+real provider credentials).

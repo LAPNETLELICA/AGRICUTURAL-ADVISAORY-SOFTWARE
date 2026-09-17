@@ -8,6 +8,7 @@ from typing import Any
 from sqlalchemy import (
     JSON,
     BigInteger,
+    Boolean,
     DateTime,
     ForeignKey,
     Identity,
@@ -83,6 +84,11 @@ class TraceRecordRow(Base):
         String(100),
         nullable=False,
     )
+    farmer_id: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+        index=True,
+    )
     crop_id: Mapped[str] = mapped_column(
         String(100),
         nullable=False,
@@ -119,6 +125,11 @@ class RecommendationRow(Base):
     request_id: Mapped[str] = mapped_column(
         String(100),
         nullable=False,
+    )
+    farmer_id: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+        index=True,
     )
     crop_id: Mapped[str] = mapped_column(
         String(100),
@@ -220,6 +231,11 @@ class SMSDeliveryRow(Base):
         String(100),
         nullable=False,
     )
+    farmer_id: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+        index=True,
+    )
     crop_id: Mapped[str] = mapped_column(
         String(100),
         nullable=False,
@@ -244,3 +260,42 @@ class SMSDeliveryRow(Base):
         JSON_DOCUMENT,
         nullable=False,
     )
+
+
+class MediaEvidenceRow(Base):
+    __tablename__ = "media_evidence"
+    __table_args__ = (
+        Index("ix_media_evidence_farmer_created", "farmer_id", "created_at"),
+        Index("ix_media_evidence_expires", "expires_at"),
+    )
+
+    image_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    farmer_id: Mapped[str] = mapped_column(String(100), nullable=False)
+    crop_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    request_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    storage_key: Mapped[str] = mapped_column(String(500), nullable=False, unique=True)
+    original_filename: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    mime_type: Mapped[str] = mapped_column(String(100), nullable=False)
+    size_bytes: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    sha256: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+class AuditEventRow(Base):
+    __tablename__ = "audit_events"
+    __table_args__ = (
+        Index("ix_audit_events_actor_created", "actor_id", "created_at"),
+        Index("ix_audit_events_expires", "expires_at"),
+    )
+
+    event_id: Mapped[int] = mapped_column(BigInteger, Identity(), primary_key=True)
+    actor_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    action: Mapped[str] = mapped_column(String(100), nullable=False)
+    resource_type: Mapped[str] = mapped_column(String(100), nullable=False)
+    resource_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    success: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    details: Mapped[dict[str, Any]] = mapped_column(JSON_DOCUMENT, nullable=False)

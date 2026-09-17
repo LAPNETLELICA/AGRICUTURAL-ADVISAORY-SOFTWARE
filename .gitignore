@@ -17,3 +17,5 @@ build/
 *.swo
 *~
 .DS_Store
+runtime/
+*.zip

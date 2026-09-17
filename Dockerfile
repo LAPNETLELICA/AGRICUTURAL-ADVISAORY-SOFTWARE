@@ -13,12 +13,17 @@ COPY requirements.txt ./
 RUN python -m pip install --no-cache-dir --upgrade pip \
     && python -m pip install --no-cache-dir -r requirements.txt
 
-COPY pyproject.toml README.md ./
+COPY pyproject.toml README.md alembic.ini ./
 COPY api ./api
 COPY engine ./engine
 COPY integrations ./integrations
 COPY languages ./languages
+COPY services ./services
+COPY dashboard ./dashboard
+COPY migrations ./migrations
 COPY knowledge ./knowledge
+COPY scripts ./scripts
+RUN mkdir -p /app/runtime/media && chown -R advisory:advisory /app/runtime
 RUN python -m pip install --no-cache-dir --no-deps .
 
 USER advisory

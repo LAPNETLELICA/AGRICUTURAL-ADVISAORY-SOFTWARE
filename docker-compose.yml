@@ -1,21 +1,41 @@
 services:
   advisory-api:
     build: .
+    restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     environment:
-      APP_ENV: development
+      APP_ENV: ${APP_ENV:-development}
       KNOWLEDGE_PATH: knowledge
-      SMS_MAX_LENGTH: "160"
+      SMS_MAX_LENGTH: ${SMS_MAX_LENGTH:-160}
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
+      AUTH_REQUIRED: ${AUTH_REQUIRED:-false}
+      AUTH_SECRET: ${AUTH_SECRET}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:8080}
+      MEDIA_STORAGE_PATH: /app/runtime/media
+      MEDIA_MAX_BYTES: ${MEDIA_MAX_BYTES:-10485760}
+      MEDIA_RETENTION_DAYS: ${MEDIA_RETENTION_DAYS:-180}
+      TRACE_RETENTION_DAYS: ${TRACE_RETENTION_DAYS:-180}
+      HISTORY_RETENTION_DAYS: ${HISTORY_RETENTION_DAYS:-730}
+      SMS_RETENTION_DAYS: ${SMS_RETENTION_DAYS:-90}
+      AUDIT_RETENTION_DAYS: ${AUDIT_RETENTION_DAYS:-365}
+      WEATHER_PROVIDER: ${WEATHER_PROVIDER:-disabled}
+      TRANSLATION_PROVIDER: ${TRANSLATION_PROVIDER:-passthrough}
+      SPEECH_PROVIDER: ${SPEECH_PROVIDER:-disabled}
+      SMS_PROVIDER: ${SMS_PROVIDER:-simulator}
+    volumes:
+      - media_data:/app/runtime/media
+    command: ["sh", "-c", "alembic upgrade head && uvicorn api.app:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips='*'"]
     depends_on:
       database:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health', timeout=2)"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/ready', timeout=2)"]
       interval: 30s
       timeout: 3s
-      retries: 3
+      retries: 5
 
   database:
     image: postgres:17
@@ -34,7 +54,69 @@ services:
       timeout: 5s
       retries: 10
 
+  caddy:
+    profiles: ["production"]
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN}
+      TLS_EMAIL: ${TLS_EMAIL}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./deploy/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      advisory-api:
+        condition: service_healthy
+
+  retention-worker:
+    profiles: ["production"]
+    build: .
+    restart: unless-stopped
+    environment:
+      APP_ENV: production
+      KNOWLEDGE_PATH: knowledge
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
+      AUTH_REQUIRED: "true"
+      AUTH_SECRET: ${AUTH_SECRET}
+      MEDIA_STORAGE_PATH: /app/runtime/media
+      MEDIA_RETENTION_DAYS: ${MEDIA_RETENTION_DAYS:-180}
+      TRACE_RETENTION_DAYS: ${TRACE_RETENTION_DAYS:-180}
+      HISTORY_RETENTION_DAYS: ${HISTORY_RETENTION_DAYS:-730}
+      SMS_RETENTION_DAYS: ${SMS_RETENTION_DAYS:-90}
+      AUDIT_RETENTION_DAYS: ${AUDIT_RETENTION_DAYS:-365}
+    volumes:
+      - media_data:/app/runtime/media
+    command: ["sh", "-c", "while true; do python scripts/cleanup_retention.py; sleep 86400; done"]
+    depends_on:
+      database:
+        condition: service_healthy
+
+  backup-worker:
+    profiles: ["production"]
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      BACKUP_DIR: /backups
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-30}
+    volumes:
+      - ./scripts:/scripts:ro
+      - database_backups:/backups
+    command: ["sh", "-c", "while true; do /scripts/backup_db.sh; sleep 86400; done"]
+    depends_on:
+      database:
+        condition: service_healthy
+
   pgadmin:
+    profiles: ["dev"]
     image: dpage/pgadmin4:9.17
     restart: unless-stopped
     environment:
@@ -53,3 +135,7 @@ services:
 volumes:
   postgres_data:
   pgadmin_data:
+  media_data:
+  database_backups:
+  caddy_data:
+  caddy_config:

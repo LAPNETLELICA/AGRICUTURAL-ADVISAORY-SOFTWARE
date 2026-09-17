@@ -22,6 +22,7 @@ from integrations.database.tables import (
     SMSDeliveryRow,
     TraceRecordRow,
 )
+from integrations.database.uow import repository_session
 
 _JSON_DICTIONARY = TypeAdapter(dict[str, Any])
 
@@ -74,7 +75,7 @@ class PostgresCropPassportRepository:
             _text_value(passport.current_stage) if passport.current_stage is not None else None
         )
 
-        with self._sessions.begin() as session:
+        with repository_session(self._sessions, write=True) as session:
             session.merge(
                 CropPassportRow(
                     passport_id=passport.passport_id,
@@ -92,7 +93,7 @@ class PostgresCropPassportRepository:
         self,
         passport_id: str,
     ) -> CropPassport | None:
-        with self._sessions() as session:
+        with repository_session(self._sessions) as session:
             row = session.get(
                 CropPassportRow,
                 passport_id,
@@ -115,7 +116,7 @@ class PostgresCropPassportRepository:
             CropPassportRow.plot_ref == plot_ref,
         )
 
-        with self._sessions() as session:
+        with repository_session(self._sessions) as session:
             row = session.scalars(statement).first()
 
             if row is None:
@@ -134,11 +135,17 @@ class PostgresTraceRecorder:
     def record(self, trace: TraceRecord) -> None:
         payload = trace.model_dump(mode="json")
 
-        with self._sessions.begin() as session:
+        with repository_session(self._sessions, write=True) as session:
             session.merge(
                 TraceRecordRow(
                     trace_id=trace.trace_id,
                     request_id=trace.request_id,
+                    farmer_id=(
+                        str(trace.context_used.get("farmer_id"))
+                        if isinstance(trace.context_used, dict)
+                        and trace.context_used.get("farmer_id")
+                        else None
+                    ),
                     crop_id=trace.crop_id,
                     channel=_text_value(trace.channel),
                     final_recommendation_id=(_trace_recommendation_id(trace)),
@@ -152,7 +159,7 @@ class PostgresTraceRecorder:
         self,
         trace_id: str,
     ) -> TraceRecord | None:
-        with self._sessions() as session:
+        with repository_session(self._sessions) as session:
             row = session.get(
                 TraceRecordRow,
                 trace_id,
@@ -177,11 +184,14 @@ class PostgresRecommendationRepository:
     ) -> None:
         payload = recommendation.model_dump(mode="json")
 
-        with self._sessions.begin() as session:
+        with repository_session(self._sessions, write=True) as session:
+            trace_row = session.get(TraceRecordRow, recommendation.trace_id)
+            farmer_id = trace_row.farmer_id if trace_row is not None else None
             session.merge(
                 RecommendationRow(
                     recommendation_id=(recommendation.recommendation_id),
                     request_id=recommendation.request_id,
+                    farmer_id=farmer_id,
                     crop_id=recommendation.crop_id,
                     channel=_text_value(recommendation.channel),
                     trace_id=recommendation.trace_id,
@@ -194,7 +204,7 @@ class PostgresRecommendationRepository:
         self,
         recommendation_id: str,
     ) -> Recommendation | None:
-        with self._sessions() as session:
+        with repository_session(self._sessions) as session:
             row = session.get(
                 RecommendationRow,
                 recommendation_id,
@@ -244,7 +254,7 @@ class PostgresHistoryProvider:
         recommendation_value = event.get("recommendation_id")
         trace_value = event.get("trace_id")
 
-        with self._sessions.begin() as session:
+        with repository_session(self._sessions, write=True) as session:
             session.add(
                 HistoryEventRow(
                     farmer_id=farmer_id,
@@ -286,7 +296,7 @@ class PostgresHistoryProvider:
             .order_by(HistoryEventRow.recorded_at)
         )
 
-        with self._sessions() as session:
+        with repository_session(self._sessions) as session:
             rows = session.scalars(statement).all()
             return [dict(row.payload) for row in rows]
 
@@ -314,11 +324,17 @@ class PostgresSMSProvider:
 
         payload = receipt.model_dump(mode="json")
 
-        with self._sessions.begin() as session:
+        with repository_session(self._sessions, write=True) as session:
+            farmer_id: str | None = None
+            if recommendation_id:
+                recommendation_row = session.get(RecommendationRow, recommendation_id)
+                if recommendation_row is not None:
+                    farmer_id = recommendation_row.farmer_id
             session.merge(
                 SMSDeliveryRow(
                     delivery_id=receipt.delivery_id,
                     recipient_id=receipt.recipient_id,
+                    farmer_id=farmer_id,
                     crop_id=receipt.crop_id,
                     recommendation_id=(receipt.recommendation_id),
                     status=_text_value(receipt.status),
@@ -340,7 +356,7 @@ class PostgresSMSProvider:
             .order_by(SMSDeliveryRow.delivered_at)
         )
 
-        with self._sessions() as session:
+        with repository_session(self._sessions) as session:
             rows = session.scalars(statement).all()
 
             return [DeliveryReceipt.model_validate(row.payload) for row in rows]
