@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/agricultural-advisory/crop-profile.schema.json",
+  "title": "Crop Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["crop_id", "name", "family", "cycle_length_days", "version", "status", "source"],
+  "properties": {
+    "crop_id": {"type": "string", "pattern": "^[-A-Za-z0-9_.:]{1,100}$"},
+    "name": {"type": "string", "minLength": 1},
+    "family": {"type": "string", "minLength": 1},
+    "cycle_length_days": {"type": "integer", "minimum": 1, "maximum": 3650},
+    "tolerance_profile": {"type": "object"},
+    "growth_stages": {"type": "array", "items": {"type": "string"}},
+    "storage_behaviour": {"type": ["string", "null"]},
+    "version": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "validated", "deprecated", "test_only"]},
+    "source": {"$ref": "rule.schema.json#/$defs/source"}
+  }
+}
+

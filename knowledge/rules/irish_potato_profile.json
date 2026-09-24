@@ -1,0 +1,36 @@
+{
+  "rules": [
+    {
+      "rule_id": "IRISH_POTATO-T1-PROFILE-001",
+      "crop_id": "irish-potato",
+      "domain": "T1",
+      "version": "0.2.0",
+      "priority": 100,
+      "status": "draft",
+      "source": {
+        "title": "Guide pratique pomme de terre Afrique de l'Ouest & Architecture v3.0 — T1 Profil Pomme de terre",
+        "section": "Sections 5.1 et 17.1"
+      },
+      "conditions": [],
+      "candidate": {
+        "candidate_id": "demo.potato.profile-advisory",
+        "type": "advisory",
+        "name": "crop_profile_context",
+        "summary": "Ancrer l'ensemble des décisions et recommandations sur le profil agronomique de la pomme de terre (Solanum tuberosum).",
+        "reasons": [
+          "L'arbre T1 (Profil de culture) constitue la racine obligatoire de toute décision consultative dans l'architecture v3.",
+          "La pomme de terre exige un climat frais d'altitude, une tubérisation nocturne et un sol meuble bien butté."
+        ],
+        "warnings": [],
+        "actions": [
+          "Confirmer le stade phénologique actuel (pré-plantation, levée, tubérisation, maturation ou récolte) et l'état des semences/plants."
+        ],
+        "score_components": {
+          "crop_fit": 1.0,
+          "cultivation_period_relevance": 1.0
+        }
+      }
+    }
+  ]
+}
+

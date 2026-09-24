@@ -1,0 +1,49 @@
+{
+  "rules": [
+    {
+      "rule_id": "IRISH_POTATO-T4-TOPO-001",
+      "crop_id": "irish-potato",
+      "domain": "T4",
+      "version": "0.2.0",
+      "priority": 65,
+      "status": "draft",
+      "source": {
+        "title": "Guide pratique pomme de terre Afrique de l'Ouest — T4 Topographie & Pente",
+        "section": "Section 3.3.1"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.topography.slope",
+          "operator": "eq",
+          "value": "steep"
+        }
+      ],
+      "candidate": {
+        "candidate_id": "irish-potato-slope-management",
+        "type": "practice",
+        "name": "Aménager les buttes perpendiculairement à la pente en courbes de niveau",
+        "summary": "Sur terrain en pente dans les zones montagneuses, les buttes de pomme de terre doivent être rigoureusement tracées selon les courbes de niveau pour prévenir le ravinement et le déterrement des tubercules.",
+        "reasons": [
+          "Les pluies d'altitude ravinent les sols ferrallitiques en pente et mettent à nu les tubercules en cours de grossissement.",
+          "L'exposition des tubercules à la lumière provoque la synthèse de solanine toxique (verdissement irrémédiable)."
+        ],
+        "warnings": [
+          "Ne jamais tracer les buttes dans le sens de la plus grande pente sous peine de perdre la récolte par érosion."
+        ],
+        "actions": [
+          "Tracer les buttes perpendiculairement à la pente en suivant les courbes de niveau.",
+          "Stabiliser les talus amont avec des bandes herbeuses ou cordons pierreux."
+        ],
+        "score_components": {
+          "topography_fit": 1.0,
+          "practice_fit": 2.0
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}
+

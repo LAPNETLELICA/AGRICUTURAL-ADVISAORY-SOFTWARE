@@ -1,2 +1,3 @@
-# Backend 2 itself uses only the Python standard library.
-# Backend 1 integration requires the dependencies of the Backend 1 project (notably pydantic).
+fastapi==0.141.1
+pydantic==2.13.4
+uvicorn[standard]==0.52.4

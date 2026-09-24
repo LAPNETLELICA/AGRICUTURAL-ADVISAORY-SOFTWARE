@@ -1,0 +1,64 @@
+{
+  "rules": [
+    {
+      "rule_id": "demo.potato.heavy-rain-risk.001",
+      "crop_id": "irish-potato",
+      "domain": "T5",
+      "version": "0.2.0",
+      "priority": 300,
+      "status": "draft",
+      "source": {
+        "title": "Guide pratique pomme de terre Afrique de l'Ouest & Architecture v3.0 — T5 Fortes Pluies & Risque Mildiou",
+        "section": "Sections 5.1 et 17.1"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.weather.rainfall_class",
+          "operator": "eq",
+          "value": "heavy"
+        },
+        {
+          "field": "future.month",
+          "operator": "between",
+          "value": [
+            7,
+            9
+          ]
+        }
+      ],
+      "candidate": {
+        "candidate_id": "demo.potato.late-blight-watch",
+        "type": "risk_alert",
+        "name": "late_blight_watch",
+        "summary": "Surveillance renforcée du mildiou (Phytophthora infestans) en période de fortes pluies (juillet-septembre).",
+        "reasons": [
+          "Le document d'architecture et les guides agronomiques lient le risque critique des Solanacées aux fortes pluies et à l'humidité d'altitude entre juillet et septembre.",
+          "Le mildiou détruit les fanes en quelques jours et pénètre dans les tubercules par ruissellement des spores."
+        ],
+        "warnings": [
+          "Surveiller les symptômes foliaires (taches huileuses avec duvet blanc au revers) ; ne pas confondre avec l'alternariose.",
+          "Ne pas traiter sous la pluie ; appliquer dès une accalmie."
+        ],
+        "actions": [
+          "Effectuer des inspections rapprochées des parcelles tous les 2 à 3 jours.",
+          "Appliquer un traitement fongicide cuprique préventif ou systémique (mancozèbe + métalaxyl) dès une accalmie.",
+          "Maintenir des buttes bien hautes pour empêcher les spores de contaminer les tubercules."
+        ],
+        "score_components": {
+          "regional_risk_fit": 3.0,
+          "weather_fit": 2.0,
+          "weather_change_urgency": 3.0,
+          "regional_risk": 3.0,
+          "future_risk": 3.0
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": [
+        "T7"
+      ]
+    }
+  ]
+}
+

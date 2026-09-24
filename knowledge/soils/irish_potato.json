@@ -1,0 +1,54 @@
+{
+  "rules": [
+    {
+      "rule_id": "IRISH_POTATO-T2-SOIL-001",
+      "crop_id": "irish-potato",
+      "domain": "T2",
+      "version": "0.2.0",
+      "priority": 75,
+      "status": "draft",
+      "source": {
+        "title": "Guide pratique pomme de terre Afrique de l'Ouest & Architecture v3.0 — T2 Sol & Drainage",
+        "section": "Sections 3.3.1 et 5.2"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.soil.drainage",
+          "operator": "in",
+          "value": [
+            "poor",
+            "waterlogged"
+          ]
+        }
+      ],
+      "candidate": {
+        "candidate_id": "demo.potato.improve-drainage",
+        "type": "soil_action",
+        "name": "improve_plot_drainage",
+        "summary": "Améliorer le drainage et rehausser les billons pour éviter l'asphyxie racinaire et la pourriture bactérienne des tubercules.",
+        "reasons": [
+          "La pomme de terre ne tolère pas les sols gorgés d'eau ; la stagnation entraîne l'éclatement des lenticelles et l'attaque par Erwinia/Ralstonia.",
+          "Un sol sablo-limoneux bien meuble de pH 5,0 à 6,5 est indispensable à l'expansion des stolons."
+        ],
+        "warnings": [
+          "Éviter les sols lourds et compacts qui favorisent la jambe noire et gênent l'arrachage.",
+          "Le chaulage ne doit pas dépasser pH 6,5 pour ne pas stimuler la gale commune (Streptomyces scabies)."
+        ],
+        "actions": [
+          "Former des billons surélevés de 25 à 30 cm et creuser des rigoles de drainage pour évacuer l'eau stagnante.",
+          "Enfouir 20 à 30 t/ha de matière organique compostée pour aérer la structure du sol."
+        ],
+        "score_components": {
+          "soil_fit": 1.0,
+          "soil_improvement_potential": 3.0,
+          "soil_crop_relevance": 3.0
+        },
+        "conflict_group": "soil_action",
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}
+

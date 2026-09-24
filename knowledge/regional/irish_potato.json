@@ -1,0 +1,48 @@
+{
+  "rules": [
+    {
+      "rule_id": "IRISH_POTATO-T3-REGION-001",
+      "crop_id": "irish-potato",
+      "domain": "T3",
+      "version": "0.2.0",
+      "priority": 70,
+      "status": "draft",
+      "source": {
+        "title": "Guide pratique Afrique de l'Ouest & Architecture v3.0 — T3 Contexte Régional Hauts Plateaux",
+        "section": "Sections 3.2 et 5.1"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "region",
+          "operator": "exists",
+          "value": null
+        }
+      ],
+      "candidate": {
+        "candidate_id": "irish-potato-regional-qualification",
+        "type": "advisory",
+        "name": "Qualifier l'exposition régionale aux risques climatiques et parasitaires (Hauts Plateaux de l'Ouest)",
+        "summary": "Dans les hauts plateaux de l'Ouest Cameroun (Bafoussam, Dschang, Bamboutos, altitude 1000-1800m), les températures fraîches favorisent la tubérisation mais augmentent l'incidence du mildiou (Phytophthora) et du flétrissement bactérien (Ralstonia solanacearum).",
+        "reasons": [
+          "Au-dessus de 1000 m d'altitude, les nuits fraîches (10-15 °C) permettent une tubérisation optimale de la pomme de terre toute l'année.",
+          "L'hygrométrie élevée et le brouillard créent une pression cryptogamique permanente sur le feuillage."
+        ],
+        "warnings": [
+          "N'utiliser que des semences certifiées indemnes de pourriture brune (effectuer systématiquement le test de l'exsudat en cas de doute)."
+        ],
+        "actions": [
+          "Sélectionner des variétés résistantes au mildiou adaptées aux hauts plateaux (ex: Cipira, Tubira).",
+          "Établir un calendrier de surveillance phytosanitaire rigoureux dès l'apparition des premières taches foliaires."
+        ],
+        "score_components": {
+          "regional_risk_fit": 2.0
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}
+

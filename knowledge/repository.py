@@ -30,7 +30,7 @@ class KnowledgeRepository:
     """Read-only repository for Backend 2 JSON knowledge forest."""
 
     def __init__(self, root: str | Path | None = None) -> None:
-        self.root = Path(root or Path(__file__).resolve().parents[1] / "knowledge")
+        self.root = Path(root or Path(__file__).resolve().parent)
 
     def _read_json_file(self, file_path: Path) -> Any:
         try:

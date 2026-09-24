@@ -1,0 +1,49 @@
+{
+  "rules": [
+    {
+      "rule_id": "demo.potato.rain-confirmation.001",
+      "crop_id": "irish-potato",
+      "domain": "T6",
+      "version": "0.2.0",
+      "priority": 180,
+      "status": "draft",
+      "source": {
+        "title": "Guide pratique pomme de terre Afrique de l'Ouest & Architecture v3.0 — T6 Fenêtre de Plantation",
+        "section": "Sections 4.6 et 5.3"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.weather.consecutive_rain_days",
+          "operator": "gte",
+          "value": 3
+        }
+      ],
+      "candidate": {
+        "candidate_id": "demo.potato.confirm-timing",
+        "type": "timing",
+        "name": "confirm_planting_window",
+        "summary": "Confirmer la fenêtre de plantation après installation continue des pluies (3 jours consécutifs).",
+        "reasons": [
+          "Trois jours consécutifs de pluie confirment l'humidité suffisante du sol pour la reprise rapide des plants prégermés.",
+          "La plantation dans un sol suffisamment meuble et frais assure une tubérisation homogène."
+        ],
+        "warnings": [
+          "Planter impérativement des semences prégermées (germes trapus de 1-2 cm) bien cicatrisées."
+        ],
+        "actions": [
+          "Planter les tubercules à 8-10 cm de profondeur sur billons de 25 cm en respectant 75 x 35 cm.",
+          "Vérifier le calendrier local pour que la maturité et la récolte interviennent avant la fin de la saison fraîche."
+        ],
+        "score_components": {
+          "timing_fit": 2.0,
+          "cultivation_period_relevance": 2.5
+        },
+        "conflict_group": "planting_action",
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}
+

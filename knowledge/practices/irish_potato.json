@@ -1,0 +1,51 @@
+{
+  "rules": [
+    {
+      "rule_id": "demo.potato.rotation.001",
+      "crop_id": "irish-potato",
+      "domain": "T7",
+      "version": "0.2.0",
+      "priority": 160,
+      "status": "draft",
+      "source": {
+        "title": "Guide pratique pomme de terre Afrique de l'Ouest & Architecture v3.0 — T7 Rotation & Protection",
+        "section": "Sections 3.3.2 et 5.3"
+      },
+      "condition_mode": "all",
+      "conditions": [
+        {
+          "field": "present.practices.repeated_crop_family",
+          "operator": "eq",
+          "value": true
+        }
+      ],
+      "candidate": {
+        "candidate_id": "demo.potato.rotate-family",
+        "type": "practice",
+        "name": "rotate_crop_family",
+        "summary": "Éviter impérativement la répétition de Solanacées et respecter une rotation de 4 ans minimum.",
+        "reasons": [
+          "La parcelle présente un précédent cultural de la même famille (Solanacées: tomate, piment, aubergine).",
+          "La monoculture de Solanacées multiplie les nématodes à galles (Meloidogyne) et le flétrissement bactérien (Ralstonia solanacearum) dans les sols d'altitude.",
+          "Un buttage soigné de 25 cm à J+30 protège les tubercules de la teigne (Phthorimaea operculella) et du verdissement."
+        ],
+        "warnings": [
+          "Ne jamais utiliser des tubercules issus d'une parcelle infestée par le flétrissement bactérien pour replanter."
+        ],
+        "actions": [
+          "Établir un assolement alternant la pomme de terre avec des céréales (maïs, sorgho) ou des Fabacées (haricot, soja).",
+          "Maintenir un intervalle de 4 ans avant de réintroduire des Solanacées sur cette même planche."
+        ],
+        "score_components": {
+          "practice_fit": 2.0,
+          "relevant_history_fit": 1.0,
+          "practice_relevance": 2.5
+        },
+        "conflict_group": null,
+        "constraints": []
+      },
+      "requires_trees": []
+    }
+  ]
+}
+

@@ -1,0 +1,38 @@
+{
+  "crop_id": "irish-potato",
+  "name": "Pomme de terre",
+  "family": "Solanaceae",
+  "cycle_length_days": 100,
+  "tolerance_profile": {
+    "optimal_temperature_c": [15, 20],
+    "optimal_day_temp_c": 22,
+    "optimal_night_temp_c": 14,
+    "critical_temp_max_c": 30,
+    "critical_temp_min_c": 5,
+    "optimal_ph": [5.0, 6.5],
+    "waterlogging_tolerance": "none",
+    "water_needs": "500 à 800 mm sur le cycle (50 à 80 m³/jour/ha) ; besoins maximaux (70%) pendant la tubérisation ; intolérance totale à la submersion des tubercules (éclatement des lenticelles et pourriture molle) ; arrêt de l'irrigation 10 jours avant récolte.",
+    "nutrient_needs": "Forte exigence en potassium (K) avec un équilibre N-P-K de type 1-1-2 (ex: 80 N, 80 P2O5, 150 K2O) ; fumure de fond organique de 20 à 30 t/ha de fumier bien décomposé ou compost ; privilégier le sulfate de potassium plutôt que le chlorure ; apport de magnésie et soufre ; chaulage modéré uniquement si pH < 5,0 (pour éviter la gale commune).",
+    "spacing": "Lignes espacées de 75 à 80 cm, écartement de 30 à 40 cm sur la ligne (environ 35 000 à 45 000 plants/ha) ; buttes de 25 cm de hauteur.",
+    "recommended_varieties": {
+      "early": ["Claustar", "Sahel", "Dosa"],
+      "medium_late": ["Cipira", "Tubira", "Pamina", "Mondial"]
+    }
+  },
+  "growth_stages": [
+    "pre-planting",
+    "planting",
+    "vegetative",
+    "flowering",
+    "maturity",
+    "post-harvest"
+  ],
+  "storage_behaviour": "Conservation en local ventilé, sec et obscur pour la consommation (10 à 15 °C), ou en lumière diffuse pour les semences (verdissement protecteur). Protection indispensable contre la teigne (Phthorimaea operculella) avec moustiquaire et ensachage.",
+  "version": "0.2.0",
+  "status": "draft",
+  "source": {
+    "title": "Guide pratique de la culture de la pomme de terre en Afrique de l'Ouest (CDE / MINADER Cameroun) & Manuel FiBL Afrique",
+    "section": "Sections 2, 3 et 4"
+  }
+}
+

@@ -1,6 +1,6 @@
 {
   "version": "0.2.0",
-  "authored_at": "2026-09-08T12:00:00Z",
+  "authored_at": "2026-09-24T17:15:00Z",
   "production_ready": false,
   "sources": [
     {
@@ -8,6 +8,12 @@
       "document": "Guide technique IFATI (Arrêté Min. n° 086/MINEFOP Cameroun) & SDRdag 2016",
       "status": "draft",
       "notes": "Arbre décisionnel complet pour la culture de la tomate (T1-T7)."
+    },
+    {
+      "crop_id": "irish-potato",
+      "document": "Guide pratique de la culture de la pomme de terre en Afrique de l'Ouest (CDE / MINADER Cameroun) & Manuel FiBL Afrique",
+      "status": "draft",
+      "notes": "Arbre décisionnel complet pour la culture de la pomme de terre (T1-T7)."
     }
   ]
 }

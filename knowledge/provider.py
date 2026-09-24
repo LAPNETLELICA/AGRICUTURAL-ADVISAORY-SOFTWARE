@@ -32,13 +32,13 @@ class KnowledgeProvider:
     def get_relevant_rules(self, crop_id: str, context: Any, trees: list[Any]):
         """Return Backend-1 Rule objects when Backend 1's models are available.
 
-        The exact Backend 1 models were absent from the supplied ZIP. This method therefore
-        imports them lazily and constructs them from the stable knowledge schema. If the model
-        constructors differ, the integration error is explicit instead of silently corrupting data.
+        This method imports them lazily and constructs them from the stable knowledge schema
+        using the canonical domain models (ConstraintSpec, CandidateTemplate for Rule).
+        The evaluator will build Candidate with rule metadata from CandidateTemplate.
         """
         definitions = self.get_relevant_rule_definitions(crop_id, context, trees)
         try:
-            from engine.models.domain import Candidate, Condition, Constraint, Rule
+            from engine.models.domain import CandidateTemplate, Condition, ConstraintSpec, Rule
             from engine.models.enums import ConditionMode, ConditionOperator, ConstraintEffect, ConstraintKind, RuleStatus, TreeId
         except ImportError as exc:
             raise RuntimeError(
@@ -62,7 +62,7 @@ class KnowledgeProvider:
                 for c in item.conditions
             ]
             constraints = [
-                Constraint(
+                ConstraintSpec(
                     constraint_id=c.constraint_id,
                     condition=Condition(
                         field=c.condition.field,
@@ -76,7 +76,7 @@ class KnowledgeProvider:
                 )
                 for c in item.candidate.constraints
             ]
-            candidate = Candidate(
+            candidate_template = CandidateTemplate(
                 candidate_id=item.candidate.candidate_id,
                 type=item.candidate.type,
                 name=item.candidate.name,
@@ -99,7 +99,7 @@ class KnowledgeProvider:
                     status=enum_value(RuleStatus, item.status),
                     source=item.source,
                     conditions=conditions,
-                    candidate=candidate,
+                    candidate=candidate_template,
                     condition_mode=enum_value(ConditionMode, item.condition_mode),
                     requires_trees=[enum_value(TreeId, t) for t in item.requires_trees],
                 )
