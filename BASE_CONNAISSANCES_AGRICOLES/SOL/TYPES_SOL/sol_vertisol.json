@@ -1,0 +1,25 @@
+{
+  "code": "SOL_VERTISOL",
+  "nom": "Vertisols (Karal)",
+  "description": "Sols riches en argiles gonflantes (smectites) typiques des plaines de l'Extrême-Nord du Cameroun.",
+  "couleur": "Gris foncé à noir",
+  "texture": "Argileuse lourde (> 40% d'argile)",
+  "drainage": "Très difficile en saison humide (imperméable)",
+  "chimie": {
+    "ph_typique": [
+      7.0,
+      8.5
+    ],
+    "matiere_organique_pct": [
+      1.0,
+      2.0
+    ],
+    "particularite": "Grandes fentes de retrait en saison sèche, très plastique et collant à l'état humide."
+  },
+  "aptitudes_agricoles": "Culture du sorgho repiqué de contre-saison (Muskwari), coton.",
+  "risques": "Travail du sol quasiment impossible hors de la très courte période de ressuyage optimal.",
+  "regions_dominantes": [
+    "REG_EN",
+    "REG_NO"
+  ]
+}

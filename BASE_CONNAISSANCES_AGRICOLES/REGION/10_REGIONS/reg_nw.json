@@ -1,0 +1,25 @@
+{
+  "code": "REG_NW",
+  "nom": "Nord-Ouest",
+  "chef_lieu": "Bamenda",
+  "zone_agroecologique": "CLIM_ZONE_III",
+  "altitude_m": [
+    1000,
+    2200
+  ],
+  "sols_dominants": [
+    "SOL_VOLCANIQUE",
+    "SOL_FERRALLITIQUE"
+  ],
+  "cultures_principales": [
+    "pomme_de_terre",
+    "maïs",
+    "haricot",
+    "café_arabica",
+    "tomate"
+  ],
+  "contraintes": [
+    "Relief très accidenté et érosion",
+    "Mildiou sévère en saison pluvieuse"
+  ]
+}

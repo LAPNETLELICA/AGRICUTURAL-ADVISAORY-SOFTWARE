@@ -1,0 +1,28 @@
+{
+  "code": "SOL_VOLCANIQUE",
+  "nom": "Sols volcaniques / Andosols",
+  "description": "Sols issus de la décomposition des laves et cendres volcaniques le long de la ligne du Cameroun (Mont Cameroun, Monts Manengouba, Bamboutos, Oku).",
+  "couleur": "Brun très foncé à noir en surface, parfois rougeâtre en sous-sol",
+  "texture": "Limono-sableuse à limoneuse, très meuble et aérée",
+  "drainage": "Excellent drainage naturel interne",
+  "chimie": {
+    "ph_typique": [
+      5.2,
+      6.4
+    ],
+    "matiere_organique_pct": [
+      3.5,
+      7.0
+    ],
+    "capacite_echange": "Élevée",
+    "particularite": "Forte rétention (fixation) du phosphore par les amorphes/allophanes, nécessitant des apports phosphorés localisés."
+  },
+  "aptitudes_agricoles": "Sols d'excellence pour la pomme de terre, les cultures maraîchères (tomate, chou, carotte) et le caféier arabica.",
+  "risques": "Érodabilité élevée sur fortes pentes si non protégés par des aménagements en courbes de niveau.",
+  "regions_dominantes": [
+    "REG_OU",
+    "REG_NW",
+    "REG_SW"
+  ],
+  "source": "Carte pédologique du Cameroun (ORSTOM / IRAD)"
+}

@@ -1,0 +1,24 @@
+{
+  "titre": "Spécification de Nomenclature Cible pour la Phase Ultérieure (Maladies des Plantes)",
+  "phase": "V2 - Module Expert Pathologie Végétale",
+  "prefixes_prevus": {
+    "MAL_CHAMP": "Maladie cryptogamique (Champignon)",
+    "MAL_BACT": "Maladie bactérienne",
+    "MAL_VIR": "Virose végétale",
+    "MAL_NEM": "Nématodose"
+  },
+  "champs_obligatoires_fiche_maladie": [
+    "code_maladie",
+    "nom_commun",
+    "agent_pathogene_scientifique",
+    "cultures_hotes",
+    "conditions_favorisantes_temperature_humidite",
+    "symptomes_par_organe_feuille_tige_fruit_racine",
+    "confusions_possibles",
+    "seuil_d_intervention",
+    "methodes_lutte_prophylactique",
+    "methodes_lutte_biologique",
+    "matieres_actives_homologuees_cameroun",
+    "source_scientifique"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "titre": "Phasage des Opérations Culturales pour Tomate et Pomme de Terre au Cameroun",
+  "tomate": {
+    "pepiniere": {
+      "duree_jours": 25,
+      "bonnes_pratiques": "Ombrière légère, arrosage fin au pulvérisateur, traitement préventif fonte des semis."
+    },
+    "repiquage": {
+      "moment": "En fin d'après-midi par temps couvert, arrosage immédiat au pied."
+    },
+    "tuteurage": {
+      "moment": "15 à 20 jours après repiquage dès que la tige atteint 30 cm."
+    },
+    "ebourgeonnage": {
+      "moment": "Hebdomadaire : supprimer les gourmands axillaires pour ne conserver que 1 à 2 tiges principales."
+    }
+  },
+  "pomme_de_terre": {
+    "germination_semences": {
+      "duree_jours": 20,
+      "condition": "Semences pré-germées à la lumière diffuse pour avoir des germes courts, trapus et colorés."
+    },
+    "plantation": {
+      "profondeur_cm": "8 à 10 cm",
+      "ecartement": "75 cm entre lignes x 30-35 cm sur la ligne."
+    },
+    "buttage_1": {
+      "moment": "Quand les plants ont 15-20 cm de hauteur (3 semaines après levée)."
+    },
+    "buttage_2": {
+      "moment": "Avant floraison (3 semaines après le premier) pour former une butte haute de 25-30 cm."
+    }
+  }
+}

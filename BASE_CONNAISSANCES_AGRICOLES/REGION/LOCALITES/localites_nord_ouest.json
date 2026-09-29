@@ -1,0 +1,38 @@
+{
+  "region_code": "REG_NW",
+  "region_nom": "Nord-Ouest Cameroun",
+  "localites": [
+    {
+      "code": "LOC_BAMENDA",
+      "nom": "Bamenda",
+      "departement": "Mezam",
+      "altitude_m": 1250,
+      "profil_agricole": "Maraîchage intensif, pomme de terre, maïs.",
+      "sols": [
+        "SOL_VOLCANIQUE",
+        "SOL_FERRALLITIQUE"
+      ]
+    },
+    {
+      "code": "LOC_KUMBO",
+      "nom": "Kumbo",
+      "departement": "Bui",
+      "altitude_m": 1700,
+      "profil_agricole": "Zone d'altitude majeure pour la pomme de terre (Tubira, Cipira) et l'élevage.",
+      "sols": [
+        "SOL_VOLCANIQUE"
+      ]
+    },
+    {
+      "code": "LOC_NDOP",
+      "nom": "Ndop",
+      "departement": "Ngo-Ketunjia",
+      "altitude_m": 1100,
+      "profil_agricole": "Vaste plaine alluviale : riziculture inondée (UNVDA), maïs, soja.",
+      "sols": [
+        "SOL_HYDROMORPHE",
+        "SOL_FERRALLITIQUE"
+      ]
+    }
+  ]
+}

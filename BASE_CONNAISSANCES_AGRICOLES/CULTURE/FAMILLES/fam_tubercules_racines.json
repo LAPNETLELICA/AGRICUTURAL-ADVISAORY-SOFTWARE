@@ -1,0 +1,15 @@
+{
+  "code": "FAM_TUBERCULES_RACINES",
+  "nom": "Tubercules et racines",
+  "description": "Cultures à organes de réserve souterrains riches en amidon.",
+  "cultures_incluses": [
+    "CULT_POMME_DE_TERRE",
+    "CULT_MANIOC",
+    "igname",
+    "patate_douce",
+    "macabo_taro"
+  ],
+  "importance_cameroun": "Piliers de la sécurité alimentaire. La pomme de terre est le moteur économique des départements des Bamboutos, Menoua et Mezam; le manioc est universellement cultivé au Centre, Sud et Est.",
+  "role_rotation": "Nécessitent un sol ameubli en profondeur. Doivent alterner avec céréales ou légumineuses pour casser le cycle des ravageurs telluriques.",
+  "source": "Programme National de Développement des Racines et Tubercules (PNDRT / MINADER)"
+}

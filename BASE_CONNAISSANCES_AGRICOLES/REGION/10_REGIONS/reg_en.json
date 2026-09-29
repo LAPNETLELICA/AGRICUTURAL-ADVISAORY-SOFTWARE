@@ -1,0 +1,27 @@
+{
+  "code": "REG_EN",
+  "nom": "Extrême-Nord",
+  "chef_lieu": "Maroua",
+  "zone_agroecologique": "CLIM_ZONE_I",
+  "altitude_m": [
+    250,
+    600
+  ],
+  "sols_dominants": [
+    "SOL_VERTISOL",
+    "SOL_FERRUGINEUX",
+    "SOL_SABLEUX"
+  ],
+  "cultures_principales": [
+    "sorgho",
+    "mil",
+    "coton",
+    "oignon",
+    "niébé"
+  ],
+  "contraintes": [
+    "Saison des pluies courte (3 à 4 mois)",
+    "Sécheresses récurrentes",
+    "Sols Karal difficiles à travailler"
+  ]
+}

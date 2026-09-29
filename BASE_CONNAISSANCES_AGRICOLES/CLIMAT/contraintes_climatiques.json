@@ -1,0 +1,15 @@
+{
+  "titre": "Contraintes Climatiques par Culture et Région",
+  "contraintes": [
+    {
+      "culture_code": "CULT_TOMATE",
+      "contrainte_majeure": "Sensibilité à l'hygrométrie excessive (> 85%) associée à des températures fraîches à l'Ouest en août-septembre.",
+      "reponse_technique": "Cultiver sous abri tunnel plastique ou intensifier les traitements fongicides dès les accalmies; choisir des variétés vigoureuses (Cobra F1)."
+    },
+    {
+      "culture_code": "CULT_POMME_DE_TERRE",
+      "contrainte_majeure": "Arrêt de la tubérisation si les températures nocturnes dépassent 20°C en plaine.",
+      "reponse_technique": "Limiter la culture aux zones d'altitude supérieure à 1000 m (Ouest, Nord-Ouest, Adamaoua)."
+    }
+  ]
+}

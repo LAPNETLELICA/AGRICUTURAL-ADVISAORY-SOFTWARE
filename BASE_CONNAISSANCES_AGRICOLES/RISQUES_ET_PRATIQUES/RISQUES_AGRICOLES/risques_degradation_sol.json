@@ -1,0 +1,15 @@
+{
+  "titre": "Risques de Dégradation des Sols",
+  "risques": [
+    {
+      "code": "RISQ_EROSION_HYDRIQUE",
+      "facteurs": "Fortes pentes des hauts plateaux de l'Ouest, sols volcaniques pulvérulents sans couverture.",
+      "prevention": "Bandes enherbées, cordons pierreux, fascinage."
+    },
+    {
+      "code": "RISQ_ACIDIFICATION_ACCELEREE",
+      "facteurs": "Usage répété d'engrais chimiques acidifiants (sulfate d'ammoniaque, urée) sur sols ferrallitiques sans chaulage ni apport organique.",
+      "prevention": "Apport de chaux dolomitique et de compost."
+    }
+  ]
+}

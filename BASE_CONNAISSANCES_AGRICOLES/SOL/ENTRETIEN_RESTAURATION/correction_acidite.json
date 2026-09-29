@@ -1,0 +1,16 @@
+{
+  "titre": "Correction de l'Acidité des Sols au Cameroun",
+  "description": "Pratiques d'amendement pour neutraliser l'aluminium échangeable et relever le pH.",
+  "pratiques": [
+    {
+      "amendement": "Chaux agricole dolomitique (CaCO3 + MgCO3)",
+      "dose_indicative": "1 à 2 t/ha sur sols très acides (pH < 5.0) tous les 3 ans.",
+      "mode_emploi": "Épandre 3 à 4 semaines avant le semis et enfouir lors du labour de préparation."
+    },
+    {
+      "amendement": "Cendres de bois artisanales",
+      "dose_indicative": "500 à 1000 kg/ha (50 à 100 g/m²).",
+      "mode_emploi": "Excellente ressource locale riche en potasse (K2O), calcium et oligo-éléments. À incorporer superficiellement."
+    }
+  ]
+}

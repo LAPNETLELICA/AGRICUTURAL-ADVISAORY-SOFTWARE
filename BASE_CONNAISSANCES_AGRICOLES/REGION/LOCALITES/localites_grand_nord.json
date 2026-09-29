@@ -1,0 +1,28 @@
+{
+  "region_code": "REG_GRAND_NORD",
+  "region_nom": "Grand Nord Cameroun (Nord & Extrême-Nord)",
+  "localites": [
+    {
+      "code": "LOC_MAROUA",
+      "nom": "Maroua",
+      "departement": "Diamaré",
+      "altitude_m": 380,
+      "profil_agricole": "Coton, oignon de contre-saison, mil, sorgho Muskwari.",
+      "sols": [
+        "SOL_VERTISOL",
+        "SOL_FERRUGINEUX"
+      ]
+    },
+    {
+      "code": "LOC_GAROUA",
+      "nom": "Garoua",
+      "departement": "Bénoué",
+      "altitude_m": 220,
+      "profil_agricole": "Bassin de la Bénoué : maïs, coton, arachide, maraîchage irrigué.",
+      "sols": [
+        "SOL_FERRUGINEUX",
+        "SOL_HYDROMORPHE"
+      ]
+    }
+  ]
+}

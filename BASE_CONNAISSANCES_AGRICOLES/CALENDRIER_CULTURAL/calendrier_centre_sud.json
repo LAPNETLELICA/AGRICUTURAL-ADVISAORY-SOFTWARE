@@ -1,0 +1,27 @@
+{
+  "region_code": "REG_CE",
+  "zone_code": "CLIM_ZONE_V",
+  "titre": "Calendrier Cultural de la Zone Forestière Bimodale (Centre/Sud/Est)",
+  "campagnes": [
+    {
+      "campagne": "Première campagne",
+      "semis": "15 Mars - 15 Avril",
+      "recolte": "Fin Juin - Juillet",
+      "cultures": [
+        "maïs",
+        "arachide",
+        "tomate de saison sèche finissante"
+      ]
+    },
+    {
+      "campagne": "Deuxième campagne",
+      "semis": "15 Août - 15 Septembre",
+      "recolte": "Fin Novembre - Décembre",
+      "cultures": [
+        "maïs",
+        "haricot",
+        "maraîchage"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "code": "FAM_BANANES_PLANTAINS",
+  "nom": "Bananes et plantains",
+  "description": "Grandes herbes pérennes du genre Musa produisant des régimes de fruits riches en énergie.",
+  "cultures_incluses": [
+    "CULT_BANANIER_PLANTAIN",
+    "banane_douce"
+  ],
+  "importance_cameroun": "Aliment de base prépondérant dans la zone forestière méridionale (Centre, Sud, Littoral, Sud-Ouest, Ouest).",
+  "role_rotation": "Culture pérenne ou semi-pérenne souvent associée au cacaoyer ou aux cultures vivrières au jeune âge.",
+  "source": "Centre Africain de Recherches sur Bananiers et Plantains (CARBAP / Cameroun)"
+}

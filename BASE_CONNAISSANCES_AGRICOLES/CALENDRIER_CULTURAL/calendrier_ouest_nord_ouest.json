@@ -1,0 +1,69 @@
+{
+  "region_code": "REG_OU",
+  "zone_code": "CLIM_ZONE_III",
+  "titre": "Calendrier Cultural des Hauts Plateaux de l'Ouest",
+  "campagnes": [
+    {
+      "campagne": "Saison A (Première campagne pluviale)",
+      "periode": "Mars à Juillet",
+      "operations": [
+        {
+          "mois": "Février - début Mars",
+          "action": "Nettoyage, épandage fumure de fond, confection des billons et billonnage."
+        },
+        {
+          "mois": "Mi-Mars",
+          "action": "Semis du maïs et plantation des tubercules de pomme de terre après confirmation des pluies."
+        },
+        {
+          "mois": "Fin Mars - début Avril",
+          "action": "Repiquage des plants de tomate issus de pépinière (4 semaines d'élevage)."
+        },
+        {
+          "mois": "Avril - Mai",
+          "action": "Sarclages, buttages, tuteurage des tomates, premier épandage d'engrais NPK/Urée."
+        },
+        {
+          "mois": "Juin - Juillet",
+          "action": "Récolte du maïs frais, de la pomme de terre et des premières grappes de tomate."
+        }
+      ]
+    },
+    {
+      "campagne": "Saison B (Deuxième campagne pluviale)",
+      "periode": "Août à Décembre",
+      "operations": [
+        {
+          "mois": "Fin Juillet - début Août",
+          "action": "Préparation rapide des planches après récolte de saison A."
+        },
+        {
+          "mois": "Août",
+          "action": "Plantation de la pomme de terre de deuxième saison et repiquage de tomate."
+        },
+        {
+          "mois": "Novembre - Décembre",
+          "action": "Récolte en début de saison sèche (excellente conservation de la pomme de terre)."
+        }
+      ]
+    },
+    {
+      "campagne": "Saison C (Contre-saison en bas-fond / irrigation)",
+      "periode": "Décembre à Mars",
+      "operations": [
+        {
+          "mois": "Décembre",
+          "action": "Drainage superficiel des bas-fonds, billonnage haut pour tomate et légumes feuilles."
+        },
+        {
+          "mois": "Janvier - Février",
+          "action": "Irrigation régulière au pied, fertilisation soluble, protection contre ravageurs."
+        },
+        {
+          "mois": "Mars - Avril",
+          "action": "Vente à prix très rémunérateur avant l'arrivée des récoltes pluviales."
+        }
+      ]
+    }
+  ]
+}

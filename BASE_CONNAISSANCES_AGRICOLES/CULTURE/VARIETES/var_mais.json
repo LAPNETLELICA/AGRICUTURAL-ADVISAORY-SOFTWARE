@@ -1,0 +1,39 @@
+{
+  "culture_code": "CULT_MAIS",
+  "description": "Variétés de maïs vulgarisées au Cameroun",
+  "varietes": [
+    {
+      "code": "VAR_MAIS_CMS_8704",
+      "nom": "CMS 8704",
+      "origine": "IRAD",
+      "cycle_jours": 110,
+      "resistance_tolérance": [
+        "Résistant à la striure du maïs (MSV) et à la rouille"
+      ],
+      "usage_cameroun": "Zone des hauts plateaux et savanes.",
+      "caracteristique": "Grains jaunes, haut rendement (5 à 7 t/ha en conditions optimales)."
+    },
+    {
+      "code": "VAR_MAIS_KASAI",
+      "nom": "Kasaï",
+      "origine": "IRAD",
+      "cycle_jours": 120,
+      "resistance_tolérance": [
+        "Bonne tolérance à la verse"
+      ],
+      "usage_cameroun": "Maïs grain blanc très prisé pour la farine de maïs (couscous maïs).",
+      "caracteristique": "Grains blancs dentés."
+    },
+    {
+      "code": "VAR_MAIS_ATP",
+      "nom": "ATP (Acid Tolerant Population)",
+      "origine": "IRAD",
+      "cycle_jours": 115,
+      "resistance_tolérance": [
+        "Tolérance aux sols ferrallitiques acides et pauvres en phosphore"
+      ],
+      "usage_cameroun": "Spécifiquement développé pour les sols acides du Centre, Sud et Est.",
+      "caracteristique": "Sécurité de récolte sur sols difficiles."
+    }
+  ]
+}

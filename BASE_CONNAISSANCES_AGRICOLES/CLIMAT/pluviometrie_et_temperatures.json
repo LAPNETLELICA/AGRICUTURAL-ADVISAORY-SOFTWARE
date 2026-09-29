@@ -1,0 +1,17 @@
+{
+  "titre": "Pluviométrie, Températures et Variations Saisonnières au Cameroun",
+  "effets_agricoles": [
+    {
+      "periode": "Installation des pluies (mars-avril)",
+      "observation": "Rechercher impérativement la confirmation de 3 jours de pluies consécutives avant de repiquer la tomate ou de semer le maïs pour éviter le stress de reprise."
+    },
+    {
+      "periode": "Pic des pluies d'altitude (juillet - septembre à l'Ouest/Nord-Ouest)",
+      "observation": "Humidité saturante. Risque maximal d'explosion du mildiou (Phytophthora infestans) sur tomate et pomme de terre. Traitement cuprique préventif et effeuillage basilaire indispensables."
+    },
+    {
+      "periode": "Petite saison sèche (juillet-août en zone bimodale Centre/Sud)",
+      "observation": "Période idéale pour la récolte et le séchage du maïs de première campagne."
+    }
+  ]
+}

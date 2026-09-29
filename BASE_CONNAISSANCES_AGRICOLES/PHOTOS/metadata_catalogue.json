@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0",
+  "catalogue": [
+    {
+      "photo_id": "PHOTO_SOL_VOLC_01",
+      "titre": "Profil d'Andosol volcanique à Dschang",
+      "categorie": "sols",
+      "fichier": "sols/profil_andosol_dschang.jpg",
+      "description": "Profil pédologique meuble brun-noir montrant l'horizon humifère profond sur roche volcanique.",
+      "culture_concernee": "CULT_POMME_DE_TERRE",
+      "region_code": "REG_OU",
+      "localite_code": "LOC_DSCHANG",
+      "entite_associee_code": "SOL_VOLCANIQUE",
+      "source": "IRAD Dschang / Photothèque agronomique",
+      "droits": "Usage pédagogique et consultatif interne"
+    },
+    {
+      "photo_id": "PHOTO_TOM_TUT_01",
+      "titre": "Tuteurage en bambou de la tomate à Foumbot",
+      "categorie": "pratiques_agricoles",
+      "fichier": "pratiques_agricoles/tuteurage_bambou_foumbot.jpg",
+      "description": "Palissage sur bambous avec taille sur deux tiges et effeuillage de la base contre le mildiou.",
+      "culture_concernee": "CULT_TOMATE",
+      "region_code": "REG_OU",
+      "localite_code": "LOC_FOUMBAN",
+      "entite_associee_code": "PRAT_TUTEURAGE_01",
+      "source": "IFATI / Foumbot",
+      "droits": "Libre de droits consultatif"
+    },
+    {
+      "photo_id": "PHOTO_PDT_BUT_01",
+      "titre": "Buttage de pomme de terre à Mbouda",
+      "categorie": "pratiques_agricoles",
+      "fichier": "pratiques_agricoles/buttage_mbouda.jpg",
+      "description": "Buttes hautes de 30 cm tracées en courbes de niveau sur versant des Bamboutos.",
+      "culture_concernee": "CULT_POMME_DE_TERRE",
+      "region_code": "REG_OU",
+      "localite_code": "LOC_MBOUDA",
+      "entite_associee_code": "PRAT_BUTTAGE_01",
+      "source": "MINADER Ouest",
+      "droits": "MINADER Cameroun"
+    }
+  ]
+}
