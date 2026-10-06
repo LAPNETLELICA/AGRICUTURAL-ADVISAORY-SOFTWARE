@@ -1,0 +1,42 @@
+{
+  "titre": "Reliefs, Altitudes et Topographie Agricole du Cameroun",
+  "zones_topographiques": [
+    {
+      "code": "TOPO_HAUTS_PLATEAUX",
+      "nom": "Hauts Plateaux de l'Ouest et du Nord-Ouest",
+      "altitude_m": [
+        1000,
+        2200
+      ],
+      "caracteristiques": "Succession de collines aux versants abrupts, plateaux ondulés et vallées encaissées. Climat frais favorisant pomme de terre, maraîchage et arabica.",
+      "contraintes_pente": "Risque majeur de ravinement des billons si tracés dans le sens de la pente."
+    },
+    {
+      "code": "TOPO_PLATEAU_SUD_CAMEROUN",
+      "nom": "Plateau Sud-Camerounais",
+      "altitude_m": [
+        500,
+        850
+      ],
+      "caracteristiques": "Relief ondulé de demi-oranges, collines convexes séparées par des bas-fonds marécageux. Domaine du cacao, manioc et palmier à huile."
+    },
+    {
+      "code": "TOPO_MONTS_MANDARA",
+      "nom": "Monts Mandara (Extrême-Nord)",
+      "altitude_m": [
+        800,
+        1400
+      ],
+      "caracteristiques": "Relief rocheux montagneux cultivé en terrasses traditionnelles séculaires anti-érosives."
+    },
+    {
+      "code": "TOPO_PLAINES_BAS_FONDS",
+      "nom": "Plaines Alluviales et Bas-Fonds",
+      "altitude_m": [
+        0,
+        400
+      ],
+      "caracteristiques": "Terres planes inondables en saison humide, précieuses réserves d'humidité pour les cultures de contre-saison sèche."
+    }
+  ]
+}

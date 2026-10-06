@@ -1,0 +1,16 @@
+{
+  "code": "FAM_CULTURES_INDUSTRIELLES",
+  "nom": "Cultures industrielles et de rente",
+  "description": "Cultures d'exportation et d'approvisionnement industriel.",
+  "cultures_incluses": [
+    "cacao",
+    "cafeier_arabica",
+    "cafeier_robusta",
+    "palmier_a_huile",
+    "coton",
+    "hevea"
+  ],
+  "importance_cameroun": "Première source de devises du secteur agricole camerounais. Cacao dans le Centre/Sud/Littoral/Sud-Ouest; café arabica à l'Ouest/Nord-Ouest; coton dans le Nord/Extrême-Nord.",
+  "role_rotation": "Systèmes pérennes ou d'assolement de longue durée.",
+  "source": "Statistiques et manuels techniques SODECAO / SODECOTON / CCPA"
+}

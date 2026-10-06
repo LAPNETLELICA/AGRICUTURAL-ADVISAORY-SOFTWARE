@@ -1,0 +1,21 @@
+{
+  "titre": "Calendrier et Fractionnement de la Fertilisation",
+  "programme_tomate": [
+    {
+      "stade": "Préparation terrain (J-15)",
+      "engrais": "Fumure de fond organique (compost ou fiente 5-10 t/ha) + NPK 12-14-19 (200 kg/ha)."
+    },
+    {
+      "stade": "Reprise végétative (J+15)",
+      "engrais": "NPK 12-14-19 ou 20-10-10 (100 kg/ha) en couronne à 10 cm de la tige."
+    },
+    {
+      "stade": "Début floraison (J+35)",
+      "engrais": "Apport de Nitrate de Calcium (100 kg/ha) pour fortifier la nouaison et les parois cellulaires."
+    },
+    {
+      "stade": "Grossissement des grappes (J+55)",
+      "engrais": "Sulfate ou chlorure de potassium (75 kg/ha) pour rehausser le calibre et la teneur en sucre."
+    }
+  ]
+}

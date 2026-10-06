@@ -1,0 +1,31 @@
+{
+  "titre": "Fiches de Fertilisation Locale et Organique au Cameroun",
+  "fertilisants": [
+    {
+      "code": "ENG_FIENTE_VOLAILLE",
+      "nom": "Fientes sèches de poules pondeuses",
+      "caracteristiques": "Fertilisant organique majeur dans l'Ouest Cameroun, très riche en azote (3-4%), phosphore (2-3%) et calcium.",
+      "preparation": "Séchage et décomposition aérée pendant 3 à 4 semaines avant usage.",
+      "dose_indicative": "500 à 1000 g par poquet incorporés au sol 2 semaines avant plantation.",
+      "cultures_cibles": [
+        "CULT_TOMATE",
+        "CULT_POMME_DE_TERRE",
+        "CULT_MAIS"
+      ]
+    },
+    {
+      "code": "ENG_COMPOST_FERMIER",
+      "nom": "Compost de ferme aérobie",
+      "caracteristiques": "Élaboré à partir de résidus de récolte (tiges de maïs, fanes), bouse de vache et terreau.",
+      "dose_indicative": "10 à 20 t/ha (1 à 2 pelletées par poquet).",
+      "effet": "Restructuration durable du sol et maintien de la vie microbienne."
+    },
+    {
+      "code": "ENG_PURIN_TITHONIA",
+      "nom": "Extrait fermenté de Tithonia diversifolia (Herbe d'or)",
+      "caracteristiques": "Plante arbustive très commune au bord des routes à l'Ouest Cameroun, exceptionnellement riche en phosphore, potassium et azote.",
+      "preparation": "Hacher 1 kg de feuilles fraîches pour 10 L d'eau, laisser fermenter 10-14 jours.",
+      "utilisation": "Arrosage dilué à 10% au pied des tomates et légumes comme biostimulant."
+    }
+  ]
+}

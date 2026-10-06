@@ -1,0 +1,25 @@
+{
+  "code": "REG_NO",
+  "nom": "Nord",
+  "chef_lieu": "Garoua",
+  "zone_agroecologique": "CLIM_ZONE_I",
+  "altitude_m": [
+    200,
+    500
+  ],
+  "sols_dominants": [
+    "SOL_FERRUGINEUX",
+    "SOL_HYDROMORPHE"
+  ],
+  "cultures_principales": [
+    "coton",
+    "maïs",
+    "sorgho",
+    "arachide",
+    "riz"
+  ],
+  "contraintes": [
+    "Températures caniculaires (> 40°C en mars-avril)",
+    "Irrégularité des pluies"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "description": "Matrice synthétique d'adéquation entre types de sols camerounais et cultures",
+  "matrice": {
+    "CULT_TOMATE": {
+      "SOL_VOLCANIQUE": "Favorable",
+      "SOL_FERRALLITIQUE": "Toléré avec amendement",
+      "SOL_HYDROMORPHE": "Défavorable",
+      "SOL_VERTISOL": "Défavorable",
+      "SOL_SABLEUX": "Toléré sous irrigation"
+    },
+    "CULT_POMME_DE_TERRE": {
+      "SOL_VOLCANIQUE": "Optimal",
+      "SOL_FERRALLITIQUE": "Favorable",
+      "SOL_HYDROMORPHE": "Défavorable",
+      "SOL_VERTISOL": "Défavorable",
+      "SOL_SABLEUX": "Défavorable"
+    },
+    "CULT_MAIS": {
+      "SOL_VOLCANIQUE": "Optimal",
+      "SOL_FERRALLITIQUE": "Favorable",
+      "SOL_FERRUGINEUX": "Favorable",
+      "SOL_HYDROMORPHE": "Toléré si drainé",
+      "SOL_VERTISOL": "Toléré"
+    },
+    "CULT_HARICOT": {
+      "SOL_VOLCANIQUE": "Optimal",
+      "SOL_FERRALLITIQUE": "Favorable",
+      "SOL_HYDROMORPHE": "Défavorable",
+      "SOL_VERTISOL": "Défavorable"
+    }
+  }
+}

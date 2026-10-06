@@ -1,0 +1,48 @@
+{
+  "code": "CULT_HARICOT",
+  "nom_courant": "Haricot commun",
+  "nom_scientifique": "Phaseolus vulgaris",
+  "famille_code": "FAM_LEGUMINEUSES",
+  "groupe_culture": "Légumineuse vivrière",
+  "cycle_jours": {
+    "min": 65,
+    "optimal": 75,
+    "max": 90
+  },
+  "conditions_generales": "Cycle court. Préfère les zones d'altitude d'Ouest et du Nord-Ouest. Sensible aux fortes chaleurs et aux pluies continues pendant la floraison.",
+  "varietes_recommandees": [
+    "VAR_HAR_GLP_190",
+    "VAR_HAR_NITU"
+  ],
+  "liens_dossiers": {
+    "sols_favorables": [
+      "SOL_VOLCANIQUE",
+      "SOL_FERRALLITIQUE"
+    ],
+    "sols_defavorables": [
+      "SOL_HYDROMORPHE",
+      "SOL_VERTISOL"
+    ],
+    "regions_principales": [
+      "REG_OU",
+      "REG_NW"
+    ],
+    "zones_climatiques": [
+      "CLIM_ZONE_III"
+    ],
+    "calendriers_references": [
+      "CAL_HAR_OU_S1",
+      "CAL_HAR_OU_S2"
+    ],
+    "pratiques_cles": [
+      "PRAT_ROTATION_01",
+      "PRAT_SARCLAGE_01"
+    ],
+    "engrais_recommandes": [
+      "ENG_DAP_18_46_0",
+      "ENG_COMPOST_FERMIER"
+    ]
+  },
+  "source": "Fiches techniques Légumineuses Vivrières (IRAD Foumbot / Dschang)",
+  "date_mise_a_jour": "2026-09-29"
+}

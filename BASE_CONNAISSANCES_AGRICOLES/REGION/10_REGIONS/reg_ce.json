@@ -1,0 +1,26 @@
+{
+  "code": "REG_CE",
+  "nom": "Centre",
+  "chef_lieu": "Yaoundé",
+  "zone_agroecologique": "CLIM_ZONE_V",
+  "altitude_m": [
+    500,
+    850
+  ],
+  "sols_dominants": [
+    "SOL_FERRALLITIQUE",
+    "SOL_HYDROMORPHE"
+  ],
+  "cultures_principales": [
+    "cacao",
+    "manioc",
+    "bananier_plantain",
+    "maïs",
+    "arachide",
+    "tomate"
+  ],
+  "contraintes": [
+    "Acidité des sols ferrallitiques",
+    "Forte pression fongique sur cultures maraîchères"
+  ]
+}

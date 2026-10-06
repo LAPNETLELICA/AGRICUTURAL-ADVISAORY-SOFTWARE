@@ -1,0 +1,61 @@
+{
+  "code": "CULT_MAIS",
+  "nom_courant": "Maïs",
+  "nom_scientifique": "Zea mays",
+  "famille_code": "FAM_CEREALES",
+  "groupe_culture": "Céréale majeure",
+  "cycle_jours": {
+    "min": 90,
+    "optimal": 115,
+    "max": 135
+  },
+  "conditions_generales": "Grande tolérance écologique, du niveau de la mer jusqu'à 2000m. Fort besoin en azote et en ensoleillement.",
+  "varietes_recommandees": [
+    "VAR_MAIS_CMS_8704",
+    "VAR_MAIS_KASAI",
+    "VAR_MAIS_ATP"
+  ],
+  "liens_dossiers": {
+    "sols_favorables": [
+      "SOL_VOLCANIQUE",
+      "SOL_FERRALLITIQUE",
+      "SOL_FERRUGINEUX"
+    ],
+    "sols_defavorables": [
+      "SOL_HYDROMORPHE",
+      "SOL_SABLEUX"
+    ],
+    "regions_principales": [
+      "REG_OU",
+      "REG_NW",
+      "REG_CE",
+      "REG_NO",
+      "REG_AD"
+    ],
+    "zones_climatiques": [
+      "CLIM_ZONE_I",
+      "CLIM_ZONE_II",
+      "CLIM_ZONE_III",
+      "CLIM_ZONE_V"
+    ],
+    "calendriers_references": [
+      "CAL_MAIS_OU_S1",
+      "CAL_MAIS_CE_S1"
+    ],
+    "pratiques_cles": [
+      "PRAT_SARCLAGE_01",
+      "PRAT_ROTATION_01"
+    ],
+    "engrais_recommandes": [
+      "ENG_NPK_20_10_10",
+      "ENG_UREE_46",
+      "ENG_FIENTE_VOLAILLE"
+    ],
+    "ravageurs_majeurs": [
+      "RAV_NOCTUELLE",
+      "RAV_CHARANCON_MAIS"
+    ]
+  },
+  "source": "Guide pratique de la culture du maïs au Cameroun (IRAD/MINADER)",
+  "date_mise_a_jour": "2026-09-29"
+}

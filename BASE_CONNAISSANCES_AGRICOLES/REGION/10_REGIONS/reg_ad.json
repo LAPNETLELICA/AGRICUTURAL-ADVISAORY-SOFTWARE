@@ -1,0 +1,25 @@
+{
+  "code": "REG_AD",
+  "nom": "Adamaoua",
+  "chef_lieu": "Ngaoundéré",
+  "zone_agroecologique": "CLIM_ZONE_II",
+  "altitude_m": [
+    900,
+    1500
+  ],
+  "sols_dominants": [
+    "SOL_FERRUGINEUX",
+    "SOL_FERRALLITIQUE"
+  ],
+  "cultures_principales": [
+    "maïs",
+    "pomme_de_terre",
+    "igname",
+    "soja",
+    "bovins"
+  ],
+  "contraintes": [
+    "Début tardif des pluies certaines années",
+    "Pression des glossines dans certaines vallées"
+  ]
+}

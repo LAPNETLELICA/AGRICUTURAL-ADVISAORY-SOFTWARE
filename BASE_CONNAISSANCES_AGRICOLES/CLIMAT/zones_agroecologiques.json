@@ -1,0 +1,102 @@
+{
+  "titre": "Zones Agro-Écologiques Officielles du Cameroun",
+  "source": "IRAD / MINADER / INS Cameroun",
+  "zones": [
+    {
+      "code": "CLIM_ZONE_I",
+      "nom": "Zone Soudano-Sahélienne",
+      "regions_concernees": [
+        "REG_EN",
+        "REG_NO"
+      ],
+      "pluviometrie_annuelle_mm": [
+        400,
+        900
+      ],
+      "regime_pluviometrique": "Monomodal strict (pluies de juin/juillet à septembre)",
+      "temperatures_moyennes_c": [
+        28,
+        35
+      ],
+      "particularite": "Forte insolation, évapotranspiration potentielle très élevée, saison sèche de 8 à 9 mois."
+    },
+    {
+      "code": "CLIM_ZONE_II",
+      "nom": "Zone des Hautes Savanes Guinéennes",
+      "regions_concernees": [
+        "REG_AD"
+      ],
+      "pluviometrie_annuelle_mm": [
+        1200,
+        1600
+      ],
+      "regime_pluviometrique": "Monomodal étalé (avril/mai à octobre)",
+      "temperatures_moyennes_c": [
+        20,
+        26
+      ],
+      "particularite": "Plateau d'altitude aux nuits fraîches, transition entre le Nord et le Sud."
+    },
+    {
+      "code": "CLIM_ZONE_III",
+      "nom": "Zone des Hauts Plateaux",
+      "regions_concernees": [
+        "REG_OU",
+        "REG_NW"
+      ],
+      "pluviometrie_annuelle_mm": [
+        1500,
+        2200
+      ],
+      "regime_pluviometrique": "Pseudo-bimodal à saison des pluies prolongée (mars à novembre, avec pic en août-septembre)",
+      "temperatures_moyennes_c": [
+        16,
+        22
+      ],
+      "particularite": "Climat tempéré d'altitude, forte nébulosité, hygrométrie élevée (> 85% en saison humide) favorisant les maladies cryptogamiques (mildiou)."
+    },
+    {
+      "code": "CLIM_ZONE_IV",
+      "nom": "Zone de Forêt Humide à Pluviométrie Monomodale",
+      "regions_concernees": [
+        "REG_LT",
+        "REG_SW"
+      ],
+      "pluviometrie_annuelle_mm": [
+        2500,
+        4000
+      ],
+      "regime_pluviometrique": "Monomodal très arrosé (mars à novembre, quasi continu)",
+      "temperatures_moyennes_c": [
+        24,
+        28
+      ],
+      "particularite": "Pluies intenses, fort ruissellement, humidité permanente saturante."
+    },
+    {
+      "code": "CLIM_ZONE_V",
+      "nom": "Zone de Forêt Humide à Pluviométrie Bimodale",
+      "regions_concernees": [
+        "REG_CE",
+        "REG_SU",
+        "REG_ES"
+      ],
+      "pluviometrie_annuelle_mm": [
+        1400,
+        2000
+      ],
+      "regime_pluviometrique": "Bimodal classique (4 saisons)",
+      "temperatures_moyennes_c": [
+        23,
+        27
+      ],
+      "saisons": {
+        "petite_saison_pluies": "Mi-mars à fin juin",
+        "petite_saison_seche": "Juillet à mi-août",
+        "grande_saison_pluies": "Mi-août à mi-novembre",
+        "grande_saison_seche": "Mi-novembre à mi-mars"
+      },
+      "particularite": "Permet deux campagnes culturales vivrières pluviales par an."
+    }
+  ]
+}

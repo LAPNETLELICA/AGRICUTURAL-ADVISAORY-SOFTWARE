@@ -1,0 +1,79 @@
+{
+  "titre": "Fiches des Engrais Minéraux Courants au Cameroun",
+  "engrais": [
+    {
+      "code": "ENG_NPK_12_14_19",
+      "nom": "NPK 12-14-19 + MgO + SO3",
+      "type": "Engrais minéral complet pour cultures exigeantes en potasse",
+      "nutriments": {
+        "N": 12,
+        "P2O5": 14,
+        "K2O": 19,
+        "MgO": 2
+      },
+      "cultures_cibles": [
+        "CULT_TOMATE",
+        "CULT_POMME_DE_TERRE"
+      ],
+      "dose_indicative": "300 à 500 kg/ha fractionnés (15 à 25 g par poquet).",
+      "application": "Apport en fumure de fond au billonnage puis premier entretien à J+20."
+    },
+    {
+      "code": "ENG_NPK_20_10_10",
+      "nom": "NPK 20-10-10",
+      "type": "Engrais ternaire riche en azote",
+      "nutriments": {
+        "N": 20,
+        "P2O5": 10,
+        "K2O": 10
+      },
+      "cultures_cibles": [
+        "CULT_MAIS",
+        "CULT_POMME_DE_TERREau démarrage"
+      ],
+      "dose_indicative": "200 à 300 kg/ha.",
+      "application": "Au premier sarclage pour stimuler la végétation."
+    },
+    {
+      "code": "ENG_UREE_46",
+      "nom": "Urée minérale 46%",
+      "type": "Engrais azoté concentré",
+      "nutriments": {
+        "N": 46
+      },
+      "cultures_cibles": [
+        "CULT_MAIS",
+        "céréales"
+      ],
+      "application": "Apport fractionné; enfouir légèrement pour éviter la volatilisation ammoniacale."
+    },
+    {
+      "code": "ENG_NITRATE_CALCIUM",
+      "nom": "Nitrate de Calcium (15.5% N + 26% CaO)",
+      "type": "Engrais calcique soluble",
+      "nutriments": {
+        "N": 15.5,
+        "CaO": 26
+      },
+      "cultures_cibles": [
+        "CULT_TOMATE"
+      ],
+      "importance_capitale": "Prévient absolument la nécrose apicale ('cul noir' de la tomate) causée par une carence localisée en calcium.",
+      "dose_indicative": "100 à 150 kg/ha en couverture ou pulvérisation foliaire à 0.5% dès le grossissement des fruits."
+    },
+    {
+      "code": "ENG_DAP_18_46_0",
+      "nom": "Phosphate Di-Ammonique (DAP 18-46-0)",
+      "type": "Engrais phospho-azoté de démarrage",
+      "nutriments": {
+        "N": 18,
+        "P2O5": 46
+      },
+      "cultures_cibles": [
+        "CULT_HARICOT",
+        "CULT_MAIS"
+      ],
+      "application": "Localisé au poquet à la plantation pour favoriser l'enracinement."
+    }
+  ]
+}

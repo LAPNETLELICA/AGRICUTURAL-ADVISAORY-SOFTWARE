@@ -1,0 +1,78 @@
+{
+  "region_code": "REG_OU",
+  "region_nom": "Ouest Cameroun",
+  "localites": [
+    {
+      "code": "LOC_BAFOUSSAM",
+      "nom": "Bafoussam",
+      "departement": "Mifi",
+      "altitude_m": 1450,
+      "profil_agricole": "Grand centre de commercialisation et de production maraîchère périurbaine (tomate, poivron, chou, haricot, maïs).",
+      "sols": [
+        "SOL_VOLCANIQUE",
+        "SOL_FERRALLITIQUE"
+      ],
+      "risques_locaux": [
+        "Pression foncière élevée",
+        "Érosion périurbaine"
+      ]
+    },
+    {
+      "code": "LOC_DSCHANG",
+      "nom": "Dschang",
+      "departement": "Menoua",
+      "altitude_m": 1400,
+      "profil_agricole": "Bassin historique maraîcher et de recherche agronomique (pomme de terre, carotte, tomate, haricot). Climat tempéré d'altitude.",
+      "sols": [
+        "SOL_VOLCANIQUE"
+      ],
+      "risques_locaux": [
+        "Mildiou fréquent",
+        "Forte fraîcheur nocturne en août-septembre"
+      ]
+    },
+    {
+      "code": "LOC_FOUMBAN",
+      "nom": "Foumban",
+      "departement": "Noun",
+      "altitude_m": 1150,
+      "profil_agricole": "Vaste plaine maraîchère du Noun (Foumbot), premier bassin producteur de tomate fraîche du Cameroun. Maïs, café robusta/arabica.",
+      "sols": [
+        "SOL_VOLCANIQUE",
+        "SOL_FERRALLITIQUE"
+      ],
+      "risques_locaux": [
+        "Flétrissement bactérien en saison chaude",
+        "Pression forte de Tuta absoluta"
+      ]
+    },
+    {
+      "code": "LOC_MBOUDA",
+      "nom": "Mbouda",
+      "departement": "Bamboutos",
+      "altitude_m": 1600,
+      "profil_agricole": "Capitale nationale de la pomme de terre. Choux, poireaux, haricots de montagne.",
+      "sols": [
+        "SOL_VOLCANIQUE"
+      ],
+      "risques_locaux": [
+        "Ravinement des buttes sur fortes pentes",
+        "Besoins stricts d'aménagements en courbes de niveau"
+      ]
+    },
+    {
+      "code": "LOC_BANGANGTE",
+      "nom": "Bangangté",
+      "departement": "Ndé",
+      "altitude_m": 1350,
+      "profil_agricole": "Production mixte : maïs, manioc, haricot, maraîchage de bas-fond.",
+      "sols": [
+        "SOL_FERRALLITIQUE",
+        "SOL_VOLCANIQUE"
+      ],
+      "risques_locaux": [
+        "Acidité modérée des sols ferrallitiques"
+      ]
+    }
+  ]
+}

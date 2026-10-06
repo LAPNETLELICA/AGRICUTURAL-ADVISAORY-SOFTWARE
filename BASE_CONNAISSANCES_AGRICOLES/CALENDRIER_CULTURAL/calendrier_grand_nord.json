@@ -1,0 +1,25 @@
+{
+  "region_code": "REG_GRAND_NORD",
+  "zone_code": "CLIM_ZONE_I",
+  "titre": "Calendrier Cultural Soudano-Sahélien (Nord & Extrême-Nord)",
+  "campagnes": [
+    {
+      "campagne": "Campagne pluviale unique",
+      "periode": "Juin à Octobre",
+      "cultures": [
+        "coton",
+        "mil",
+        "sorgho",
+        "arachide",
+        "maïs précoce"
+      ]
+    },
+    {
+      "campagne": "Contre-saison Muskwari (Karal)",
+      "periode": "Septembre à Février",
+      "cultures": [
+        "sorgho repiqué sur vertisols gorgés d'eau"
+      ]
+    }
+  ]
+}

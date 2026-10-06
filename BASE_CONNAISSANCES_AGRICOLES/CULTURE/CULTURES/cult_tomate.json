@@ -1,0 +1,86 @@
+{
+  "code": "CULT_TOMATE",
+  "nom_courant": "Tomate",
+  "nom_scientifique": "Solanum lycopersicum",
+  "famille_code": "FAM_MARAICHAGE",
+  "groupe_culture": "Légume-fruit",
+  "cycle_jours": {
+    "min": 100,
+    "optimal": 125,
+    "max": 140
+  },
+  "caracteristiques_cycle": {
+    "pepiniere_jours": 25,
+    "reprise_repiquage_jours": 10,
+    "croissance_vegetative_jours": 30,
+    "floraison_nouaison_jours": 25,
+    "maturation_recolte_jours": 35
+  },
+  "conditions_generales": "Exige un climat ensoleillé, une aération suffisante et une hygrométrie modérée. Très sensible aux excès d'eau sur le feuillage et à l'asphyxie racinaire.",
+  "varietes_recommandees": [
+    "VAR_TOM_COBRA",
+    "VAR_TOM_NADIRA",
+    "VAR_TOM_RIO_GRANDE",
+    "VAR_TOM_LINDO",
+    "VAR_TOM_PANTHERE_17"
+  ],
+  "liens_dossiers": {
+    "sols_favorables": [
+      "SOL_VOLCANIQUE",
+      "SOL_FERRALLITIQUE"
+    ],
+    "sols_defavorables": [
+      "SOL_HYDROMORPHE",
+      "SOL_SABLEUX",
+      "SOL_VERTISOL"
+    ],
+    "regions_principales": [
+      "REG_OU",
+      "REG_NW",
+      "REG_CE",
+      "REG_LT"
+    ],
+    "zones_climatiques": [
+      "CLIM_ZONE_III",
+      "CLIM_ZONE_V"
+    ],
+    "calendriers_references": [
+      "CAL_TOM_OU_S1",
+      "CAL_TOM_OU_S2",
+      "CAL_TOM_CE_S1"
+    ],
+    "pratiques_cles": [
+      "PRAT_TUTEURAGE_01",
+      "PRAT_BILLONNAGE_01",
+      "PRAT_EBOUTURAGE_01",
+      "PRAT_ROTATION_01"
+    ],
+    "engrais_recommandes": [
+      "ENG_NPK_12_14_19",
+      "ENG_NITRATE_CALCIUM",
+      "ENG_FIENTE_VOLAILLE"
+    ],
+    "ravageurs_majeurs": [
+      "RAV_TUTA_ABSOLUTA",
+      "RAV_BEMISIA",
+      "RAV_NOCTUELLE"
+    ],
+    "topographies_adaptees": [
+      "TOPO_PLATEAU",
+      "TOPO_PENTE_DOUCE"
+    ]
+  },
+  "besoins": {
+    "eau_mm": "400 à 750 mm bien répartis",
+    "temperature_optimale_c": [
+      20,
+      25
+    ],
+    "ph_optimal": [
+      5.5,
+      6.8
+    ]
+  },
+  "source": "Guide technique IFATI (Arrêté Min. n° 086/MINEFOP Cameroun) & SDRdag 2016",
+  "date_mise_a_jour": "2026-09-29"
+}

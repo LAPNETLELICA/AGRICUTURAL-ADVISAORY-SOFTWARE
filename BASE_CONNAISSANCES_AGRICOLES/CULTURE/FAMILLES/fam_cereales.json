@@ -1,0 +1,14 @@
+{
+  "code": "FAM_CEREALES",
+  "nom": "Céréales",
+  "description": "Plantes de la famille des Poacées cultivées pour leurs grains riches en glucides.",
+  "cultures_incluses": [
+    "CULT_MAIS",
+    "sorgho",
+    "mil",
+    "riz"
+  ],
+  "importance_cameroun": "Base de l'alimentation dans le Septentrion (mil, sorgho, maïs) et denrée centrale dans l'Ouest et le Centre (maïs).",
+  "role_rotation": "Excellente tête ou coupure de rotation avec Solanacées et Légumineuses; système racinaire fasciculé restructurant l'horizon de surface.",
+  "source": "Guide de production céréalière au Cameroun (IRAD/MINADER)"
+}

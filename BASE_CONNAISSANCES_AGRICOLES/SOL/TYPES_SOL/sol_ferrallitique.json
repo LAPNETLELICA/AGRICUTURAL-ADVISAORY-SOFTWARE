@@ -1,0 +1,30 @@
+{
+  "code": "SOL_FERRALLITIQUE",
+  "nom": "Sols ferrallitiques rouges et jaunes",
+  "description": "Sols épais, très altérés, riches en hydroxydes de fer et d'aluminium (kaolinite, goethite). Dominent toute la zone forestière méridionale et une partie des plateaux.",
+  "couleur": "Rouge brique (sols ferrallitiques rouges) ou jaune ocre (sols ferrallitiques jaunes)",
+  "texture": "Argileuse à sablo-argileuse, micro-structure souvent stable mais sensible au tassement",
+  "drainage": "Bon drainage en profondeur",
+  "chimie": {
+    "ph_typique": [
+      4.5,
+      5.5
+    ],
+    "matiere_organique_pct": [
+      1.2,
+      2.5
+    ],
+    "capacite_echange": "Faible à très faible (désaturé)",
+    "particularite": "Forte acidité avec risque de toxicité aluminique; carence fréquente en calcium, magnésium et phosphore."
+  },
+  "aptitudes_agricoles": "Cacao, palmier à huile, manioc, maïs (avec amendement calcaire et fertilisation P).",
+  "risques": "Acidification progressive, lessivage rapide des nutriments après défrichage.",
+  "regions_dominantes": [
+    "REG_CE",
+    "REG_SU",
+    "REG_ES",
+    "REG_LT",
+    "REG_OU"
+  ],
+  "source": "Monographies pédologiques du Centre et Sud Cameroun (IRAD)"
+}
