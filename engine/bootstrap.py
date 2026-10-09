@@ -34,6 +34,7 @@ from engine.models.repositories import (
     InMemoryRecommendationRepository,
     InMemoryTraceRecorder,
 )
+from integrations.cameroon_knowledge import CameroonKnowledgeProvider
 from integrations.database import (
     Database,
     PostgresCropPassportRepository,
@@ -43,12 +44,11 @@ from integrations.database import (
     PostgresTraceRecorder,
 )
 from integrations.database.uow import DatabaseUnitOfWork
-from integrations.knowledge import JSONKnowledgeProvider
+from integrations.presentation import MobileFormatter, SMSFormatter, VoiceFormatter
 from integrations.sms.simulator import SMSSimulator
 from integrations.speech.disabled import DisabledSpeechProvider
 from integrations.translation.passthrough import PassthroughTranslator
 from integrations.weather.providers import UnavailableWeatherProvider
-from languages.formatters import MobileFormatter, SMSFormatter, VoiceFormatter
 
 
 @dataclass(slots=True)
@@ -56,7 +56,7 @@ class ApplicationContainer:
     settings: Settings
     database: Database | None
     engine: AdvisoryEngine
-    knowledge: JSONKnowledgeProvider
+    knowledge: CameroonKnowledgeProvider
     recommendations: RecommendationRepository
     traces: TraceRecorder
     passports: CropPassportRepository
@@ -77,10 +77,7 @@ def build_container(
     speech_provider: SpeechProvider | None = None,
     sms_provider: SMSProvider | None = None,
 ) -> ApplicationContainer:
-    knowledge = JSONKnowledgeProvider(
-        settings.knowledge_path,
-        allowed_statuses=settings.allowed_knowledge_statuses,
-    )
+    knowledge = CameroonKnowledgeProvider(settings.knowledge_path)
 
     database: Database | None = None
 

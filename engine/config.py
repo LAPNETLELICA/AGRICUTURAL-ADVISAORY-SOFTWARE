@@ -19,7 +19,7 @@ class Settings:
     host: str = "0.0.0.0"
     port: int = 8000
     log_level: str = "INFO"
-    knowledge_path: Path = Path("knowledge")
+    knowledge_path: Path = Path("BASE_CONNAISSANCES_AGRICOLES")
     sms_max_length: int = 160
     cors_origins: tuple[str, ...] = ("http://localhost:3000", "http://localhost:8080")
     database_url: str | None = None
@@ -80,7 +80,7 @@ class Settings:
             host=os.getenv("APP_HOST", "0.0.0.0"),
             port=port,
             log_level=os.getenv("APP_LOG_LEVEL", "INFO").upper(),
-            knowledge_path=Path(os.getenv("KNOWLEDGE_PATH", "knowledge")),
+            knowledge_path=Path(os.getenv("KNOWLEDGE_PATH", "BASE_CONNAISSANCES_AGRICOLES")),
             sms_max_length=sms_max_length,
             cors_origins=_csv(
                 os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:8080")

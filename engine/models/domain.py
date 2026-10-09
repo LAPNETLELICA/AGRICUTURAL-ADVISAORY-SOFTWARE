@@ -265,3 +265,11 @@ class CropPassport(StrictModel):
     stage_history: list[dict[str, Any]] = Field(default_factory=list)
     recommendation_ids: list[str] = Field(default_factory=list)
     trace_ids: list[str] = Field(default_factory=list)
+
+
+class User(StrictModel):
+    id: str
+    email: str
+    full_name: str
+    hashed_password: str
+    is_active: bool = True

@@ -18,6 +18,7 @@ class EvidenceInput(StrictModel):
     observations: dict[str, Any] = Field(default_factory=dict)
     practices: dict[str, Any] = Field(default_factory=dict)
     image_references: list[str] = Field(default_factory=list, max_length=10)
+    visual_evidence: list[dict[str, Any]] = Field(default_factory=list, max_length=10)
     future: dict[str, Any] = Field(default_factory=dict)
 
     @field_validator("image_references")

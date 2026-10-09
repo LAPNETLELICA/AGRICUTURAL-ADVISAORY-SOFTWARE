@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from threading import RLock
 
-from engine.models.domain import CropPassport
+from engine.models.domain import CropPassport, User
 from engine.models.responses import Recommendation, TraceRecord
 
 
@@ -62,3 +62,13 @@ class InMemoryCropPassportRepository:
     def save(self, passport: CropPassport) -> None:
         with self._lock:
             self._items[passport.passport_id] = passport.model_copy(deep=True)
+
+class InMemoryUserRepository:
+    def __init__(self) -> None:
+        self._users: dict[str, User] = {}
+
+    def get_by_email(self, email: str) -> User | None:
+        return next((u for u in self._users.values() if u.email == email), None)
+
+    def save(self, user: User) -> User:
+        self._users[user.id] = user

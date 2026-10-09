@@ -41,6 +41,23 @@ class CandidateScoreRecord(StrictModel):
     breakdown: list[ScoreContribution] = Field(default_factory=list)
 
 
+class ContactRecommendation(StrictModel):
+    specialist_required: bool = False
+    vendor_required: bool = False
+    specialist_reason: str | None = None
+    vendor_reason: str | None = None
+    specialist_category: str | None = None
+    vendor_category: str | None = None
+
+
+class ActionGuidance(StrictModel):
+    action: str
+    title: str
+    recommended_materials: list[str] = Field(default_factory=list)
+    application_steps: list[str] = Field(default_factory=list)
+    safety_notes: list[str] = Field(default_factory=list)
+
+
 class Recommendation(StrictModel):
     recommendation_id: str = Field(default_factory=lambda: str(uuid4()))
     request_id: str
@@ -56,6 +73,9 @@ class Recommendation(StrictModel):
     score_breakdown: list[CandidateScoreRecord] = Field(default_factory=list)
     trace_id: str
     uncertainty: list[str] = Field(default_factory=list)
+    contact_recommendation: ContactRecommendation | None = None
+    action_guidance: list[ActionGuidance] = Field(default_factory=list)
+    presentation: dict[str, Any] = Field(default_factory=dict)
     created_at: datetime = Field(default_factory=utc_now)
 
 
