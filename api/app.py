@@ -13,29 +13,39 @@ from fastapi.responses import JSONResponse
 from api import (
     admin,
     auth,
+    contacts,
     dashboard,
     education,
+    image_analysis,
     media,
     mobile,
     notifications,
     privacy,
+    profile,
     sms,
     system,
+    technical_fiches,
     voice,
 )
 from engine import __version__
 from engine.bootstrap import ApplicationContainer, build_container
 from engine.config import Settings
 from engine.exceptions import CropNotFoundError
+from integrations.database.contact_repository import AgriculturalContactRepository
 from integrations.storage import PrivateFilesystemStorage
+from services.action_guidance import ActionGuidanceService
+from services.application_context import ApplicationContextService
 from services.audit import AuditService
 from services.auth import AuthService
+from services.contact_recommendation import ContactRecommendationService
 from services.education import EducationService
+from services.image_analysis import ImageAnalysisService
 from services.knowledge_admin import KnowledgeAdminService
 from services.media import MediaService
 from services.notifications import NotificationService
 from services.privacy import PrivacyService
 from services.retention import RetentionService
+from services.technical_fiche import TechnicalFicheService
 
 
 def create_app(
@@ -60,6 +70,11 @@ def create_app(
         lifespan=lifespan,
     )
     app.state.container = resolved_container
+    app.state.contact_repository = (
+        AgriculturalContactRepository(resolved_container.database.sessions)
+        if resolved_container.database is not None
+        else None
+    )
     auth_service = AuthService(
         resolved_settings.auth_secret,
         resolved_settings.auth_store_path,
@@ -76,6 +91,9 @@ def create_app(
         )
     app.state.auth_service = auth_service
     app.state.education_service = EducationService(resolved_container.knowledge)
+    app.state.application_context = ApplicationContextService(resolved_container.database)
+    app.state.action_guidance_service = ActionGuidanceService()
+    app.state.contact_recommendation_service = ContactRecommendationService()
     app.state.knowledge_admin = KnowledgeAdminService(resolved_container.knowledge)
     app.state.notification_service = NotificationService(
         resolved_container,
@@ -88,6 +106,10 @@ def create_app(
         max_bytes=resolved_settings.media_max_bytes,
         retention_days=resolved_settings.media_retention_days,
     )
+    app.state.image_analysis_service = ImageAnalysisService(
+        app.state.media_service, resolved_settings.knowledge_path
+    )
+    app.state.technical_fiche_service = TechnicalFicheService(resolved_container.database)
     app.state.audit_service = AuditService(
         resolved_container.database, resolved_settings.audit_retention_days
     )
@@ -114,11 +136,15 @@ def create_app(
         return JSONResponse(status_code=400, content={"detail": str(exc)})
 
     app.include_router(auth.router)
+    app.include_router(contacts.router)
+    app.include_router(profile.router)
     app.include_router(mobile.router)
     app.include_router(voice.router)
     app.include_router(sms.router)
     app.include_router(education.router)
     app.include_router(media.router)
+    app.include_router(image_analysis.router)
+    app.include_router(technical_fiches.router)
     app.include_router(privacy.router)
     app.include_router(notifications.router)
     app.include_router(admin.router)

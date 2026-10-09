@@ -2,9 +2,11 @@ import pytest
 
 from engine.exceptions import ProviderUnavailableError
 from engine.models.requests import AdvisoryRequest, MobileAdvisoryRequest
+from integrations.presentation import MobileFormatter, SMSFormatter, VoiceFormatter
 from integrations.speech import DisabledSpeechProvider
 from integrations.translation import PassthroughTranslator
-from languages import MobileFormatter, SMSFormatter, VoiceFormatter
+from languages import MobileFormatter as LegacyMobileFormatter
+from languages.formatters import SMSFormatter as LegacySMSFormatter
 
 
 def _recommendation(container):
@@ -36,3 +38,8 @@ def test_translation_passthrough_and_disabled_speech():
     assert PassthroughTranslator().translate("Advice", "fr") == "Advice"
     with pytest.raises(ProviderUnavailableError, match="text-to-speech"):
         DisabledSpeechProvider().synthesize("Advice", "en")
+
+
+def test_legacy_language_exports_forward_to_canonical_formatters():
+    assert LegacyMobileFormatter is MobileFormatter
+    assert LegacySMSFormatter is SMSFormatter

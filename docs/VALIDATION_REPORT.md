@@ -2,6 +2,20 @@
 
 Date: 2026-09-01 (UTC)
 
+## Repository organization update (2026-10-08)
+
+- Canonical runtime and deployment path: `BASE_CONNAISSANCES_AGRICOLES/`.
+- The retired `knowledge/` and `backend2/` directories were not restored. The
+  `languages/` compatibility package remains and forwards to
+  `integrations/presentation/`.
+- Channel formatters now live under `integrations/presentation/`.
+- Verified locally: structure check; compilation for active source folders; Ruff for
+  the migrated files; the demo; 23 focused migration tests; and 47 engine/rule/
+  scenario/unit tests.
+- The FastAPI `TestClient` uses HTTPX2 in the development dependency set, matching
+  Starlette 1.6's preferred client backend. The current API and full test results
+  are recorded in the validation section below.
+
 ## Source analysis
 
 - Read all 24 pages of the v3.0 conception book.
@@ -13,10 +27,9 @@ Date: 2026-09-01 (UTC)
 
 ## Checks executed successfully
 
-- Section 14 structure check for all required top-level ownership paths; the legacy
-  `src/agricultural_advisory/` and `knowledge/demo/` paths are absent.
-- Python compilation for `api/`, `engine/`, `integrations/`, `languages/`,
-  `scripts/`, and `tests/`.
+- Section 14 structure check for all required top-level ownership paths; the retired
+  `src/agricultural_advisory/`, `knowledge/`, and `backend2/` paths are absent.
+- Python compilation for `api/`, `engine/`, `integrations/`, `scripts/`, and `tests/`.
 - JSON parsing for all 9 knowledge/schema files and TOML parsing for project metadata.
 - Syntax/import-target checks for all 69 Python files and local Markdown-link checks.
 - Pydantic validation of the draft Crop Profile and all five domain-split rules.
@@ -61,7 +74,7 @@ All dependencies are declared and pinned/ranged in `pyproject.toml`,
 ```bash
 uv run pytest
 python scripts/check_structure.py
-uv run pytest --cov=api --cov=engine --cov=integrations --cov=languages \
+uv run pytest --cov=api --cov=engine --cov=integrations \
   --cov-report=term-missing
 uv run ruff check .
 uv run ruff format --check .

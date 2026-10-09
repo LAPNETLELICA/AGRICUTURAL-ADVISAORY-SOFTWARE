@@ -18,7 +18,10 @@ from integrations.weather import StaticWeatherProvider
 def main() -> None:
     root = Path(__file__).resolve().parents[1]
     container = build_container(
-        Settings(environment="development", knowledge_path=root / "knowledge"),
+        Settings(
+            environment="development",
+            knowledge_path=root / "BASE_CONNAISSANCES_AGRICOLES",
+        ),
         weather_provider=StaticWeatherProvider(
             current={"rainfall_class": "heavy", "consecutive_rain_days": 3},
             forecast={"month": 8},

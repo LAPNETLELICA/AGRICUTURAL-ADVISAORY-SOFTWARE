@@ -9,14 +9,13 @@ Conception Document v3.0*. The original PDF is included under `docs/reference/`.
 | --- | --- | --- |
 | Advisory engine | `engine/advisory/` | Developer 1 |
 | Shared models and interfaces | `engine/models/`, `engine/interfaces/` | Shared |
-| Crop forest | `knowledge/crops`, `soils`, `regional`, `topography`, `climate`, `timing`, `practices`, `risks`, `rules` | Developer 2 |
+| Cameroon agricultural base | `BASE_CONNAISSANCES_AGRICOLES/` | Developer 2 |
 | External adapters | `integrations/weather`, `translation`, `speech`, `sms/simulator` | Shared |
-| Language resources | `languages/` | Shared |
 | Mobile/SMS backend routes | `api/mobile.py`, `api/sms.py` | Shared |
 | Four test layers | `tests/engine`, `rules`, `integrations`, `scenarios` | Shared |
 
-`scripts/check_structure.py` enforces these paths and rejects the former
-`src/agricultural_advisory/` and `knowledge/demo/` layouts.
+`scripts/check_structure.py` enforces these paths and rejects the retired
+`src/agricultural_advisory/`, `knowledge/`, and `backend2/` layouts.
 
 ## Functional requirements
 
@@ -29,7 +28,7 @@ Conception Document v3.0*. The original PDF is included under `docs/reference/`.
 | FR-05 | `AgriculturalContext.present` plus rule evidence |
 | FR-06 | `AgriculturalContext.future`, forecast adapter, timing rules |
 | FR-07 | `CropTreeSelector.select/expand`; T1 invariant |
-| FR-08 | `JSONKnowledgeProvider` + `RuleEvaluator` |
+| FR-08 | `CameroonKnowledgeProvider` + `RuleEvaluator` |
 | FR-09 | constraints, channel scoring, ranker, conflict resolver |
 | FR-10 | canonical primary/alternatives/reasons/warnings/actions; T2 action support |
 | FR-11 | `TraceRecord` + recorder/retrieval endpoint |
@@ -44,7 +43,7 @@ Conception Document v3.0*. The original PDF is included under `docs/reference/`.
 | Requirement | Evidence / production note |
 | --- | --- |
 | Explainable/auditable | Condition evidence, score breakdown, constraints, conflicts, trace |
-| Knowledge changes without engine rewrite | JSON provider and declarative rule DSL |
+| Knowledge changes without engine rewrite | Cameroon knowledge bridge and declarative data |
 | Replaceable external providers | Protocols and composition root |
 | Multi-layer testing | `tests/engine`, `rules`, `integrations`, `scenarios` |
 | Secure transport | Deployment must terminate HTTPS; Docker/API do not claim TLS termination |

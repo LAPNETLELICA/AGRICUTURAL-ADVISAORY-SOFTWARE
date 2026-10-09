@@ -54,7 +54,7 @@ uv run pytest tests/scenarios/test_bafoussam_potato.py -vv -x
 Coverage:
 
 ```bash
-uv run pytest --cov=api --cov=engine --cov=integrations --cov=languages \
+uv run pytest --cov=api --cov=engine --cov=integrations \
   --cov-report=term-missing --cov-report=html --cov-branch
 ```
 
@@ -67,7 +67,7 @@ python scripts/check_structure.py
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy
-python -m compileall -q api engine integrations languages scripts tests
+python -m compileall -q api engine integrations scripts tests
 ```
 
 Offline core check (not a replacement for pytest/API tests):

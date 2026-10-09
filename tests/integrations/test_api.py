@@ -16,13 +16,14 @@ def test_health_and_crop_catalogue(client):
     assert health.json()["knowledge_loaded"] is True
     crops = client.get("/api/v1/crops")
     assert crops.status_code == 200
-    assert crops.json()[0]["crop_id"] == "irish-potato"
+    assert any(crop["crop_id"] == "potato" for crop in crops.json())
     crop = client.get("/api/v1/crops/irish-potato")
     assert crop.status_code == 200
-    assert crop.json()["family"] == "Solanaceae"
+    assert crop.json()["crop_id"] == "potato"
+    assert crop.json()["family"] == "FAM_TUBERCULES_RACINES"
     version = client.get("/api/v1/knowledge/version")
     assert version.status_code == 200
-    assert version.json()["knowledge_version"] == "0.2.0"
+    assert version.json()["source"] == "BASE_CONNAISSANCES_AGRICOLES"
     root = client.get("/")
     assert root.status_code == 200
     assert root.json()["docs"] == "/docs"
@@ -32,7 +33,7 @@ def test_mobile_advisory_and_trace_retrieval(client):
     response = client.post("/api/v1/advisory/mobile", json=full_mobile_payload())
     assert response.status_code == 200, response.text
     recommendation = response.json()
-    assert recommendation["primary"]["name"] == "late_blight_watch"
+    assert recommendation["primary"]["candidate_id"] == "cameroon.potato.t1"
     detail = client.get(f"/api/v1/recommendations/{recommendation['recommendation_id']}")
     assert detail.status_code == 200
     assert detail.json()["trace"]["trace_id"] == recommendation["trace_id"]

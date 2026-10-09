@@ -1,10 +1,13 @@
-.PHONY: install run test test-fast coverage lint typecheck check-structure validate-knowledge demo smoke offline-check
+.PHONY: install run run-local test test-fast coverage lint typecheck check-structure validate-knowledge demo smoke offline-check
 
 install:
 	uv sync --extra dev
 
 run:
 	uv run uvicorn api.app:app --reload --host 0.0.0.0 --port 8000
+
+run-local:
+	bash scripts/run_local_backend.sh
 
 test:
 	uv run pytest

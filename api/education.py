@@ -5,8 +5,10 @@ from __future__ import annotations
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request, status
+from pydantic import Field
 
 from api.security import PrincipalDependency
+from engine.models.domain import StrictModel
 
 router = APIRouter(prefix="/api/v1/education", tags=["education"])
 
@@ -29,3 +31,24 @@ def crop_curriculum(
         return request.app.state.education_service.curriculum(crop_id)
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
+
+
+class LearnRequest(StrictModel):
+    subject: str = Field(min_length=1, max_length=100)
+
+
+@router.post("/learn/curriculum")
+def adaptive_curriculum(
+    payload: LearnRequest, request: Request, principal: PrincipalDependency
+) -> dict[str, Any]:
+    profile = request.app.state.application_context.get(principal.subject)
+    if profile is None:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT, detail="complete your profile first"
+        )
+    return request.app.state.education_service.learning_curriculum(
+        subject=payload.subject,
+        knowledge_level=profile.knowledge_level,
+        language=profile.language,
+        vocabulary_level=profile.vocabulary_level,
+    )

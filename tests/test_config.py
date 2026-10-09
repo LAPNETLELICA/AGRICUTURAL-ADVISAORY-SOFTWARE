@@ -9,14 +9,14 @@ def test_settings_from_environment(monkeypatch):
     monkeypatch.setenv("APP_ENV", "production")
     monkeypatch.setenv("APP_HOST", "127.0.0.1")
     monkeypatch.setenv("APP_PORT", "9000")
-    monkeypatch.setenv("KNOWLEDGE_PATH", "knowledge/custom-release")
+    monkeypatch.setenv("KNOWLEDGE_PATH", "BASE_CONNAISSANCES_AGRICOLES/custom-release")
     monkeypatch.setenv("SMS_MAX_LENGTH", "320")
     monkeypatch.setenv("CORS_ORIGINS", "https://one.example, https://two.example")
     settings = Settings.from_env()
     assert settings.environment == "production"
     assert settings.host == "127.0.0.1"
     assert settings.port == 9000
-    assert settings.knowledge_path == Path("knowledge/custom-release")
+    assert settings.knowledge_path == Path("BASE_CONNAISSANCES_AGRICOLES/custom-release")
     assert settings.sms_max_length == 320
     assert settings.allowed_knowledge_statuses == frozenset({"validated"})
     assert settings.cors_origins == ("https://one.example", "https://two.example")

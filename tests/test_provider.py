@@ -1,58 +1,55 @@
-import pytest
+from pathlib import Path
 
-from backend2.provider import KnowledgeProvider
+from engine.models.enums import TreeId
+from integrations.cameroon_knowledge import CameroonKnowledgeProvider
+
+
+def _provider() -> CameroonKnowledgeProvider:
+    return CameroonKnowledgeProvider(Path("BASE_CONNAISSANCES_AGRICOLES"))
 
 
 def test_provider_lists_crops():
-    provider = KnowledgeProvider()
-    crops = provider.list_crops()
+    crops = [profile.crop_id for profile in _provider().list_crop_profiles()]
     assert "potato" in crops
 
 
 def test_provider_gets_crop_profile():
-    provider = KnowledgeProvider()
-    profile = provider.get_crop_profile("potato")
+    profile = _provider().get_crop_profile("potato")
     assert profile is not None
     assert profile.crop_id == "potato"
-    assert profile.family == "Solanaceae"
+    assert profile.family == "FAM_TUBERCULES_RACINES"
 
 
-def test_provider_rule_definitions_filtering():
-    provider = KnowledgeProvider()
-    rules = provider.get_relevant_rule_definitions(
-        crop_id="potato", context={"test": True}, trees=["weather", "timing"]
+def test_provider_filters_rules_by_tree():
+    rules = _provider().get_relevant_rules(
+        crop_id="potato", context=None, trees=[TreeId.WEATHER, TreeId.TIMING]
     )
-    assert len(rules) >= 2
-    assert all(r.tree in ["weather", "timing"] for r in rules)
-
-
-def test_provider_get_relevant_rules_raises_explicit_error_without_backend1():
-    provider = KnowledgeProvider()
-    with pytest.raises(RuntimeError) as exc_info:
-        provider.get_relevant_rules("potato", context=None, trees=["weather"])
-    assert "Backend 1 contracts are missing" in str(exc_info.value)
+    assert [rule.domain for rule in rules] == [TreeId.WEATHER, TreeId.TIMING]
 
 
 def test_provider_lists_tomato():
-    provider = KnowledgeProvider()
-    crops = provider.list_crops()
+    crops = [profile.crop_id for profile in _provider().list_crop_profiles()]
     assert "tomato" in crops
 
 
 def test_provider_gets_tomato_profile():
-    provider = KnowledgeProvider()
-    profile = provider.get_crop_profile("tomato")
+    profile = _provider().get_crop_profile("tomato")
     assert profile is not None
     assert profile.crop_id == "tomato"
     assert profile.name == "Tomate"
-    assert profile.cycle_days == 125
+    assert profile.cycle_length_days == 125
 
 
 def test_provider_tomato_tree_filtering():
-    provider = KnowledgeProvider()
-    rules = provider.get_relevant_rule_definitions(
-        crop_id="tomato", context={"test": True}, trees=["weather", "timing", "practices_risks"]
+    rules = _provider().get_relevant_rules(
+        crop_id="tomato",
+        context=None,
+        trees=[TreeId.WEATHER, TreeId.TIMING, TreeId.PRACTICES_RISKS],
     )
     assert len(rules) >= 3
     assert all(r.crop_id == "tomato" for r in rules)
-    assert all(r.tree in ["weather", "timing", "practices_risks"] for r in rules)
+    assert {rule.domain for rule in rules} == {
+        TreeId.WEATHER,
+        TreeId.TIMING,
+        TreeId.PRACTICES_RISKS,
+    }

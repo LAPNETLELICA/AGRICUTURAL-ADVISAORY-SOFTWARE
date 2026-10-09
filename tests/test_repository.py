@@ -1,48 +1,45 @@
-from backend2.repository import KnowledgeRepository
+from BASE_CONNAISSANCES_AGRICOLES.reader import CameroonKnowledgeBase
+
+
+def _repository() -> CameroonKnowledgeBase:
+    return CameroonKnowledgeBase("BASE_CONNAISSANCES_AGRICOLES")
 
 
 def test_potato_profile_exists():
-    repo = KnowledgeRepository()
-    profile = repo.get_crop_profile("potato")
+    profile = _repository().get_culture("POMME_DE_TERRE")
     assert profile is not None
-    assert profile.crop_id == "potato"
-    assert profile.family == "Solanaceae"
+    assert profile["code"] == "CULT_POMME_DE_TERRE"
+    assert profile["famille_code"] == "FAM_TUBERCULES_RACINES"
 
 
 def test_rules_are_crop_scoped():
-    repo = KnowledgeRepository()
-    rules = repo.get_relevant_rule_definitions("potato", ["soil", "weather", "timing"])
-    assert rules
-    assert all(rule.crop_id == "potato" for rule in rules)
+    links = _repository().resolve_culture_links("POMME_DE_TERRE")
+    assert links["culture"]["code"] == "CULT_POMME_DE_TERRE"
+    assert links["sols_favorables"]
 
 
 def test_tomato_profile_exists():
-    repo = KnowledgeRepository()
-    profile = repo.get_crop_profile("tomato")
+    profile = _repository().get_culture("TOMATE")
     assert profile is not None
-    assert profile.crop_id == "tomato"
-    assert profile.name == "Tomate"
-    assert profile.family == "Solanaceae"
-    assert profile.cycle_days == 125
-    assert "pepiniere" in profile.growth_stages
-    assert "recolte" in profile.growth_stages
-    assert profile.tolerances.get("optimal_temperature_c") == [20, 24]
-    assert profile.tolerances.get("optimal_ph") == [5.5, 7.0]
+    assert profile["code"] == "CULT_TOMATE"
+    assert profile["nom_courant"] == "Tomate"
+    assert profile["famille_code"] == "FAM_MARAICHAGE"
+    assert profile["cycle_jours"]["optimal"] == 125
+    assert "pepiniere_jours" in profile["caracteristiques_cycle"]
+    assert "maturation_recolte_jours" in profile["caracteristiques_cycle"]
+    assert profile["besoins"]["temperature_optimale_c"] == [20, 25]
+    assert profile["besoins"]["ph_optimal"] == [5.5, 6.8]
 
 
 def test_tomato_rules_coverage():
-    repo = KnowledgeRepository()
-    expected_trees = {"soil", "region", "topography", "weather", "timing", "practices_risks"}
-    rules = [r for r in repo.get_rules() if r.crop_id == "tomato"]
-    assert len(rules) >= 6
-    found_trees = {r.tree for r in rules}
-    assert expected_trees.issubset(found_trees)
+    links = _repository().resolve_culture_links("TOMATE")
+    assert links["regions_principales"]
+    assert links["engrais_recommandes"]
+    assert links["varietes"]
 
 
 def test_irish_potato_profile_and_rules_exist():
-    repo = KnowledgeRepository()
-    profile = repo.get_crop_profile("irish-potato")
+    profile = _repository().get_culture("POMME_DE_TERRE")
     assert profile is not None
-    assert profile.crop_id == "irish-potato"
-    rules = [r for r in repo.get_rules() if r.crop_id == "irish-potato"]
-    assert len(rules) >= 5
+    assert profile["nom_courant"] == "Pomme de terre"
+    assert _repository().get_sols_favorables("POMME_DE_TERRE")

@@ -9,20 +9,16 @@ REQUIRED_DIRECTORIES = (
     "engine/advisory",
     "engine/models",
     "engine/interfaces",
-    "knowledge/crops",
-    "knowledge/soils",
-    "knowledge/regional",
-    "knowledge/topography",
-    "knowledge/climate",
-    "knowledge/timing",
-    "knowledge/practices",
-    "knowledge/risks",
-    "knowledge/rules",
+    "BASE_CONNAISSANCES_AGRICOLES/CULTURE/CULTURES",
+    "BASE_CONNAISSANCES_AGRICOLES/SOL",
+    "BASE_CONNAISSANCES_AGRICOLES/REGION",
+    "BASE_CONNAISSANCES_AGRICOLES/CLIMAT",
+    "BASE_CONNAISSANCES_AGRICOLES/CALENDRIER_CULTURAL",
+    "BASE_CONNAISSANCES_AGRICOLES/RISQUES_ET_PRATIQUES",
     "integrations/weather",
     "integrations/translation",
     "integrations/speech",
     "integrations/sms/simulator",
-    "languages",
     "api",
     "tests/engine",
     "tests/rules",
@@ -45,7 +41,8 @@ REQUIRED_FILES = (
 
 FORBIDDEN_PATHS = (
     "src/agricultural_advisory",
-    "knowledge/demo",
+    "knowledge",
+    "backend2",
 )
 
 

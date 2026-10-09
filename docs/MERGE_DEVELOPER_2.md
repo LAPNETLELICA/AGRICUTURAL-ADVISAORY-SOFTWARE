@@ -1,5 +1,11 @@
 # Merge Guide: Developer 2 Knowledge into Developer 1 Engine
 
+> **Historical migration record.** This document describes the retired JSON
+> `knowledge/` forest and is retained for project history only. For all active
+> work, use `BASE_CONNAISSANCES_AGRICOLES/`,
+> `integrations/cameroon_knowledge.py`, and
+> [`REPOSITORY_ORGANIZATION_MAP.md`](REPOSITORY_ORGANIZATION_MAP.md).
+
 This procedure preserves the conception book's WHAT/HOW separation while merging
 Developer 2's validated crop forest into this repository.
 

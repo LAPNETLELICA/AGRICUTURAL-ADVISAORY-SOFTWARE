@@ -6,7 +6,7 @@ from typing import Any
 
 from engine.models.domain import AgriculturalContext
 from engine.models.enums import Channel, TreeId
-from integrations.knowledge import JSONKnowledgeProvider
+from integrations.cameroon_knowledge import CameroonKnowledgeProvider
 
 TREE_TITLES = {
     TreeId.CROP_PROFILE: "Crop care and crop profile",
@@ -20,7 +20,7 @@ TREE_TITLES = {
 
 
 class EducationService:
-    def __init__(self, knowledge: JSONKnowledgeProvider) -> None:
+    def __init__(self, knowledge: CameroonKnowledgeProvider) -> None:
         self._knowledge = knowledge
 
     def curriculum(self, crop_id: str) -> dict[str, Any]:
@@ -84,4 +84,42 @@ class EducationService:
                 "Educational content is generated from the same governed crop profile and "
                 "T1-T7 rule knowledge used by the advisory engine."
             ),
+        }
+
+    def learning_curriculum(
+        self, *, subject: str, knowledge_level: str, language: str, vocabulary_level: str
+    ) -> dict[str, Any]:
+        """Return learning content, separate from recommendation rules.
+
+        Rule data can be referenced as governed source material, but a rule is
+        never exposed as a lesson.  The lesson plan controls explanation depth.
+        """
+        normalized = subject.strip().lower()
+        if not normalized:
+            raise ValueError("subject is required")
+        depth = {
+            "beginner": ["Introduction", "Recognition", "Practical actions", "Protection"],
+            "basic": ["Fundamentals", "Observation", "Field practices", "Prevention"],
+            "intermediate": ["Processes", "Diagnosis", "Management options", "Monitoring"],
+            "advanced": ["Systems", "Mechanisms", "Trade-offs", "Evaluation"],
+        }.get(knowledge_level.lower())
+        if depth is None:
+            raise ValueError("unknown knowledge level")
+        label = subject.strip().title()
+        modules = [
+            {
+                "module_id": f"{normalized}-{index + 1}",
+                "title": f"{label}: {title}",
+                "lesson_count": 1,
+                "learning_outcome": f"Understand {title.lower()} for {label.lower()}.",
+            }
+            for index, title in enumerate(depth)
+        ]
+        return {
+            "subject": normalized,
+            "knowledge_level": knowledge_level.lower(),
+            "language": language,
+            "vocabulary_level": vocabulary_level.lower(),
+            "modules": modules,
+            "content_policy": "Adapted presentation; agricultural facts remain unchanged.",
         }

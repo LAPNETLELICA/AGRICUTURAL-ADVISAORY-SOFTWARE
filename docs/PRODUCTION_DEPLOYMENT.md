@@ -26,7 +26,12 @@ The production profile starts Caddy in front of FastAPI. Caddy obtains/renews ce
 
 ## 3. Migrations and readiness
 
-The API runs `alembic upgrade head` before Uvicorn. `/api/v1/ready` checks database connectivity, the expected Alembic revision, and production knowledge availability. Traffic should only be routed while readiness is healthy.
+The API runs `alembic upgrade head` before Uvicorn. `/api/v1/ready` checks database
+connectivity, the current Alembic head, and production knowledge availability.
+Traffic should only be routed while readiness is healthy. The Postgres data is in
+the named `postgres_data` volume; container recreation preserves it, while
+`docker compose down -v` deletes it. Configure and regularly test off-host backups
+for disaster recovery; persistent local volumes alone are not backups.
 
 ## 4. Image evidence
 

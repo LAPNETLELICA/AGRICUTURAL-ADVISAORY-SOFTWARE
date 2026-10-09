@@ -6,11 +6,10 @@ Advisory System v3.0** conception book. It implements Developer 1's complete
 provider interfaces, context assembly, API, adapters, Crop Passport, traces,
 SMS simulation, integration, and tests.
 
-> **Agronomy safety:** the JSON files currently under `knowledge/` are draft
-> demonstration fixtures based
-> only on examples in the conception book. They are deliberately labelled `draft`,
-> produce a visible warning, and are excluded when `APP_ENV=production`. Developer 2
-> must supply sourced and agronomically validated production knowledge.
+> **Agronomy safety:** `BASE_CONNAISSANCES_AGRICOLES/` is the sole agricultural
+> knowledge root. The advisory engine reads it through
+> `integrations/cameroon_knowledge.py`; no agricultural thresholds belong in
+> Python code. Changes to that base must remain sourced and agronomically validated.
 
 ## What is implemented
 
@@ -20,48 +19,7 @@ SMS simulation, integration, and tests.
 | Rule evaluation and evidence capture | Developer 1 | Complete |
 | Hard/soft constraints | Developer 1 | Complete |
 | MobileScore and SMSPriority strategies | Developer 1 | Complete |
-| Deterministic ranking | Developer 1 | Complete |agricultural-advisory-engine/
-engine/
-advisory/
-engine.py
-evaluator.py
-scoring.py
-recommendation.py
-# Developer 1 — HOW TO ADVISE
-Architecture & Conception Document — 16Crop-Centered Agricultural Advisory System — v3.0
-selector.py
-# CropTreeSelector
-constraints.py
-ranking.py
-conflict.py
-models/
-interfaces/
-knowledge/
-# Developer 2 — WHAT TO ADVISE
-crops/
-# T1 — crop profiles (root)
-soils/
-# T2 — soil suitability + improvement rules
-regional/
-# T3
-topography/
-# T4
-climate/
-# T5
-timing/
-# T6
-practices/ risks/
-# T7
-rules/
-integrations/
-weather/ translation/ speech/
-sms/simulator/
-languages/
-api/
-mobile.py
-sms.py
-tests/
-engine/ rules/ integrations/ scenarios/
+| Deterministic ranking | Developer 1 | Complete |
 | Explicit conflict resolution | Developer 1 | Complete |
 | Canonical recommendation generation | Developer 1 | Complete |
 | Full decision trace | Developer 1 | Complete |
@@ -240,22 +198,19 @@ agricultural-advisory-engine/
 │   │   └── conflict.py
 │   ├── models/                   # Shared contracts
 │   └── interfaces/               # Shared provider protocols
-├── knowledge/
-│   ├── crops/                    # Developer 2 T1 — crop profiles (root)
-│   ├── soils/                    # Developer 2 T2
-│   ├── regional/                 # Developer 2 T3
-│   ├── topography/               # Developer 2 T4
-│   ├── climate/                  # Developer 2 T5
-│   ├── timing/                   # Developer 2 T6
-│   ├── practices/                # Developer 2 T7 practices/rotation
-│   ├── risks/                    # Developer 2 T7 crop risks
-│   └── rules/                    # Shared JSON rule contract and schemas
+├── BASE_CONNAISSANCES_AGRICOLES/ # Canonical Cameroon agricultural knowledge
+│   ├── CULTURE/                  # Crops, families, and varieties
+│   ├── SOL/                      # Soils, fertility, and restoration
+│   ├── REGION/                   # Regions and localities
+│   ├── CLIMAT/                   # Climate zones and constraints
+│   ├── CALENDRIER_CULTURAL/      # Crop calendars and operations
+│   └── RISQUES_ET_PRATIQUES/     # Risks and good agricultural practices
 ├── integrations/                 # Shared replaceable adapters
+│   ├── cameroon_knowledge.py     # Bridge from the base to engine contracts
 │   ├── weather/
 │   ├── translation/
 │   ├── speech/
 │   └── sms/simulator/
-├── languages/                    # Shared language formatting/handoff
 ├── api/
 │   ├── mobile.py
 │   └── sms.py
@@ -358,7 +313,7 @@ uv run pytest
 uv run pytest -m "not scenario"
 
 # Coverage (gate configured at 85%)
-uv run pytest --cov=api --cov=engine --cov=integrations --cov=languages \
+uv run pytest --cov=api --cov=engine --cov=integrations \
   --cov-report=term-missing --cov-report=html
 
 # Formatting and lint
@@ -370,8 +325,7 @@ uv run ruff format --check .
 uv run mypy
 
 # Validate Developer 2 knowledge
-uv run python scripts/validate_knowledge.py knowledge \
-  --allow-status draft --allow-status validated
+uv run python scripts/validate_knowledge.py BASE_CONNAISSANCES_AGRICOLES
 
 # Standard-library API smoke test (API must already be running)
 uv run python scripts/smoke_test.py
@@ -392,13 +346,30 @@ Copy `.env.example` and export the variables through your shell, IDE, container,
 deployment platform. The code reads operating-system environment variables; it does
 not automatically parse `.env`, avoiding another runtime dependency.
 
+For a persistent local API and PostgreSQL database, run
+`bash scripts/setup_local_database.sh` once. It creates a private, ignored `.env`
+only when one does not already exist, generates local secrets, starts PostgreSQL,
+applies Alembic migrations, and runs the API from the project virtual environment.
+Use `bash scripts/run_local_backend.sh` (or `make run-local`) for subsequent starts.
+The default local administrator login is `admin`; use the password generated in
+the ignored `.env` as `ADMIN_PASSWORD` (never commit or share that file). Database state is
+kept in the named `postgres_data` Docker volume and survives container restarts and
+`docker compose down` (do not use `docker compose down -v` unless you intend to
+delete the database). This is local persistence, not a substitute for off-machine
+backups.
+
+The local runner stays attached in the terminal. Stop the API with Ctrl+C; the
+PostgreSQL container and its data volume remain running. Restart with
+`bash scripts/run_local_backend.sh`. Stop the database deliberately with
+`docker compose stop database`; restart it with `docker compose up -d database`.
+
 | Variable | Default | Meaning |
 | --- | --- | --- |
 | `APP_ENV` | `development` | `development`, `test`, or `production` |
 | `APP_HOST` | `0.0.0.0` | Uvicorn bind address |
 | `APP_PORT` | `8000` | Uvicorn port |
 | `APP_LOG_LEVEL` | `INFO` | Log level |
-| `KNOWLEDGE_PATH` | `knowledge` | Section 14 Developer 2 knowledge root |
+| `KNOWLEDGE_PATH` | `BASE_CONNAISSANCES_AGRICOLES` | Canonical Cameroon knowledge root |
 | `SMS_MAX_LENGTH` | `160` | SMS formatter maximum characters |
 | `CORS_ORIGINS` | local ports 3000/8080 | Comma-separated allowed Flutter/web origins |
 
@@ -406,7 +377,7 @@ For production:
 
 ```bash
 export APP_ENV=production
-export KNOWLEDGE_PATH=knowledge
+export KNOWLEDGE_PATH=BASE_CONNAISSANCES_AGRICOLES
 ```
 
 In production, only `validated` profiles/rules load. Missing validation therefore
@@ -414,7 +385,7 @@ fails safely instead of silently promoting draft agronomy.
 
 ## Merge Developer 2 work
 
-Developer 2 should own `knowledge/**` and its agricultural rule tests. The engine
+Developer 2 should own `BASE_CONNAISSANCES_AGRICOLES/**` and its agricultural rule tests. The engine
 must not receive crop-specific `if/else` code. Before merging:
 
 ```bash
@@ -422,7 +393,7 @@ git fetch origin
 git checkout developer-1-integration
 git pull --ff-only
 git merge --no-ff origin/developer-2-knowledge
-uv run python scripts/validate_knowledge.py knowledge --allow-status validated
+uv run python scripts/validate_knowledge.py BASE_CONNAISSANCES_AGRICOLES
 uv run pytest
 uv run ruff check .
 uv run mypy
@@ -462,7 +433,7 @@ draft profiles are correctly excluded.
 This is the safe default adapter. Merge/configure a real `WeatherProvider`, or send
 farmer-observed weather in the request; the uncertainty remains explicit.
 
-**Changes in `knowledge/` do not appear**
+**Changes in `BASE_CONNAISSANCES_AGRICOLES/` do not appear**
 
 Restart the V1 process. Knowledge is validated and cached at application startup.
 
@@ -478,7 +449,8 @@ PowerShell execution policy.
 - [`docs/TESTING.md`](docs/TESTING.md)
 - [`docs/CONCEPTION_TRACEABILITY.md`](docs/CONCEPTION_TRACEABILITY.md)
 - [`docs/VALIDATION_REPORT.md`](docs/VALIDATION_REPORT.md)
-- [`knowledge/README.md`](knowledge/README.md)
+- [`BASE_CONNAISSANCES_AGRICOLES/README.md`](BASE_CONNAISSANCES_AGRICOLES/README.md)
+- [`docs/REPOSITORY_ORGANIZATION_MAP.md`](docs/REPOSITORY_ORGANIZATION_MAP.md)
 - `docs/reference/Agricultural_Advisory_Architecture_v3_EN.pdf` (source conception book)
 
 ## V1 completion additions (2026-09)

@@ -1,7 +1,10 @@
 """Crop catalogue, recommendation retrieval, health, and version endpoints."""
 
+from pathlib import Path
 from typing import Any
 
+from alembic.config import Config
+from alembic.script import ScriptDirectory
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import text
 
@@ -83,10 +86,17 @@ def readiness(container: ContainerDependency) -> dict[str, Any]:
         try:
             container.database.ping()
             with container.database.engine.connect() as connection:
-                migration_version = connection.execute(
-                    text("SELECT version_num FROM alembic_version")
-                ).scalar_one_or_none()
-            migration_ready = migration_version == "9b81c2276e10"
+                has_migrations = connection.execute(
+                    text("SELECT to_regclass('public.alembic_version')")
+                ).scalar_one()
+                if has_migrations is not None:
+                    migration_version = connection.execute(
+                        text("SELECT version_num FROM alembic_version")
+                    ).scalar_one_or_none()
+            alembic_config = Config(str(Path(__file__).resolve().parents[1] / "alembic.ini"))
+            migration_ready = migration_version == ScriptDirectory.from_config(
+                alembic_config
+            ).get_current_head()
         except Exception:
             database_ready = False
             migration_ready = False

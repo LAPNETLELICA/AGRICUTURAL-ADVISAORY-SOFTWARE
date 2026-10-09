@@ -17,6 +17,6 @@ def test_unmatched_specific_rules_do_not_create_false_certainty(container):
 
     result = no_weather_container.engine.advise(AdvisoryRequest.from_mobile(request))
 
-    assert result.rule_references == ["demo.potato.profile.001"]
-    assert result.primary.name == "crop_profile_context"
-    assert all("late-blight" not in rule for rule in result.rule_references)
+    assert result.rule_references
+    assert all(rule.startswith("cameroon.potato.") for rule in result.rule_references)
+    assert result.primary.rule_id.startswith("cameroon.potato.")

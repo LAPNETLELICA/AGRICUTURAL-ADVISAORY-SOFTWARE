@@ -1,27 +1,26 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
 
 from engine.exceptions import KnowledgeValidationError
 from engine.models.enums import TreeId
-from integrations.knowledge import JSONKnowledgeProvider
+from integrations.cameroon_knowledge import CameroonKnowledgeProvider
 
 
-def test_demo_knowledge_loads_with_development_statuses(container):
+def test_cameroon_knowledge_base_loads_as_the_only_provider(container):
     metadata = container.knowledge.metadata()
-    assert metadata["crop_count"] == 3
-    assert metadata["rule_count"] == 18
-    assert metadata["production_ready"] is False
+    assert metadata["source"] == "BASE_CONNAISSANCES_AGRICOLES"
+    assert metadata["crop_count"] == 6
+    assert metadata["rule_count"] == 42
+    assert metadata["read_only"] is True
 
 
-def test_production_status_filter_excludes_demo_drafts():
-    project_root = Path(__file__).resolve().parents[2]
-    provider = JSONKnowledgeProvider(project_root / "knowledge", {"validated"})
-    assert provider.list_crop_profiles() == []
-    assert provider.metadata()["rule_count"] == 0
+def test_crop_aliases_resolve_to_the_canonical_profile(container):
+    profile = container.knowledge.get_crop_profile("irish-potato")
+    assert profile is not None
+    assert profile.crop_id == "potato"
 
 
 def test_rules_are_filtered_by_crop_and_tree(container, context):
@@ -29,74 +28,15 @@ def test_rules_are_filtered_by_crop_and_tree(container, context):
         "irish-potato", context, [TreeId.CROP_PROFILE, TreeId.SOIL]
     )
     assert [rule.domain for rule in rules] == [TreeId.CROP_PROFILE, TreeId.SOIL]
+    assert {rule.crop_id for rule in rules} == {"potato"}
 
 
-def test_duplicate_rule_id_is_rejected(tmp_path: Path):
-    (tmp_path / "crops").mkdir()
-    (tmp_path / "rules").mkdir()
-    crop = {
-        "crop_id": "test-crop",
-        "name": "Test",
-        "family": "Testaceae",
-        "cycle_length_days": 80,
-        "version": "1",
-        "status": "test_only",
-        "source": {"title": "Test"},
-    }
-    (tmp_path / "crops" / "crop.json").write_text(json.dumps(crop), encoding="utf-8")
-    candidate = {
-        "candidate_id": "candidate-1",
-        "type": "advisory",
-        "name": "test",
-        "summary": "test",
-    }
-    rule = {
-        "rule_id": "duplicate-rule",
-        "crop_id": "test-crop",
-        "domain": "T1",
-        "version": "1",
-        "status": "test_only",
-        "source": {"title": "Test"},
-        "candidate": candidate,
-    }
-    second = {**rule, "candidate": {**candidate, "candidate_id": "candidate-2"}}
-    (tmp_path / "rules" / "rules.json").write_text(json.dumps([rule, second]), encoding="utf-8")
-    with pytest.raises(KnowledgeValidationError, match="duplicate rule_id"):
-        JSONKnowledgeProvider(tmp_path, {"test_only"})
+def test_missing_cameroon_knowledge_path_is_rejected(tmp_path: Path):
+    with pytest.raises(KnowledgeValidationError, match="not found or incomplete"):
+        CameroonKnowledgeProvider(tmp_path / "missing")
 
 
-def test_missing_knowledge_path_is_rejected(tmp_path: Path):
-    with pytest.raises(KnowledgeValidationError, match="does not exist"):
-        JSONKnowledgeProvider(tmp_path / "missing", {"validated"})
-
-
-def test_domain_rule_in_wrong_section_14_folder_is_rejected(tmp_path: Path):
-    (tmp_path / "crops").mkdir()
-    (tmp_path / "soils").mkdir()
-    crop = {
-        "crop_id": "test-crop",
-        "name": "Test",
-        "family": "Testaceae",
-        "cycle_length_days": 80,
-        "version": "1",
-        "status": "test_only",
-        "source": {"title": "Test"},
-    }
-    rule = {
-        "rule_id": "misplaced-rule",
-        "crop_id": "test-crop",
-        "domain": "T5",
-        "version": "1",
-        "status": "test_only",
-        "source": {"title": "Test"},
-        "candidate": {
-            "candidate_id": "misplaced-candidate",
-            "type": "advisory",
-            "name": "test",
-            "summary": "test",
-        },
-    }
-    (tmp_path / "crops" / "crop.json").write_text(json.dumps(crop), encoding="utf-8")
-    (tmp_path / "soils" / "wrong-domain.json").write_text(json.dumps([rule]), encoding="utf-8")
-    with pytest.raises(KnowledgeValidationError, match="soils requires domain T2"):
-        JSONKnowledgeProvider(tmp_path, {"test_only"})
+def test_incomplete_cameroon_knowledge_path_is_rejected(tmp_path: Path):
+    tmp_path.joinpath("CODIFICATION.json").write_text("{}", encoding="utf-8")
+    with pytest.raises(KnowledgeValidationError, match="contains no crop documents"):
+        CameroonKnowledgeProvider(tmp_path)

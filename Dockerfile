@@ -3,7 +3,7 @@ FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     APP_ENV=development \
-    KNOWLEDGE_PATH=knowledge
+    KNOWLEDGE_PATH=BASE_CONNAISSANCES_AGRICOLES
 
 WORKDIR /app
 
@@ -21,7 +21,7 @@ COPY languages ./languages
 COPY services ./services
 COPY dashboard ./dashboard
 COPY migrations ./migrations
-COPY knowledge ./knowledge
+COPY BASE_CONNAISSANCES_AGRICOLES ./BASE_CONNAISSANCES_AGRICOLES
 COPY scripts ./scripts
 RUN mkdir -p /app/runtime/media && chown -R advisory:advisory /app/runtime
 RUN python -m pip install --no-cache-dir --no-deps .

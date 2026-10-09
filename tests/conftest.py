@@ -117,7 +117,7 @@ def container() -> ApplicationContainer:
     project_root = Path(__file__).resolve().parents[1]
     settings = Settings(
         environment="test",
-        knowledge_path=project_root / "knowledge",
+        knowledge_path=project_root / "BASE_CONNAISSANCES_AGRICOLES",
         cors_origins=(),
     )
     weather = StaticWeatherProvider(

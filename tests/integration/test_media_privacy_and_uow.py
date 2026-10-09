@@ -22,7 +22,7 @@ class _Item(_Base):
 def _client(tmp_path: Path) -> TestClient:
     settings = Settings(
         environment="development",
-        knowledge_path=Path("knowledge"),
+        knowledge_path=Path("BASE_CONNAISSANCES_AGRICOLES"),
         auth_required=True,
         auth_secret="test-secret-that-is-long-enough",
         auth_store_path=tmp_path / "users.json",
