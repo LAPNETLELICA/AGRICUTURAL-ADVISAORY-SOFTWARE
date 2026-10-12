@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AgriAdvise Mobile Frontend API Handoff</title>
+  <style>
+    @page { size: A4; margin: 16mm; }
+    body { font-family: Arial, sans-serif; color: #1d2a20; font-size: 10pt; line-height: 1.35; }
+    h1 { color: #175c32; font-size: 22pt; margin-bottom: 3px; }
+    h2 { color: #175c32; border-bottom: 1px solid #8bb995; font-size: 14pt; margin-top: 20px; }
+    h3 { color: #2c6d3e; font-size: 11pt; margin-bottom: 4px; }
+    .subtitle { color: #4a5e4e; margin-top: 0; }
+    .note { background: #edf7ef; border-left: 4px solid #2d7a45; padding: 8px 10px; }
+    table { border-collapse: collapse; width: 100%; margin: 8px 0 14px; page-break-inside: avoid; }
+    th { background: #e1f0e4; text-align: left; }
+    th, td { border: 1px solid #b9d0be; padding: 5px; vertical-align: top; }
+    code { font-family: Consolas, monospace; font-size: 8.5pt; }
+    li { margin: 4px 0; }
+    .page-break { page-break-before: always; }
+  </style>
+</head>
+<body>
+  <h1>AgriAdvise Mobile Frontend API Handoff</h1>
+  <p class="subtitle">Backend contract and user-flow guide for the mobile application</p>
+  <p><strong>Base URL:</strong> <code>https://&lt;host&gt;/api/v1</code>. Send <code>Authorization: Bearer &lt;token&gt;</code> for authenticated endpoints. Use JSON unless an endpoint explicitly accepts a multipart media upload.</p>
+  <p><strong>Download this document:</strong> <code>GET /api/v1/documentation/mobile-frontend-handoff</code>. The response is a PDF attachment.</p>
+  <p class="note"><strong>Source of truth:</strong> The backend selects agricultural advice. The app only collects context and presents the recommendation, action steps, warnings and contacts it receives. Do not place API keys, Tranzak credentials, or farmer telephone numbers in the mobile app.</p>
+
+  <h2>1. Farmer mobile journey</h2>
+  <ol>
+    <li><strong>Account:</strong> register or sign in, then securely save the returned access token.</li>
+    <li><strong>Profile:</strong> load the farmer profile and save language/knowledge level. Use this to choose simple or detailed presentation.</li>
+    <li><strong>Guided help:</strong> start a questionnaire with region and locality. Display one question at a time.</li>
+    <li><strong>Every question:</strong> show the supplied options <em>and</em> a text box. Include “I do not know”. The farmer may choose an option or type a different issue.</li>
+    <li><strong>Adapt:</strong> submit the selected value or free text. The next question can change according to their issue, profile, crop passport and known locality facts.</li>
+    <li><strong>Recommendation:</strong> when enough context has been supplied, call completion. Stop asking questions and render the returned recommendation.</li>
+    <li><strong>Follow-up:</strong> allow a new guided-help session or direct mobile-advisory request without overwriting the earlier recommendation.</li>
+  </ol>
+  <p><strong>Location behavior:</strong> region/locality facts are checked before asking location-related questions. The app must not force a terrain question when the backend already knows the relevant local context. When information is absent, display the next backend question.</p>
+
+  <h2>2. Recommended screen/API sequence</h2>
+  <table>
+    <tr><th>Screen</th><th>Request</th><th>Frontend responsibility</th></tr>
+    <tr><td>Welcome/sign in</td><td><code>POST /auth/register</code> or <code>POST /auth/login</code></td><td>Securely retain the token; recover gracefully from invalid credentials.</td></tr>
+    <tr><td>Profile</td><td><code>GET /profile/me</code>, <code>PUT /profile/me</code></td><td>Store and edit language/knowledge-level preferences.</td></tr>
+    <tr><td>Start help</td><td><code>POST /questionnaire/start</code></td><td>Send farmer ID, region, locality and profile level; render <code>step</code>.</td></tr>
+    <tr><td>Question step</td><td><code>POST /questionnaire/answer</code></td><td>Send the accumulated context and either an option or free text; replace the screen with returned <code>step</code>.</td></tr>
+    <tr><td>Advice result</td><td><code>POST /questionnaire/complete</code></td><td>Only call once context is sufficient; present returned recommendation exactly as supplied.</td></tr>
+    <tr><td>Optional direct advice</td><td><code>POST /advisory/mobile</code></td><td>For experienced users or a saved form; use the same validated context fields.</td></tr>
+  </table>
+
+  <h2>3. Voice and picture input</h2>
+  <ul>
+    <li><strong>Voice-to-text:</strong> upload <code>file</code> and optional <code>language</code> to <code>POST /advisory/transcribe</code>. Put returned <code>text</code> in the same free-text questionnaire input for the farmer to confirm/edit.</li>
+    <li><strong>Voice answer:</strong> <code>POST /advisory/voice</code> creates spoken advice where the configured provider is available.</li>
+    <li><strong>Picture evidence:</strong> upload <code>file</code>, <code>farmer_id</code>, optional <code>crop_id</code> and <code>request_id</code> to <code>POST /media/images</code>. Keep the returned <code>image_id</code> and include it in <code>evidence.image_references</code>.</li>
+    <li><strong>Optional image assessment:</strong> call <code>POST /image-analysis</code> with <code>image_id</code>, optional <code>crop_id</code>, and <code>analysis_type</code>. It is supporting evidence, never a substitute for farmer description or backend recommendation.</li>
+  </ul>
+
+  <div class="page-break"></div>
+  <h2>4. Complete endpoint inventory</h2>
+  <table>
+    <tr><th>Endpoint</th><th>Purpose for frontend</th></tr>
+    <tr><td><code>POST /auth/register</code><br><code>POST /auth/login</code><br><code>GET /auth/me</code></td><td>Registration, login, current account.</td></tr>
+    <tr><td><code>GET, PUT /profile/me</code></td><td>Farmer profile and preferences.</td></tr>
+    <tr><td><code>POST /questionnaire/start</code><br><code>POST /questionnaire/answer</code><br><code>POST /questionnaire/complete</code></td><td>Adaptive guided conversation and final advisory recommendation.</td></tr>
+    <tr><td><code>POST /advisory/mobile</code><br><code>POST /advisory/voice</code><br><code>POST /advisory/transcribe</code></td><td>Direct recommendation, spoken result, and voice-to-text.</td></tr>
+    <tr><td><code>POST /media/images</code><br><code>GET /media/images/{image_id}</code><br><code>GET /media/images/{image_id}/metadata</code><br><code>DELETE /media/images/{image_id}</code></td><td>Farmer-owned picture upload, display, metadata and deletion.</td></tr>
+    <tr><td><code>POST /image-analysis</code><br><code>GET /image-analysis/references</code></td><td>Optional image evidence assessment and supported reference listing.</td></tr>
+    <tr><td><code>GET /recommendations/{recommendation_id}</code></td><td>Saved recommendation and its trace.</td></tr>
+    <tr><td><code>GET /crops</code><br><code>GET /crops/{crop_id}</code></td><td>Crop catalogue/profile.</td></tr>
+    <tr><td><code>GET /education/crops</code><br><code>GET /education/crops/{crop_id}</code><br><code>POST /education/learn/curriculum</code></td><td>Learning content and learning plan.</td></tr>
+    <tr><td><code>GET /contacts/{contact_type}</code></td><td>Verified specialist/vendor cards when returned in a recommendation.</td></tr>
+    <tr><td><code>POST /technical-fiches</code><br><code>GET /technical-fiches</code><br><code>GET /technical-fiches/{fiche_id}</code><br><code>PUT /technical-fiches/{fiche_id}/status</code><br><code>GET /technical-fiches/{fiche_id}/download</code></td><td>Create, list, view, update status and download technical fiches.</td></tr>
+    <tr><td><code>GET /privacy/me</code><br><code>GET /privacy/export</code><br><code>DELETE /privacy/me</code></td><td>Privacy status, personal-data export and account removal.</td></tr>
+    <tr><td><code>GET /health</code><br><code>GET /ready</code><br><code>GET /knowledge/version</code></td><td>Operational checks; usually used by support/release tooling, not normal farmer screens.</td></tr>
+    <tr><td><code>POST /advisory/sms</code><br><code>POST /sms/simulate</code><br><code>GET /sms/inbox/{recipient_id}</code></td><td>Legacy SMS-advice flow and safe simulator testing. Not a place for the mobile app to store recipients.</td></tr>
+    <tr><td><code>POST, GET /notifications/subscriptions</code><br><code>POST /notifications/trigger/{recipient_id}</code></td><td>Legacy notification sandbox.</td></tr>
+  </table>
+
+  <h2>5. Admin and operations endpoints</h2>
+  <p>These require an admin token and belong to the administration dashboard, not normal farmer navigation.</p>
+  <table>
+    <tr><th>Endpoint</th><th>Purpose</th></tr>
+    <tr><td><code>GET, POST /admin/contacts</code><br><code>POST /admin/contacts/{contact_id}/verification</code><br><code>POST /admin/contacts/{contact_id}/activation</code></td><td>Manage and approve specialists/vendors.</td></tr>
+    <tr><td><code>GET /admin/overview</code><br><code>GET /admin/providers</code></td><td>Operational overview and provider status.</td></tr>
+    <tr><td><code>GET /admin/knowledge</code><br><code>POST /admin/knowledge/import</code></td><td>Inspect/import validated knowledge.</td></tr>
+    <tr><td><code>POST /admin/retention/run</code></td><td>Run configured data-retention work.</td></tr>
+    <tr><td><code>GET /dashboard</code><br><code>GET /dashboard/sms-receiver</code></td><td>Built-in browser operations pages; they are outside the API prefix.</td></tr>
+  </table>
+
+  <h2>6. Error and security behavior</h2>
+  <ul>
+    <li><code>400</code>/<code>422</code>: show an input-specific validation message and keep the entered form data.</li>
+    <li><code>401</code>: refresh/re-authenticate, then retry only after the user signs in.</li>
+    <li><code>403</code>: show that the content is not owned by the current farmer or requires a higher role.</li>
+    <li><code>404</code>: show unavailable content; do not guess identifiers or agricultural content.</li>
+    <li>Never log bearer tokens, voice files, image files, farmer phone numbers or API credentials in the mobile client.</li>
+  </ul>
+  <p><strong>Developer reference:</strong> the live OpenAPI interface is available at <code>https://&lt;host&gt;/docs</code> and is authoritative for field-level schemas.</p>
+</body>
+</html>

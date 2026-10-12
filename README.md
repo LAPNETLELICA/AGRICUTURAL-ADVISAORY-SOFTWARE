@@ -342,9 +342,32 @@ See [`docs/TESTING.md`](docs/TESTING.md) for layer-by-layer acceptance criteria.
 
 ## Configuration
 
-Copy `.env.example` and export the variables through your shell, IDE, container, or
-deployment platform. The code reads operating-system environment variables; it does
-not automatically parse `.env`, avoiding another runtime dependency.
+Create a local `.env` from the example, then paste your own keys into that local file.
+The backend automatically reads `.env` from the folder where you start it. The file is
+ignored by Git: never commit or share it.
+
+```bash
+cp .env.example .env
+```
+
+To enable Cameroon real-time weather and voice services, set these values in `.env`:
+
+```dotenv
+WEATHERAPI_KEY=your_weatherapi_key
+WEATHER_PROVIDER=weatherapi
+
+FISH_AUDIO_API_KEY=your_fish_audio_key
+SPEECH_PROVIDER=fish_audio
+
+GROQ_API_KEY=gsk_your_groq_key
+TRANSCRIPTION_PROVIDER=groq
+```
+
+Weather queries are automatically limited to the supplied locality and region in
+Cameroon. `POST /api/v1/advisory/voice` returns advisory text plus Fish Audio MP3 when
+available; `POST /api/v1/advisory/transcribe` accepts an authenticated audio recording
+and returns Groq's transcript. If a key is absent or left as the sample value, only that
+provider is disabled and the rest of the backend continues normally.
 
 For a persistent local API and PostgreSQL database, run
 `bash scripts/setup_local_database.sh` once. It creates a private, ignored `.env`

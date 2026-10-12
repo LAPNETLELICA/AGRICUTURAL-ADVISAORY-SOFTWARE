@@ -12,6 +12,7 @@ from fastapi.responses import JSONResponse
 
 from api import (
     admin,
+    admin_sms,
     auth,
     contacts,
     dashboard,
@@ -21,10 +22,12 @@ from api import (
     mobile,
     notifications,
     privacy,
+    questionnaire,
     profile,
     sms,
     system,
     technical_fiches,
+    transcription,
     voice,
 )
 from engine import __version__
@@ -32,6 +35,7 @@ from engine.bootstrap import ApplicationContainer, build_container
 from engine.config import Settings
 from engine.exceptions import CropNotFoundError
 from integrations.database.contact_repository import AgriculturalContactRepository
+from integrations.database.sms_admin_repository import PostgresSMSAdminRepository
 from integrations.storage import PrivateFilesystemStorage
 from services.action_guidance import ActionGuidanceService
 from services.application_context import ApplicationContextService
@@ -45,6 +49,7 @@ from services.media import MediaService
 from services.notifications import NotificationService
 from services.privacy import PrivacyService
 from services.retention import RetentionService
+from services.questionnaire import QuestionnaireService
 from services.technical_fiche import TechnicalFicheService
 
 
@@ -75,6 +80,11 @@ def create_app(
         if resolved_container.database is not None
         else None
     )
+    app.state.sms_admin_repository = (
+        PostgresSMSAdminRepository(resolved_container.database.sessions)
+        if resolved_container.database is not None
+        else None
+    )
     auth_service = AuthService(
         resolved_settings.auth_secret,
         resolved_settings.auth_store_path,
@@ -99,6 +109,7 @@ def create_app(
         resolved_container,
         resolved_settings.auth_store_path.parent / "notifications.json",
     )
+    app.state.questionnaire_service = QuestionnaireService(resolved_container.knowledge)
     media_storage = PrivateFilesystemStorage(resolved_settings.media_storage_path)
     app.state.media_service = MediaService(
         media_storage,
@@ -139,7 +150,9 @@ def create_app(
     app.include_router(contacts.router)
     app.include_router(profile.router)
     app.include_router(mobile.router)
+    app.include_router(questionnaire.router)
     app.include_router(voice.router)
+    app.include_router(transcription.router)
     app.include_router(sms.router)
     app.include_router(education.router)
     app.include_router(media.router)
@@ -148,6 +161,7 @@ def create_app(
     app.include_router(privacy.router)
     app.include_router(notifications.router)
     app.include_router(admin.router)
+    app.include_router(admin_sms.router)
     app.include_router(system.router)
     app.include_router(dashboard.router)
 

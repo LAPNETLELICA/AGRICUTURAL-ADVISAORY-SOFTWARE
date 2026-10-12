@@ -107,6 +107,20 @@ class CameroonKnowledgeProvider:
             "read_only": True,
         }
 
+    def locality_context(self, region: str | None, locality: str | None) -> dict[str, Any]:
+        """Return validated locality facts without inventing missing data."""
+        if not locality:
+            return {}
+        wanted = locality.strip().casefold()
+        for path in (self.root / "REGION" / "LOCALITES").glob("*.json"):
+            document = self._base._read_json(path) or {}
+            for item in document.get("localites", []):
+                if str(item.get("nom", "")).casefold() == wanted:
+                    result = dict(item)
+                    result["region"] = document.get("region_nom") or region
+                    return result
+        return {}
+
     @staticmethod
     def normalize_crop_id(crop_id: str) -> str:
         return _ALIASES.get(crop_id.strip().lower(), crop_id.strip().lower())

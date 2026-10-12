@@ -98,6 +98,26 @@ services:
       database:
         condition: service_healthy
 
+  proactive-alert-worker:
+    profiles: ["production"]
+    build: .
+    restart: unless-stopped
+    environment:
+      APP_ENV: production
+      KNOWLEDGE_PATH: BASE_CONNAISSANCES_AGRICOLES
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}
+      SMS_PROVIDER: ${SMS_PROVIDER:-simulator}
+      TRANZAK_APP_ID: ${TRANZAK_APP_ID:-}
+      TRANZAK_APP_KEY: ${TRANZAK_APP_KEY:-}
+      TRANZAK_SENDER_ID: ${TRANZAK_SENDER_ID:-}
+      TRANZAK_BASE_URL: ${TRANZAK_BASE_URL:-https://sandbox.dsapi.tranzak.me}
+      PROACTIVE_SMS_ENABLED: ${PROACTIVE_SMS_ENABLED:-false}
+      PROACTIVE_SMS_INTERVAL_SECONDS: ${PROACTIVE_SMS_INTERVAL_SECONDS:-3600}
+    command: ["sh", "-c", "while true; do python scripts/run_proactive_alerts.py; sleep $${PROACTIVE_SMS_INTERVAL_SECONDS}; done"]
+    depends_on:
+      database:
+        condition: service_healthy
+
   backup-worker:
     profiles: ["production"]
     image: postgres:17

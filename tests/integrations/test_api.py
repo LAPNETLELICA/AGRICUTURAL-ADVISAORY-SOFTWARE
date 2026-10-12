@@ -29,6 +29,16 @@ def test_health_and_crop_catalogue(client):
     assert root.json()["docs"] == "/docs"
 
 
+def test_mobile_frontend_handoff_is_downloadable_as_a_pdf(client):
+    response = client.get("/api/v1/documentation/mobile-frontend-handoff")
+
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/pdf"
+    assert "attachment;" in response.headers["content-disposition"]
+    assert "AgriAdvise-Mobile-Frontend-Handoff.pdf" in response.headers["content-disposition"]
+    assert response.content.startswith(b"%PDF")
+
+
 def test_mobile_advisory_and_trace_retrieval(client):
     response = client.post("/api/v1/advisory/mobile", json=full_mobile_payload())
     assert response.status_code == 200, response.text

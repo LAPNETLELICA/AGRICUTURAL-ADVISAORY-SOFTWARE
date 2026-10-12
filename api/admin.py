@@ -62,8 +62,11 @@ def create_contact(
     contact = AgriculturalContact(contact_id=str(uuid4()), **payload.model_dump())
     _contacts(request).create(contact)
     request.app.state.audit_service.record(
-        actor_id=admin.subject, action="contact.create", resource_type="agricultural_contact",
-        resource_id=contact.contact_id, details={"fields": list(payload.model_fields_set)},
+        actor_id=admin.subject,
+        action="contact.create",
+        resource_type="agricultural_contact",
+        resource_id=contact.contact_id,
+        details={"fields": list(payload.model_fields_set)},
     )
     return asdict(contact)
 
@@ -118,6 +121,7 @@ def overview(request: Request, admin: AdminDependency) -> dict[str, Any]:
             "weather": container.settings.weather_provider,
             "translation": container.settings.translation_provider,
             "speech": container.settings.speech_provider,
+            "transcription": container.settings.transcription_provider,
             "sms": container.settings.sms_provider,
         },
         "notifications": len(request.app.state.notification_service.list_subscriptions()),

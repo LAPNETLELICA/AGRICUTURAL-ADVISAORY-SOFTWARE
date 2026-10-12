@@ -8,6 +8,7 @@ from integrations.database.repositories import (
     PostgresSMSProvider,
     PostgresTraceRecorder,
 )
+from integrations.database.sms_admin_repository import PostgresSMSAdminRepository
 
 __all__ = [
     "Database",
@@ -15,5 +16,6 @@ __all__ = [
     "PostgresHistoryProvider",
     "PostgresRecommendationRepository",
     "PostgresSMSProvider",
+    "PostgresSMSAdminRepository",
     "PostgresTraceRecorder",
 ]

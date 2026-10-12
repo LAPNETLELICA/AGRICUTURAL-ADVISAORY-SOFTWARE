@@ -290,6 +290,39 @@ class SMSDeliveryRow(Base):
     )
 
 
+class SMSRegistrationRow(Base):
+    __tablename__ = "sms_registrations"
+    __table_args__ = (Index("ix_sms_registrations_region_active", "region", "active"),)
+
+    registration_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    phone: Mapped[str] = mapped_column(String(20), nullable=False, unique=True)
+    region: Mapped[str] = mapped_column(String(20), nullable=False)
+    active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
+class SMSAdminDeliveryRow(Base):
+    __tablename__ = "sms_admin_deliveries"
+    __table_args__ = (
+        Index("ix_sms_admin_deliveries_registration_created", "registration_id", "created_at"),
+        UniqueConstraint("registration_id", "alert_fingerprint", name="uq_sms_alert_fingerprint"),
+    )
+
+    delivery_id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    registration_id: Mapped[str] = mapped_column(
+        ForeignKey("sms_registrations.registration_id", ondelete="RESTRICT"), nullable=False
+    )
+    phone: Mapped[str] = mapped_column(String(20), nullable=False)
+    scope_kind: Mapped[str] = mapped_column(String(20), nullable=False)
+    scope_region: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    source: Mapped[str] = mapped_column(String(20), nullable=False)
+    message: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(String(20), nullable=False)
+    alert_fingerprint: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+
+
 class MediaEvidenceRow(Base):
     __tablename__ = "media_evidence"
     __table_args__ = (

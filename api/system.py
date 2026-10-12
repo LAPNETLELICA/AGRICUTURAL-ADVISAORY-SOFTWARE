@@ -6,6 +6,7 @@ from typing import Any
 from alembic.config import Config
 from alembic.script import ScriptDirectory
 from fastapi import APIRouter, HTTPException, status
+from fastapi.responses import FileResponse
 from sqlalchemy import text
 
 from api.dependencies import ContainerDependency
@@ -18,6 +19,22 @@ from engine.models.responses import (
 )
 
 router = APIRouter(prefix="/api/v1", tags=["system"])
+
+MOBILE_FRONTEND_HANDOFF_PATH = (
+    Path(__file__).resolve().parents[1] / "docs" / "MOBILE_FRONTEND_API_HANDOFF.pdf"
+)
+
+
+@router.get("/documentation/mobile-frontend-handoff", include_in_schema=False)
+def download_mobile_frontend_handoff() -> FileResponse:
+    """Download the frontend integration handoff as a PDF attachment."""
+    if not MOBILE_FRONTEND_HANDOFF_PATH.is_file():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="handoff document not found")
+    return FileResponse(
+        MOBILE_FRONTEND_HANDOFF_PATH,
+        media_type="application/pdf",
+        filename="AgriAdvise-Mobile-Frontend-Handoff.pdf",
+    )
 
 
 @router.get("/recommendations/{recommendation_id}", response_model=RecommendationDetail)
@@ -94,9 +111,9 @@ def readiness(container: ContainerDependency) -> dict[str, Any]:
                         text("SELECT version_num FROM alembic_version")
                     ).scalar_one_or_none()
             alembic_config = Config(str(Path(__file__).resolve().parents[1] / "alembic.ini"))
-            migration_ready = migration_version == ScriptDirectory.from_config(
-                alembic_config
-            ).get_current_head()
+            migration_ready = (
+                migration_version == ScriptDirectory.from_config(alembic_config).get_current_head()
+            )
         except Exception:
             database_ready = False
             migration_ready = False
@@ -116,6 +133,7 @@ def readiness(container: ContainerDependency) -> dict[str, Any]:
             "weather": container.settings.weather_provider,
             "translation": container.settings.translation_provider,
             "speech": container.settings.speech_provider,
+            "transcription": container.settings.transcription_provider,
             "sms": container.settings.sms_provider,
         },
     }

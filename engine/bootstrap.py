@@ -25,6 +25,7 @@ from engine.interfaces.providers import (
     SMSProvider,
     SpeechProvider,
     TraceRecorder,
+    TranscriptionProvider,
     TranslationProvider,
     WeatherProvider,
 )
@@ -46,9 +47,32 @@ from integrations.database import (
 from integrations.database.uow import DatabaseUnitOfWork
 from integrations.presentation import MobileFormatter, SMSFormatter, VoiceFormatter
 from integrations.sms.simulator import SMSSimulator
-from integrations.speech.disabled import DisabledSpeechProvider
+from integrations.sms.tranzak import TranzakSMSProvider
+from integrations.speech.disabled import DisabledSpeechProvider, DisabledTranscriptionProvider
+from integrations.speech.fish_audio import FishAudioSpeechProvider
+from integrations.speech.groq import GroqTranscriptionProvider
 from integrations.translation.passthrough import PassthroughTranslator
 from integrations.weather.providers import UnavailableWeatherProvider
+from integrations.weather.weatherapi import WeatherAPIProvider
+
+
+def _configured_key(value: str | None) -> bool:
+    """Reject sample values while allowing only real provider credentials."""
+    return bool(value) and not value.startswith(("your_actual_", "gsk_your_actual"))
+
+
+def _configured_tranzak(settings: Settings) -> bool:
+    return (
+        settings.sms_provider == "tranzak"
+        and all(
+            _configured_key(value)
+            for value in (
+                settings.tranzak_app_id,
+                settings.tranzak_app_key,
+                settings.tranzak_sender_id,
+            )
+        )
+    )
 
 
 @dataclass(slots=True)
@@ -64,6 +88,7 @@ class ApplicationContainer:
     sms: SMSProvider
     translator: TranslationProvider
     speech: SpeechProvider
+    transcription: TranscriptionProvider
     mobile_formatter: MobileFormatter
     sms_formatter: SMSFormatter
     voice_formatter: VoiceFormatter
@@ -75,6 +100,7 @@ def build_container(
     weather_provider: WeatherProvider | None = None,
     translation_provider: TranslationProvider | None = None,
     speech_provider: SpeechProvider | None = None,
+    transcription_provider: TranscriptionProvider | None = None,
     sms_provider: SMSProvider | None = None,
 ) -> ApplicationContainer:
     knowledge = CameroonKnowledgeProvider(settings.knowledge_path)
@@ -88,6 +114,17 @@ def build_container(
     sms: SMSProvider
 
     transaction_manager: DatabaseUnitOfWork | None = None
+    configured_sms = sms_provider or (
+        TranzakSMSProvider(
+            settings.tranzak_app_id or "",
+            settings.tranzak_app_key or "",
+            settings.tranzak_sender_id or "",
+            base_url=settings.tranzak_base_url,
+            timeout=settings.tranzak_timeout_seconds,
+        )
+        if _configured_tranzak(settings)
+        else None
+    )
 
     if settings.database_url:
         database = Database(settings.database_url)
@@ -98,23 +135,40 @@ def build_container(
         traces = PostgresTraceRecorder(database.sessions)
         passports = PostgresCropPassportRepository(database.sessions)
         history = PostgresHistoryProvider(database.sessions)
-        sms = sms_provider or PostgresSMSProvider(database.sessions)
+        sms = configured_sms or PostgresSMSProvider(database.sessions)
     else:
         recommendations = InMemoryRecommendationRepository()
         traces = InMemoryTraceRecorder()
         passports = InMemoryCropPassportRepository()
         history = InMemoryHistoryProvider()
-        sms = sms_provider or SMSSimulator()
+        sms = configured_sms or SMSSimulator()
 
     translator = translation_provider or PassthroughTranslator()
-    speech = speech_provider or DisabledSpeechProvider()
+    speech = speech_provider or (
+        FishAudioSpeechProvider(settings.fish_audio_api_key)
+        if settings.speech_provider == "fish_audio" and _configured_key(settings.fish_audio_api_key)
+        else DisabledSpeechProvider()
+    )
+    transcription = transcription_provider or (
+        GroqTranscriptionProvider(settings.groq_api_key)
+        if settings.transcription_provider == "groq" and _configured_key(settings.groq_api_key)
+        else DisabledTranscriptionProvider()
+    )
     evaluator = RuleEvaluator()
     passport_service = CropPassportService(passports)
 
     context_builder = CropContextBuilder(
         crop_provider=knowledge,
         history_provider=history,
-        weather_provider=(weather_provider or UnavailableWeatherProvider()),
+        weather_provider=(
+            weather_provider
+            or (
+                WeatherAPIProvider(settings.weatherapi_key)
+                if settings.weather_provider == "weatherapi"
+                and _configured_key(settings.weatherapi_key)
+                else UnavailableWeatherProvider()
+            )
+        ),
         passport_repository=passports,
     )
 
@@ -148,6 +202,7 @@ def build_container(
         sms=sms,
         translator=translator,
         speech=speech,
+        transcription=transcription,
         mobile_formatter=MobileFormatter(),
         sms_formatter=SMSFormatter(settings.sms_max_length),
         voice_formatter=VoiceFormatter(),

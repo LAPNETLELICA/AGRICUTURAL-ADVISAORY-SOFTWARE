@@ -64,6 +64,17 @@ class SpeechProvider(Protocol):
     def synthesize(self, text: str, language: str) -> bytes: ...
 
 
+class TranscriptionProvider(Protocol):
+    def transcribe(
+        self,
+        content: bytes,
+        *,
+        filename: str,
+        mime_type: str,
+        language: str | None = None,
+    ) -> str: ...
+
+
 class SMSProvider(Protocol):
     def send(
         self,

@@ -6,6 +6,8 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 
 def _csv(value: str) -> tuple[str, ...]:
     return tuple(item.strip() for item in value.split(",") if item.strip())
@@ -32,7 +34,18 @@ class Settings:
     weather_provider: str = "disabled"
     translation_provider: str = "passthrough"
     speech_provider: str = "disabled"
+    transcription_provider: str = "disabled"
     sms_provider: str = "simulator"
+    tranzak_app_id: str | None = None
+    tranzak_app_key: str | None = None
+    tranzak_sender_id: str | None = None
+    tranzak_base_url: str = "https://sandbox.dsapi.tranzak.me"
+    tranzak_timeout_seconds: float = 10.0
+    proactive_sms_enabled: bool = False
+    proactive_sms_interval_seconds: int = 3600
+    groq_api_key: str | None = None
+    fish_audio_api_key: str | None = None
+    weatherapi_key: str | None = None
     media_storage_path: Path = Path("runtime/media")
     media_max_bytes: int = 10 * 1024 * 1024
     media_retention_days: int = 180
@@ -49,6 +62,9 @@ class Settings:
 
     @classmethod
     def from_env(cls) -> Settings:
+        # Load the .env alongside the command being run. Shell-exported values
+        # remain authoritative, which keeps deployment configuration intact.
+        load_dotenv(dotenv_path=Path.cwd() / ".env", override=False)
         environment = os.getenv("APP_ENV", "development").strip().lower()
         if environment not in {"development", "test", "production"}:
             raise ValueError("APP_ENV must be development, test, or production")
@@ -59,6 +75,16 @@ class Settings:
             raise ValueError("APP_PORT must be between 1 and 65535")
         if not 70 <= sms_max_length <= 918:
             raise ValueError("SMS_MAX_LENGTH must be between 70 and 918")
+
+        sms_provider = os.getenv("SMS_PROVIDER", "simulator").strip().lower()
+        if sms_provider not in {"simulator", "tranzak"}:
+            raise ValueError("SMS_PROVIDER must be simulator or tranzak")
+        tranzak_timeout_seconds = float(os.getenv("TRANZAK_TIMEOUT_SECONDS", "10"))
+        if tranzak_timeout_seconds <= 0:
+            raise ValueError("TRANZAK_TIMEOUT_SECONDS must be greater than zero")
+        proactive_sms_interval_seconds = int(os.getenv("PROACTIVE_SMS_INTERVAL_SECONDS", "3600"))
+        if proactive_sms_interval_seconds < 60:
+            raise ValueError("PROACTIVE_SMS_INTERVAL_SECONDS must be at least 60")
 
         auth_required = os.getenv(
             "AUTH_REQUIRED", "true" if environment == "production" else "false"
@@ -95,7 +121,21 @@ class Settings:
             weather_provider=os.getenv("WEATHER_PROVIDER", "disabled"),
             translation_provider=os.getenv("TRANSLATION_PROVIDER", "passthrough"),
             speech_provider=os.getenv("SPEECH_PROVIDER", "disabled"),
-            sms_provider=os.getenv("SMS_PROVIDER", "simulator"),
+            transcription_provider=os.getenv("TRANSCRIPTION_PROVIDER", "disabled"),
+            sms_provider=sms_provider,
+            tranzak_app_id=os.getenv("TRANZAK_APP_ID") or None,
+            tranzak_app_key=os.getenv("TRANZAK_APP_KEY") or None,
+            tranzak_sender_id=os.getenv("TRANZAK_SENDER_ID") or None,
+            tranzak_base_url=os.getenv(
+                "TRANZAK_BASE_URL", "https://sandbox.dsapi.tranzak.me"
+            ).rstrip("/"),
+            tranzak_timeout_seconds=tranzak_timeout_seconds,
+            proactive_sms_enabled=os.getenv("PROACTIVE_SMS_ENABLED", "false").strip().lower()
+            in {"1", "true", "yes", "on"},
+            proactive_sms_interval_seconds=proactive_sms_interval_seconds,
+            groq_api_key=os.getenv("GROQ_API_KEY") or None,
+            fish_audio_api_key=os.getenv("FISH_AUDIO_API_KEY") or None,
+            weatherapi_key=os.getenv("WEATHERAPI_KEY") or None,
             media_storage_path=Path(os.getenv("MEDIA_STORAGE_PATH", "runtime/media")),
             media_max_bytes=media_max_bytes,
             media_retention_days=retention_days("MEDIA_RETENTION_DAYS", 180),
