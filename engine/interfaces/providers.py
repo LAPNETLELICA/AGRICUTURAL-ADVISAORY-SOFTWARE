@@ -5,6 +5,7 @@ All external systems and Developer 2 knowledge enter through these protocols.
 
 from __future__ import annotations
 
+from contextlib import AbstractContextManager
 from typing import Any, Protocol
 
 from engine.models.domain import (
@@ -63,6 +64,17 @@ class SpeechProvider(Protocol):
     def synthesize(self, text: str, language: str) -> bytes: ...
 
 
+class TranscriptionProvider(Protocol):
+    def transcribe(
+        self,
+        content: bytes,
+        *,
+        filename: str,
+        mime_type: str,
+        language: str | None = None,
+    ) -> str: ...
+
+
 class SMSProvider(Protocol):
     def send(
         self,
@@ -94,3 +106,6 @@ class CropPassportRepository(Protocol):
 
     def save(self, passport: CropPassport) -> None: ...
 
+
+class TransactionManager(Protocol):
+    def transaction(self) -> AbstractContextManager[None]: ...

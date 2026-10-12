@@ -18,6 +18,7 @@ class EvidenceInput(StrictModel):
     observations: dict[str, Any] = Field(default_factory=dict)
     practices: dict[str, Any] = Field(default_factory=dict)
     image_references: list[str] = Field(default_factory=list, max_length=10)
+    visual_evidence: list[dict[str, Any]] = Field(default_factory=list, max_length=10)
     future: dict[str, Any] = Field(default_factory=dict)
 
     @field_validator("image_references")
@@ -147,4 +148,3 @@ class SMSDeliveryRequest(StrictModel):
     crop_id: str = Field(pattern=IDENTIFIER_PATTERN)
     message: str = Field(min_length=1, max_length=918)
     recommendation_id: str | None = Field(default=None, pattern=IDENTIFIER_PATTERN)
-

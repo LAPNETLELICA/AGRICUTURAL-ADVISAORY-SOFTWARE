@@ -19,4 +19,3 @@ class ProviderUnavailableError(AdvisoryError):
 
 class RecommendationNotFoundError(AdvisoryError):
     """Raised when a recommendation identifier cannot be resolved."""
-

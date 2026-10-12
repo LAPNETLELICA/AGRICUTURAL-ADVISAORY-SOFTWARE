@@ -84,6 +84,7 @@ class CropContextBuilder:
                 "observations": request.evidence.observations,
                 "practices": request.evidence.practices,
                 "image_references": request.evidence.image_references,
+                "visual_evidence": request.evidence.visual_evidence,
                 "cultivation_period": request.cultivation_period,
             },
             future=future,
@@ -142,4 +143,3 @@ class CropContextBuilder:
                 seen.add(key)
                 result.append(event)
         return result
-

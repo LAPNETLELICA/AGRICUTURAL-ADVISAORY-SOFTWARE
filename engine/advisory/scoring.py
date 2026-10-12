@@ -7,7 +7,6 @@ from collections.abc import Mapping
 from engine.models.domain import RuleEvaluation, ScoreContribution, ScoredCandidate
 from engine.models.enums import Channel
 
-
 MOBILE_COMPONENTS = frozenset(
     {
         "crop_fit",
@@ -92,4 +91,3 @@ class MobileScoringStrategy(BaseScoringStrategy):
 class SMSPriorityScoringStrategy(BaseScoringStrategy):
     channel = Channel.SMS
     allowed_components = SMS_COMPONENTS
-

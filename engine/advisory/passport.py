@@ -21,14 +21,11 @@ class CropPassportService:
             if passport is None:
                 raise ValueError("passport was not found")
             if passport and (
-                passport.farmer_id != request.farmer_id
-                or passport.crop_id != request.crop_id
+                passport.farmer_id != request.farmer_id or passport.crop_id != request.crop_id
             ):
                 raise ValueError("passport does not belong to this farmer and crop")
         if passport is None and not request.passport_id:
-            passport = self._repository.find(
-                request.farmer_id, request.crop_id, request.plot_ref
-            )
+            passport = self._repository.find(request.farmer_id, request.crop_id, request.plot_ref)
         if passport is None:
             passport = CropPassport(
                 farmer_id=request.farmer_id,

@@ -9,8 +9,14 @@ from engine.interfaces.providers import (
     SMSProvider,
     SpeechProvider,
     TraceRecorder,
+    TranscriptionProvider,
     TranslationProvider,
     WeatherProvider,
+)
+from engine.interfaces.sms_admin import (
+    ProactiveAlertSource,
+    SMSAdminRepository,
+    SMSDeliveryGateway,
 )
 
 __all__ = [
@@ -22,6 +28,10 @@ __all__ = [
     "SMSProvider",
     "SpeechProvider",
     "TraceRecorder",
+    "TranscriptionProvider",
     "TranslationProvider",
     "WeatherProvider",
+    "ProactiveAlertSource",
+    "SMSAdminRepository",
+    "SMSDeliveryGateway",
 ]

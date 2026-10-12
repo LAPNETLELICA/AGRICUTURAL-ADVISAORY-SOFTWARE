@@ -50,4 +50,3 @@ class ConflictResolver:
         active.sort(key=lambda item: item.rank or 0)
         suppressed.sort(key=lambda item: item.rank or 0)
         return ConflictResolution(active=active, suppressed=suppressed, conflicts=conflicts)
-

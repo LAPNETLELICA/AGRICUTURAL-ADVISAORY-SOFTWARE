@@ -34,4 +34,3 @@ class InMemoryHistoryProvider:
             return
         with self._lock:
             self._events[farmer_id].append(dict(event))
-
