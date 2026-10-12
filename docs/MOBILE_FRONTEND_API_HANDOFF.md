@@ -58,6 +58,19 @@ Location rule: region/locality knowledge is used first for local soils, climate,
 
 Admin token required: GET/POST `/admin/contacts`, contact verification/activation; GET `/admin/overview`, `/admin/knowledge`, `/admin/providers`; POST `/admin/knowledge/import`, `/admin/retention/run`.
 
+### Regional SMS administration
+
+These endpoints are for the administrator dashboard only. A registration contains only a Cameroon telephone number, region, and active status. It never stores a farmer crop, passport, or recommendation context.
+
+1. Register/list recipient numbers: `POST` and `GET` `/admin/sms/registrations`.
+2. Before sending a message, call `POST /admin/sms/broadcasts/preview` with a message and scope. Display `recipient_count` for confirmation.
+3. Only after confirmation, call `POST /admin/sms/broadcasts/send` with the same payload. It resolves active recipients again at send time and returns `sent`, `failed`, and `recipient_count`.
+4. Show delivery audit/history using `GET /admin/sms/deliveries?limit=100`.
+
+For a regional scope, send `{ "kind": "region", "region": "South" }`; for all Cameroon, send `{ "kind": "cameroon" }`. Do not use the mobile farmer application to register numbers or directly trigger broadcasts.
+
+Automatic SMS is separate from the normal recommendation flow. The proactive worker only sends explicitly validated, region-scoped knowledge/engine alerts; it stays idle if alerts are absent, invalid, unscoped, duplicated, or `PROACTIVE_SMS_ENABLED` is false.
+
 The built-in operations pages are `GET /dashboard` and `GET /dashboard/sms-receiver`; they are browser pages, not mobile API endpoints.
 
 ## Mobile display rules

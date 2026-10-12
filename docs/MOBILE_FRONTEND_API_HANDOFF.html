@@ -89,6 +89,16 @@
     <tr><td><code>GET /dashboard</code><br><code>GET /dashboard/sms-receiver</code></td><td>Built-in browser operations pages; they are outside the API prefix.</td></tr>
   </table>
 
+  <h3>Regional SMS administration</h3>
+  <p>These administrator-only endpoints manage phone number plus Cameroon region only; they do not store crop, passport, or recommendation context.</p>
+  <ol>
+    <li><code>GET, POST /admin/sms/registrations</code>: list or register recipients.</li>
+    <li><code>POST /admin/sms/broadcasts/preview</code>: show the exact active recipient count before confirmation.</li>
+    <li><code>POST /admin/sms/broadcasts/send</code>: after confirmation, re-resolve active recipients, send, and return <code>sent</code>, <code>failed</code>, and <code>recipient_count</code>.</li>
+    <li><code>GET /admin/sms/deliveries?limit=100</code>: display SMS history.</li>
+  </ol>
+  <p>Use <code>{"kind":"region","region":"South"}</code> for a regional message or <code>{"kind":"cameroon"}</code> for a Cameroon-wide message. Automatic SMS is separate from normal recommendations: only validated, explicitly scoped alerts are eligible, and the worker remains idle without them.</p>
+
   <h2>6. Error and security behavior</h2>
   <ul>
     <li><code>400</code>/<code>422</code>: show an input-specific validation message and keep the entered form data.</li>
