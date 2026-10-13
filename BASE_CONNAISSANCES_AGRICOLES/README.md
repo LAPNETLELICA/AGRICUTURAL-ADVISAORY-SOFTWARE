@@ -83,3 +83,16 @@ Toutes les connaissances intégrées s'appuient sur des références techniques 
 - **Guide pratique de la culture de la pomme de terre en Afrique de l'Ouest et du Centre** (CDE / MINADER Cameroun, Félix Teouaba)
 - **SDRdag 2016** (Service de Développement Rural et de l'Agriculture)
 - **Manuel de formation en agriculture biologique pour l'Afrique** (FiBL / IFOAM)
+
+---
+
+## 5. Accès et Intégration dans le Backend Principal
+
+Pour configurer et consommer cette base de connaissances depuis le backend unifié d'AgriSense (`AGRICUTURAL-ADVISAORY-SOFTWARE-backend`) :
+- **Chemins d'accès & variables d'environnement (`KNOWLEDGE_PATH`)**
+- **Lecteur canonique Python (`CameroonKnowledgeBase`)**
+- **Adaptateur de règles (`CameroonKnowledgeProvider`)**
+- **Commandes de validation et tests**
+
+Consultez le guide complet : 👉 **[GUIDE_ACCES_ET_INTEGRATION_BACKEND.md](GUIDE_ACCES_ET_INTEGRATION_BACKEND.md)**.
+
