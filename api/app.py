@@ -15,7 +15,6 @@ from api import (
     admin_sms,
     auth,
     contacts,
-    dashboard,
     education,
     image_analysis,
     media,
@@ -165,7 +164,6 @@ def create_app(
     app.include_router(admin.router)
     app.include_router(admin_sms.router)
     app.include_router(system.router)
-    app.include_router(dashboard.router)
 
     @app.get("/", include_in_schema=False)
     def root() -> dict[str, str]:
