@@ -1,0 +1,27 @@
+{
+  "region_code": "REG_CE",
+  "region_nom": "Centre Cameroun",
+  "localites": [
+    {
+      "code": "LOC_YAOUNDE",
+      "nom": "Yaoundé",
+      "departement": "Mfoundi",
+      "altitude_m": 750,
+      "profil_agricole": "Ceinture maraîchère périurbaine et consommation.",
+      "sols": [
+        "SOL_FERRALLITIQUE",
+        "SOL_HYDROMORPHE"
+      ]
+    },
+    {
+      "code": "LOC_BAFIA",
+      "nom": "Bafia",
+      "departement": "Mbam-et-Inoubou",
+      "altitude_m": 500,
+      "profil_agricole": "Transition forêt-savane : maïs, cacao, tomate de plein champ, manioc.",
+      "sols": [
+        "SOL_FERRALLITIQUE"
+      ]
+    }
+  ]
+}

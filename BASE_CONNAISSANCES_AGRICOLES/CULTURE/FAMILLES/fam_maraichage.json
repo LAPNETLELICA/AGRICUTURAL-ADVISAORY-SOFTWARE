@@ -1,0 +1,18 @@
+{
+  "code": "FAM_MARAICHAGE",
+  "nom": "Maraîchage et légumes-fruits",
+  "description": "Cultures intensives destinées à la consommation fraîche des ménages et à l'approvisionnement des marchés urbains.",
+  "cultures_incluses": [
+    "CULT_TOMATE",
+    "piment",
+    "poivron",
+    "gombo",
+    "oignon",
+    "chou",
+    "carotte",
+    "morelle_noire"
+  ],
+  "importance_cameroun": "Forte valeur ajoutée marchande, forte intensité en intrants et main-d'œuvre. L'Ouest est le principal bassin maraîcher du pays, approvisionnant Douala, Yaoundé et la sous-région CEMAC.",
+  "role_rotation": "Cultures exigeantes en éléments nutritifs; risque élevé d'accumulation de pathogènes du sol.",
+  "source": "Guide technique maraîchage périurbain IFATI / MINADER"
+}

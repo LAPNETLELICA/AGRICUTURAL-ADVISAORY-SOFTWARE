@@ -1,0 +1,32 @@
+{
+  "titre": "Caractéristiques Physiques et Diagnostic Visuel des Sols du Cameroun",
+  "description": "Méthodes de terrain et observations visuelles pour qualifier le sol en l'absence d'analyses de laboratoire.",
+  "tests_de_terrain": [
+    {
+      "test": "Test du boudin (Texture)",
+      "methode": "Humidifier une poignée de terre et la rouler entre les paumes.",
+      "interpretations": {
+        "impossible_de_former_une_boule": "Texture Sableuse (SOL_SABLEUX)",
+        "boule_formee_mais_boudin_s_effrite": "Texture Limono-sableuse à Limoneuse",
+        "boudin_continu_pliable_en_anneau": "Texture Argileuse lourde (SOL_VERTISOL ou argiles ferrallitiques)"
+      }
+    },
+    {
+      "test": "Diagnostic par la couleur",
+      "interpretations": {
+        "noir_ou_brun_fonce": "Forte teneur en matière organique, bon statut humique (typique SOL_VOLCANIQUE).",
+        "rouge_brique_homogene": "Bonne présence d'oxydes de fer bien aérés, drainage favorable (SOL_FERRALLITIQUE).",
+        "gris_blanchatre_ou_taches_rouille": "Excès d'eau temporaire ou permanent, anoxie racinaire (SOL_HYDROMORPHE). Prudence extrême pour la tomate et la pomme de terre."
+      }
+    },
+    {
+      "test": "Test d'infiltration d'eau (Drainage)",
+      "methode": "Creuser un trou de 30 cm de profondeur, le remplir d'eau et mesurer le temps de ressuyage.",
+      "interpretations": {
+        "eau_disparait_en_moins_de_10_min": "Drainage excessif (SOL_SABLEUX). Risque de lessivage des fertilisants.",
+        "eau_infiltree_entre_30_min_et_2h": "Drainage optimal pour cultures maraîchères et tubercules.",
+        "eau_stagne_plus_de_12h": "Drainage médiocre à nul (SOL_HYDROMORPHE/VERTISOL). Risque d'asphyxie racinaire."
+      }
+    }
+  ]
+}

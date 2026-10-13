@@ -1,0 +1,50 @@
+{
+  "description": "Répartition dominante des types de sol par région administrative du Cameroun",
+  "regions": {
+    "REG_OU": [
+      "SOL_VOLCANIQUE",
+      "SOL_FERRALLITIQUE"
+    ],
+    "REG_NW": [
+      "SOL_VOLCANIQUE",
+      "SOL_FERRALLITIQUE"
+    ],
+    "REG_SW": [
+      "SOL_VOLCANIQUE",
+      "SOL_FERRALLITIQUE",
+      "SOL_HYDROMORPHE"
+    ],
+    "REG_LT": [
+      "SOL_FERRALLITIQUE",
+      "SOL_HYDROMORPHE",
+      "SOL_SABLEUX"
+    ],
+    "REG_CE": [
+      "SOL_FERRALLITIQUE",
+      "SOL_HYDROMORPHE"
+    ],
+    "REG_SU": [
+      "SOL_FERRALLITIQUE",
+      "SOL_HYDROMORPHE"
+    ],
+    "REG_ES": [
+      "SOL_FERRALLITIQUE",
+      "SOL_HYDROMORPHE"
+    ],
+    "REG_AD": [
+      "SOL_FERRUGINEUX",
+      "SOL_FERRALLITIQUE"
+    ],
+    "REG_NO": [
+      "SOL_FERRUGINEUX",
+      "SOL_VERTISOL",
+      "SOL_HYDROMORPHE"
+    ],
+    "REG_EN": [
+      "SOL_VERTISOL",
+      "SOL_FERRUGINEUX",
+      "SOL_SABLEUX",
+      "SOL_HYDROMORPHE"
+    ]
+  }
+}

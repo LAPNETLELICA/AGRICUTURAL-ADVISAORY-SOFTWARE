@@ -1,0 +1,25 @@
+{
+  "code": "REG_ES",
+  "nom": "Est",
+  "chef_lieu": "Bertoua",
+  "zone_agroecologique": "CLIM_ZONE_V",
+  "altitude_m": [
+    600,
+    800
+  ],
+  "sols_dominants": [
+    "SOL_FERRALLITIQUE",
+    "SOL_HYDROMORPHE"
+  ],
+  "cultures_principales": [
+    "cacao",
+    "café",
+    "manioc",
+    "maïs",
+    "plantain"
+  ],
+  "contraintes": [
+    "Enclavement des bassins de production",
+    "Pertes post-récolte"
+  ]
+}

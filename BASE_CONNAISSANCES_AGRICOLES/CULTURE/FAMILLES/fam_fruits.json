@@ -1,0 +1,16 @@
+{
+  "code": "FAM_FRUITS",
+  "nom": "Cultures fruitières",
+  "description": "Arbres et arbustes fruitiers permanents ou semi-pérennes.",
+  "cultures_incluses": [
+    "mangue",
+    "avocat",
+    "papaye",
+    "agrumes",
+    "ananas",
+    "safou"
+  ],
+  "importance_cameroun": "Diversification des revenus ruraux, consommation locale et exportation régionale (safou, avocat, ananas).",
+  "role_rotation": "Cultures pérennes intégrées dans les vergers ou en agroforesterie.",
+  "source": "Fiches fruitières IRAD"
+}

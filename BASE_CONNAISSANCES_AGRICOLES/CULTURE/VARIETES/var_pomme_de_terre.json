@@ -1,0 +1,62 @@
+{
+  "culture_code": "CULT_POMME_DE_TERRE",
+  "description": "Variétés de pomme de terre homologuées et vulgarisées au Cameroun",
+  "varietes": [
+    {
+      "code": "VAR_PDT_CIPIRA",
+      "nom": "Cipira",
+      "origine": "Sélection IRAD / CIP (Centre International de la Pomme de terre)",
+      "cycle_jours": 95,
+      "resistance_tolérance": [
+        "Bonne tolérance au mildiou (Phytophthora infestans)",
+        "Tolérance moyenne au flétrissement bactérien"
+      ],
+      "usage_cameroun": "Variété la plus populaire au Cameroun (Bamboutos, Menoua, Mezam).",
+      "caracteristique_tubercule": "Forme ovale, peau et chair blanches, bonne aptitude culinaire (pomme vapeur, ragoûts)."
+    },
+    {
+      "code": "VAR_PDT_TUBIRA",
+      "nom": "Tubira",
+      "origine": "Sélection IRAD",
+      "cycle_jours": 105,
+      "resistance_tolérance": [
+        "Haute tolérance au mildiou foliaire et des tubercules"
+      ],
+      "usage_cameroun": "Recommandée en grande saison des pluies dans les hauts plateaux.",
+      "caracteristique_tubercule": "Tubercules réguliers, excellente dormance et longue conservation en claies aérées."
+    },
+    {
+      "code": "VAR_PDT_DOSA",
+      "nom": "Dosa",
+      "origine": "Introduction vulgarisée MINADER",
+      "cycle_jours": 90,
+      "resistance_tolérance": [
+        "Sensible au mildiou sous fortes pluies, exige protection fongicide"
+      ],
+      "usage_cameroun": "Saison de contre-saison et zones d'altitude modérée.",
+      "caracteristique_tubercule": "Chair jaune ferme, idéale pour frites et commercialisation urbaine."
+    },
+    {
+      "code": "VAR_PDT_JACOB_2001",
+      "nom": "Jacob 2001",
+      "origine": "Sélection locale IRAD",
+      "cycle_jours": 100,
+      "resistance_tolérance": [
+        "Vigueur végétative élevée, tolérance au stress hydrique modéré"
+      ],
+      "usage_cameroun": "Plantée à Santa, Mbouda et Kumbo.",
+      "caracteristique_tubercule": "Tubercule gros calibre, peau rugueuse résistante aux chocs de manipulation."
+    },
+    {
+      "code": "VAR_PDT_PAMINA",
+      "nom": "Pamina",
+      "origine": "Importation semencière certifiée",
+      "cycle_jours": 85,
+      "resistance_tolérance": [
+        "Cycle précoce évitant le pic du mildiou"
+      ],
+      "usage_cameroun": "Platations hâtives de début mars.",
+      "caracteristique_tubercule": "Qualité gustative supérieure."
+    }
+  ]
+}

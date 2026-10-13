@@ -1,0 +1,26 @@
+{
+  "code": "SOL_FERRUGINEUX",
+  "nom": "Sols ferrugineux tropicaux",
+  "description": "Sols des zones de savane subhumides et semi-arides, caractérisés par une individualisation des oxydes de fer et un lessivage de l'argile.",
+  "couleur": "Beige à ocre rougeâtre",
+  "texture": "Sablo-limoneuse en surface, devenant argileuse en profondeur (horizon B argique)",
+  "drainage": "Moyen à rapide en surface, risque d'encroûtement",
+  "chimie": {
+    "ph_typique": [
+      5.8,
+      6.8
+    ],
+    "matiere_organique_pct": [
+      0.6,
+      1.5
+    ],
+    "particularite": "Faible réserve organique, battance élevée sous fortes averses."
+  },
+  "aptitudes_agricoles": "Coton, sorgho, maïs, arachide, niébé.",
+  "risques": "Formation de croûte de battance empêchant la levée; sensibilité extrême à l'érosion éolienne et hydrique.",
+  "regions_dominantes": [
+    "REG_NO",
+    "REG_EN",
+    "REG_AD"
+  ]
+}

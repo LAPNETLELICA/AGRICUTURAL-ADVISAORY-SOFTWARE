@@ -1,0 +1,20 @@
+{
+  "titre": "Jachères Améliorées et Plantes Améliorantes",
+  "plantes": [
+    {
+      "code": "REST_MUCUNA",
+      "espece": "Mucuna pruriens (Pois mascate)",
+      "effet": "Couverture herbacée dense étouffant les mauvaises herbes (y compris Imperata cylindrica) et fixant plus de 150 kg d'azote/ha en 4 à 6 mois."
+    },
+    {
+      "code": "REST_CROTALARIA",
+      "espece": "Crotalaria ochroleuca / retusa",
+      "effet": "Action nématicide reconnue dans le sol, régénération rapide de la porosité du sol."
+    },
+    {
+      "code": "REST_CAJANUS",
+      "espece": "Cajanus cajan (Pois d'Angole)",
+      "effet": "Arbrisseau à racine pivotante puissante perforant les semelles de labour et recyclant le phosphore profond."
+    }
+  ]
+}

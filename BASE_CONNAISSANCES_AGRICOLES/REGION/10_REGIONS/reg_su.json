@@ -1,0 +1,24 @@
+{
+  "code": "REG_SU",
+  "nom": "Sud",
+  "chef_lieu": "Ebolowa",
+  "zone_agroecologique": "CLIM_ZONE_V",
+  "altitude_m": [
+    500,
+    800
+  ],
+  "sols_dominants": [
+    "SOL_FERRALLITIQUE",
+    "SOL_HYDROMORPHE"
+  ],
+  "cultures_principales": [
+    "cacao",
+    "manioc",
+    "bananier_plantain",
+    "safou"
+  ],
+  "contraintes": [
+    "Acidité élevée des sols",
+    "Faible niveau de mécanisation"
+  ]
+}
