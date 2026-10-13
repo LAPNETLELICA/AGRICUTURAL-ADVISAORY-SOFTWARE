@@ -63,3 +63,13 @@ POSTGRES_PASSWORD=<secret> ./scripts/restore_db.sh /backups/<backup>.dump
 ```
 
 A backup is not considered operationally valid until a restore drill has succeeded.
+
+## Separate dashboard and external knowledge
+
+Deploy this backend from the `backend` branch. It deliberately excludes
+`dashboard/` and `BASE_CONNAISSANCES_AGRICOLES/`. Host the static dashboard from the
+`dashboard` branch, set its `config.js` `API_BASE_URL` to this API, and add that Pages
+origin to `CORS_ORIGINS`. Mount the agricultural knowledge directory externally and set
+`KNOWLEDGE_PATH` to the mount. Enable live weather with
+`WEATHER_PROVIDER=openweathermap` and paste `OPENWEATHERMAP_API_KEY` only in the
+deployment environment.

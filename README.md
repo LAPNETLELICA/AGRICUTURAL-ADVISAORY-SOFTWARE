@@ -353,8 +353,8 @@ cp .env.example .env
 To enable Cameroon real-time weather and voice services, set these values in `.env`:
 
 ```dotenv
-WEATHERAPI_KEY=your_weatherapi_key
-WEATHER_PROVIDER=weatherapi
+WEATHER_PROVIDER=openweathermap
+OPENWEATHERMAP_API_KEY=paste_your_key_here
 
 FISH_AUDIO_API_KEY=your_fish_audio_key
 SPEECH_PROVIDER=fish_audio
@@ -453,12 +453,15 @@ draft profiles are correctly excluded.
 
 **Every answer warns that weather is unavailable**
 
-This is the safe default adapter. Merge/configure a real `WeatherProvider`, or send
+This is the safe default adapter. Configure `WEATHER_PROVIDER=openweathermap` and
+`OPENWEATHERMAP_API_KEY` on the deployed backend, or send
 farmer-observed weather in the request; the uncertainty remains explicit.
 
 **Changes in `BASE_CONNAISSANCES_AGRICOLES/` do not appear**
 
-Restart the V1 process. Knowledge is validated and cached at application startup.
+The deployable `backend` branch deliberately excludes this directory. Mount or otherwise
+provide it outside the repository and set `KNOWLEDGE_PATH` to that location, then restart
+the V1 process. Knowledge is validated and cached at application startup.
 
 **PowerShell blocks activation**
 
