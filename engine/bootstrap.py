@@ -31,6 +31,7 @@ from engine.interfaces.providers import (
 )
 from engine.models.history import InMemoryHistoryProvider
 from engine.models.repositories import (
+    InMemoryConversationRepository,
     InMemoryCropPassportRepository,
     InMemoryRecommendationRepository,
     InMemoryTraceRecorder,
@@ -92,6 +93,7 @@ class ApplicationContainer:
     mobile_formatter: MobileFormatter
     sms_formatter: SMSFormatter
     voice_formatter: VoiceFormatter
+    conversations: InMemoryConversationRepository
 
 
 def build_container(
@@ -206,4 +208,5 @@ def build_container(
         mobile_formatter=MobileFormatter(),
         sms_formatter=SMSFormatter(settings.sms_max_length),
         voice_formatter=VoiceFormatter(),
+        conversations=InMemoryConversationRepository(),
     )

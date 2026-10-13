@@ -10,11 +10,12 @@ Download this handoff from the backend: `GET /api/v1/documentation/mobile-fronte
 
 1. Register or sign in: `POST /auth/register`, `POST /auth/login`; keep the returned token securely.
 2. Load profile: `GET /profile/me`; save language/knowledge level with `PUT /profile/me`.
-3. Start guided help: `POST /questionnaire/start` with farmer ID, region, locality, and profile level.
+3. Start guided help: `POST /questionnaire/start` with farmer ID, region, locality, and profile level. Save its returned `conversation_id`.
 4. Render `step.options` and always show a free-text input because `step.accepts_free_text` is true.
-5. Send selected option or typed text to `POST /questionnaire/answer`. The returned step changes by intent and known location facts.
-6. If the user has supplied enough context, call `POST /questionnaire/complete`. Render `recommendation` as the final advice.
-7. For direct/advanced use, call `POST /advisory/mobile` with the same collected context.
+5. Send selected option or typed text plus `conversation_id` to `POST /questionnaire/answer`. The backend records the exact message, understands it as a new farming question or as an answer to the current prompt, and returns only the next needed question.
+6. When enough context exists, `/questionnaire/answer` returns `complete: true` and `recommendation`; render it immediately. `POST /questionnaire/complete` remains available for an explicitly collected full context.
+7. Reopen a saved conversation with `GET /questionnaire/conversations/{conversation_id}`; it returns the ordered history and collected context. A farmer may keep multiple conversations.
+8. For direct/advanced use, call `POST /advisory/mobile` with the same collected context.
 
 Location rule: region/locality knowledge is used first for local soils, climate, risks and terrain context. Ask the farmer only for missing information. A crop passport or prior context prevents repeated questions.
 
@@ -32,7 +33,8 @@ Location rule: region/locality knowledge is used first for local soils, climate,
 | POST `/auth/register`, `/auth/login` | account and session |
 | GET `/auth/me` | current authenticated account |
 | GET/PUT `/profile/me` | profile, language and knowledge level |
-| POST `/questionnaire/start`, `/answer`, `/complete` | adaptive questionnaire and final recommendation |
+| POST `/questionnaire/start`, `/answer`, `/complete` | adaptive questionnaire and final recommendation; retain and send optional `conversation_id` |
+| GET `/questionnaire/conversations/{conversation_id}` | owned conversation, accumulated context and ordered history |
 | POST `/advisory/mobile` | direct recommendation |
 | POST `/advisory/voice`, `/advisory/transcribe` | spoken advice and voice-to-text |
 | POST `/media/images`; GET/DELETE `/media/images/{image_id}` | protected farmer pictures |

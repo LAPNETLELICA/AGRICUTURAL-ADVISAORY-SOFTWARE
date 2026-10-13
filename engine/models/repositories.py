@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 from threading import RLock
+from copy import deepcopy
 
+from engine.models.conversations import AdvisoryConversation, ConversationMessage
 from engine.models.domain import CropPassport, User
 from engine.models.responses import Recommendation, TraceRecord
 
@@ -72,3 +75,55 @@ class InMemoryUserRepository:
 
     def save(self, user: User) -> User:
         self._users[user.id] = user
+
+
+class InMemoryConversationRepository:
+    """Conversation store used when PostgreSQL is not configured."""
+
+    def __init__(self) -> None:
+        self._items: dict[str, AdvisoryConversation] = {}
+        self._messages: dict[str, list[ConversationMessage]] = {}
+        self._lock = RLock()
+
+    def create(self, conversation: AdvisoryConversation) -> AdvisoryConversation:
+        with self._lock:
+            self._items[conversation.conversation_id] = conversation.model_copy(deep=True)
+            self._messages.setdefault(conversation.conversation_id, [])
+            return conversation.model_copy(deep=True)
+
+    def get(self, conversation_id: str) -> AdvisoryConversation | None:
+        with self._lock:
+            item = self._items.get(conversation_id)
+            return item.model_copy(deep=True) if item else None
+
+    def latest_open(self, farmer_id: str) -> AdvisoryConversation | None:
+        with self._lock:
+            matches = [
+                item for item in self._items.values()
+                if item.farmer_id == farmer_id and item.status == "open"
+            ]
+            if not matches:
+                return None
+            return max(matches, key=lambda item: item.updated_at).model_copy(deep=True)
+
+    def save(self, conversation: AdvisoryConversation) -> AdvisoryConversation:
+        with self._lock:
+            stored = conversation.model_copy(update={"updated_at": datetime.now(UTC)}, deep=True)
+            self._items[stored.conversation_id] = stored
+            return stored.model_copy(deep=True)
+
+    def append_message(self, conversation_id: str, message: ConversationMessage) -> None:
+        with self._lock:
+            if conversation_id not in self._items:
+                raise KeyError(conversation_id)
+            messages = self._messages.setdefault(conversation_id, [])
+            if messages and message.sequence <= messages[-1].sequence:
+                raise ValueError("conversation message sequence must increase")
+            messages.append(message.model_copy(deep=True))
+            self._items[conversation_id] = self._items[conversation_id].model_copy(
+                update={"updated_at": datetime.now(UTC)}
+            )
+
+    def list_messages(self, conversation_id: str) -> list[ConversationMessage]:
+        with self._lock:
+            return deepcopy(self._messages.get(conversation_id, []))

@@ -109,7 +109,9 @@ def create_app(
         resolved_container,
         resolved_settings.auth_store_path.parent / "notifications.json",
     )
-    app.state.questionnaire_service = QuestionnaireService(resolved_container.knowledge)
+    app.state.questionnaire_service = QuestionnaireService(
+        resolved_container.knowledge, resolved_container.conversations
+    )
     media_storage = PrivateFilesystemStorage(resolved_settings.media_storage_path)
     app.state.media_service = MediaService(
         media_storage,

@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
 
 from api.dependencies import ContainerDependency
@@ -17,6 +17,7 @@ class StartPayload(BaseModel):
     region: str | None = None
     locality: str | None = None
     profile_level: str = "beginner"
+    conversation_id: str | None = None
 
 
 class AnswerPayload(StartPayload):
@@ -25,23 +26,52 @@ class AnswerPayload(StartPayload):
 
 class CompletePayload(BaseModel):
     context: dict[str, Any]
+    conversation_id: str | None = None
 
 
 @router.post("/start")
 def start(payload: StartPayload, request: Request, principal: PrincipalDependency) -> dict[str, Any]:
     enforce_owner(principal, payload.farmer_id)
-    step = request.app.state.questionnaire_service.start(
-        **payload.model_dump(exclude={"farmer_id"})
+    result = request.app.state.questionnaire_service.start_conversation(
+        **payload.model_dump(exclude={"farmer_id", "conversation_id"}), farmer_id=payload.farmer_id
     )
-    return {"complete": False, "step": step}
+    return {"complete": False, "conversation_id": result.conversation.conversation_id, "step": result.step}
 
 
 @router.post("/answer")
-def answer(payload: AnswerPayload, request: Request, principal: PrincipalDependency) -> dict[str, Any]:
+def answer(
+    payload: AnswerPayload,
+    request: Request,
+    container: ContainerDependency,
+    principal: PrincipalDependency,
+) -> dict[str, Any]:
     enforce_owner(principal, payload.farmer_id)
-    context = payload.model_dump(exclude={"answer", "profile_level"})
-    step = request.app.state.questionnaire_service.answer(context, payload.answer)
-    return {"complete": False, "step": step}
+    conversation_id = payload.conversation_id
+    if conversation_id is None:
+        active = request.app.state.container.conversations.latest_open(payload.farmer_id)
+        if active is None:
+            raise HTTPException(status_code=400, detail="No open conversation; call /questionnaire/start first")
+        conversation_id = active.conversation_id
+    try:
+        result = request.app.state.questionnaire_service.receive_message(conversation_id, payload.answer)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="Conversation not found") from exc
+    if result.conversation.farmer_id != payload.farmer_id:
+        raise HTTPException(status_code=403, detail="Conversation does not belong to farmer")
+    if result.ready_request is not None:
+        recommendation = container.engine.advise(AdvisoryRequest.from_mobile(result.ready_request))
+        return {"complete": True, "conversation_id": conversation_id, "recommendation": recommendation}
+    return {"complete": False, "conversation_id": conversation_id, "step": result.step}
+
+
+@router.get("/conversations/{conversation_id}")
+def conversation_history(conversation_id: str, request: Request, principal: PrincipalDependency) -> dict[str, Any]:
+    try:
+        conversation, messages = request.app.state.questionnaire_service.get_conversation(conversation_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail="Conversation not found") from exc
+    enforce_owner(principal, conversation.farmer_id)
+    return {"conversation_id": conversation_id, "status": conversation.status, "context": conversation.context, "messages": messages, "recommendation": conversation.recommendation}
 
 
 @router.post("/complete")
