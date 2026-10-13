@@ -19,7 +19,7 @@ COPY engine ./engine
 COPY integrations ./integrations
 COPY languages ./languages
 COPY services ./services
-COPY dashboard ./dashboard
+#COPY dashboard ./dashboard
 COPY migrations ./migrations
 COPY BASE_CONNAISSANCES_AGRICOLES ./BASE_CONNAISSANCES_AGRICOLES
 COPY scripts ./scripts
