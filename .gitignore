@@ -19,6 +19,5 @@ build/
 .DS_Store
 .worktrees/
 dashboard/
-BASE_CONNAISSANCES_AGRICOLES/
 runtime/
 *.zip
