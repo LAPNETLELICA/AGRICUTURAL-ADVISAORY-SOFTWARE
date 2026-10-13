@@ -89,3 +89,4 @@ def test_ingestion_pipeline_does_not_modify_active_base(tmp_path: Path) -> None:
     assert len(reviews_generated) >= 1
     staged = staging.list_staged_items()
     assert len(staged) >= 1
+

@@ -110,3 +110,4 @@ def normalize_region_id(region_id: str) -> str:
 def normalize_soil_id(soil_id: str) -> str:
     cleaned = soil_id.strip().lower()
     return SOIL_ALIASES.get(cleaned, soil_id.strip().upper())
+

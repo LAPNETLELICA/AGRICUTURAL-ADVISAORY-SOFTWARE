@@ -212,3 +212,4 @@ class KnowledgeRelease(CompatibleBaseModel):
     total_regions: int
     sources: list[str] = Field(default_factory=list)
     changelog: list[str] = Field(default_factory=list)
+

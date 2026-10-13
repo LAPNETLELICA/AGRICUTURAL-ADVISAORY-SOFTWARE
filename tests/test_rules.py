@@ -57,3 +57,4 @@ def test_rule_has_source_reference() -> None:
     src = rule.source_refs[0]
     assert src.source_id == "DOC_MINEFOP_IFATI_TOMATE"
     assert "IFATI" in src.organization
+

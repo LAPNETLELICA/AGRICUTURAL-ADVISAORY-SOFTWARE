@@ -31,3 +31,4 @@ def test_dump_snapshot_to_json(tmp_path: Path) -> None:
     assert "CULT_TOMATE" in content
     assert "REG_OU" in content
     assert "RULE_CULT_TOMATE" in content
+

@@ -63,3 +63,4 @@ class IngestionPipeline:
             generated_reviews.append(review)
 
         return generated_reviews
+

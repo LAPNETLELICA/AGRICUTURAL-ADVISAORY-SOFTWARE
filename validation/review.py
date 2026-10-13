@@ -101,3 +101,4 @@ class ReviewManager:
 
     def list_pending_reviews(self) -> list[ValidationReview]:
         return [r for r in self._reviews.values() if r.status == KnowledgeStatus.PENDING_REVIEW]
+

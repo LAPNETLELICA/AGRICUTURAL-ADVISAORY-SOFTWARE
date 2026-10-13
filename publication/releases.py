@@ -145,3 +145,4 @@ class ReleaseManager:
             "author": active.author,
             "changelog": active.changelog,
         }]
+

@@ -37,3 +37,4 @@ def test_publish_new_release(tmp_path: Path) -> None:
     # Relire la release active
     active = mgr.get_active_release()
     assert active.release_id == "CM-KNOWLEDGE-2026.11.0"
+

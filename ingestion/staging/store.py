@@ -57,3 +57,4 @@ class StagingStore:
     def clear(self) -> None:
         if self.proposals_file.exists():
             self.proposals_file.unlink()
+

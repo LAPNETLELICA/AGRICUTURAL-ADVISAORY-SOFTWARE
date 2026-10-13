@@ -137,3 +137,4 @@ def get_source_reference(source_id: str, page: str | None = None, section: str |
         publication_date=str(doc.publication_year) if doc.publication_year else None,
         authority_level=doc.authority_level,
     )
+

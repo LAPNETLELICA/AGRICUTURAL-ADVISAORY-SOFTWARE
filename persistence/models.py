@@ -127,3 +127,4 @@ except ImportError:
         author = Column(String(150))
         manifest = Column(JSON)
         published_at = Column(DateTime, default=datetime.utcnow)
+
