@@ -1,0 +1,83 @@
+{
+  "code": "CULT_POMME_DE_TERRE",
+  "nom_courant": "Pomme de terre",
+  "nom_scientifique": "Solanum tuberosum",
+  "famille_code": "FAM_TUBERCULES_RACINES",
+  "groupe_culture": "Tubercule de montagne",
+  "cycle_jours": {
+    "min": 85,
+    "optimal": 105,
+    "max": 120
+  },
+  "caracteristiques_cycle": {
+    "levee_jours": 14,
+    "croissance_foliaire_jours": 25,
+    "tuberisation_floraison_jours": 30,
+    "grossissement_tubercules_jours": 25,
+    "senescence_recolte_jours": 15
+  },
+  "conditions_generales": "Culture tempérée d'altitude (> 1000m au Cameroun). Exige des températures fraîches nocturnes (12-16°C) pour induire la tubérisation et un sol meuble et aéré.",
+  "varietes_recommandees": [
+    "VAR_PDT_CIPIRA",
+    "VAR_PDT_TUBIRA",
+    "VAR_PDT_DOSA",
+    "VAR_PDT_JACOB_2001",
+    "VAR_PDT_PAMINA"
+  ],
+  "liens_dossiers": {
+    "sols_favorables": [
+      "SOL_VOLCANIQUE",
+      "SOL_FERRALLITIQUE"
+    ],
+    "sols_defavorables": [
+      "SOL_HYDROMORPHE",
+      "SOL_VERTISOL",
+      "SOL_SABLEUX"
+    ],
+    "regions_principales": [
+      "REG_OU",
+      "REG_NW",
+      "REG_AD"
+    ],
+    "zones_climatiques": [
+      "CLIM_ZONE_III",
+      "CLIM_ZONE_II"
+    ],
+    "calendriers_references": [
+      "CAL_PDT_OU_S1",
+      "CAL_PDT_OU_S2"
+    ],
+    "pratiques_cles": [
+      "PRAT_BUTTAGE_01",
+      "PRAT_SELECTION_SEMENCE_01",
+      "PRAT_ROTATION_01"
+    ],
+    "engrais_recommandes": [
+      "ENG_NPK_12_14_19",
+      "ENG_NPK_20_10_10",
+      "ENG_COMPOST_FERMIER"
+    ],
+    "ravageurs_majeurs": [
+      "RAV_PUCERON",
+      "RAV_TEIGNE_PDT",
+      "RAV_NEMATODE"
+    ],
+    "topographies_adaptees": [
+      "TOPO_HAUTS_PLATEAUX",
+      "TOPO_PENTE_AMENAGEE"
+    ]
+  },
+  "besoins": {
+    "eau_mm": "500 à 700 mm",
+    "temperature_optimale_c": [
+      15,
+      20
+    ],
+    "ph_optimal": [
+      5.2,
+      6.2
+    ]
+  },
+  "source": "Guide pratique de la culture de la pomme de terre en Afrique de l'Ouest et du Centre (CDE / MINADER, Félix Teouaba) & FiBL",
+  "date_mise_a_jour": "2026-09-29"
+}

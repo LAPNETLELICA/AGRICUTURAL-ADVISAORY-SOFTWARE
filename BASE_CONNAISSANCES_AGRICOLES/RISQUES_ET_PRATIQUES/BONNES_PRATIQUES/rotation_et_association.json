@@ -1,0 +1,16 @@
+{
+  "code": "PRAT_ROTATION_01",
+  "titre": "Règles d'Assolement et Rotation des Cultures au Cameroun",
+  "regle_fondamentale": "Ne JAMAIS faire succéder une Solanacée à une autre Solanacée (ex: Tomate après Pomme de terre, ou Tomate après Piment). Respecter un délai d'au moins 3 à 4 ans.",
+  "raisons_techniques": [
+    "Rupture du cycle du flétrissement bactérien (Ralstonia solanacearum) dont les bactéries survivent plusieurs années dans le sol.",
+    "Élimination des nématodes à galles (Meloidogyne spp.).",
+    "Évite l'épuisement spécifique des éléments minéraux (potassium et phosphore)."
+  ],
+  "rotation_type_recommandee": [
+    "Année 1 : Solanacée (Tomate ou Pomme de terre) avec fumure organique abondante",
+    "Année 2 : Céréale (Maïs) pour recycler l'azote résiduel et nettoyer le sol",
+    "Année 3 : Légumineuse (Haricot commun, Soja, Arachide) pour fixer l'azote atmosphérique",
+    "Année 4 : Culture nettoyante ou légume-racine non hôte (Manioc, Patate douce ou jachère améliorée)"
+  ]
+}

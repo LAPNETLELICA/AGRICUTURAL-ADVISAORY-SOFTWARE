@@ -1,0 +1,40 @@
+{
+  "code": "CULT_BANANIER_PLANTAIN",
+  "nom_courant": "Bananier plantain",
+  "nom_scientifique": "Musa paradisiaca",
+  "famille_code": "FAM_BANANES_PLANTAINS",
+  "groupe_culture": "Herbacée géante fruitière",
+  "cycle_jours": {
+    "min": 300,
+    "optimal": 365,
+    "max": 420
+  },
+  "conditions_generales": "Exige des sols profonds, très riches en matière organique et en potassium, avec une hygrométrie élevée et une protection contre les vents violents.",
+  "varietes_recommandees": [
+    "VAR_PLANTAIN_BATARD",
+    "VAR_PLANTAIN_BIG_EBANGA"
+  ],
+  "liens_dossiers": {
+    "sols_favorables": [
+      "SOL_VOLCANIQUE",
+      "SOL_FERRALLITIQUE"
+    ],
+    "sols_defavorables": [
+      "SOL_HYDROMORPHE",
+      "SOL_SABLEUX"
+    ],
+    "regions_principales": [
+      "REG_LT",
+      "REG_SW",
+      "REG_CE",
+      "REG_SU",
+      "REG_OU"
+    ],
+    "zones_climatiques": [
+      "CLIM_ZONE_IV",
+      "CLIM_ZONE_V"
+    ]
+  },
+  "source": "Fiches techniques CARBAP Njombé",
+  "date_mise_a_jour": "2026-09-29"
+}

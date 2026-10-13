@@ -1,0 +1,34 @@
+{
+  "culture_code": "CULT_POMME_DE_TERRE",
+  "exigences_pedologiques": {
+    "profondeur_minimale_cm": 35,
+    "ph_optimal": [
+      5.0,
+      6.2
+    ],
+    "drainage_requis": "Excellente porosité et aération",
+    "sensibilite_asphyxie": "Très élevée (asphyxie des lenticelles et pourriture bactérienne Erwinia)",
+    "sols_favorables": [
+      {
+        "code": "SOL_VOLCANIQUE",
+        "appreciation": "Optimal absolu",
+        "commentaires": "Facilité de billonnage, grossissement libre des tubercules, faible résistance mécanique."
+      },
+      {
+        "code": "SOL_FERRALLITIQUE",
+        "appreciation": "Favorable si meuble",
+        "commentaires": "Nécessite un labour profond et un bon buttage."
+      }
+    ],
+    "sols_defavorables": [
+      {
+        "code": "SOL_HYDROMORPHE",
+        "motif": "Pourriture immédiate des semences et des tubercules formés."
+      },
+      {
+        "code": "SOL_VERTISOL",
+        "motif": "Obstacle physique à la tubérisation, arrachage difficile endommageant les tubercules."
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "code": "REG_SW",
+  "nom": "Sud-Ouest",
+  "chef_lieu": "Buea",
+  "zone_agroecologique": "CLIM_ZONE_IV",
+  "altitude_m": [
+    0,
+    1800
+  ],
+  "sols_dominants": [
+    "SOL_VOLCANIQUE",
+    "SOL_FERRALLITIQUE"
+  ],
+  "cultures_principales": [
+    "banane_export",
+    "palmier_a_huile",
+    "cacao",
+    "poivre_de_penja",
+    "tomate"
+  ],
+  "contraintes": [
+    "Humidité atmosphérique extrême",
+    "Pluviométrie record à Debundscha"
+  ]
+}

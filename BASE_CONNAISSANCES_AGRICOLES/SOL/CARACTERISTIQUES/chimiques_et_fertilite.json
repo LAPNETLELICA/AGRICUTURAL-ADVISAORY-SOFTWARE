@@ -1,0 +1,46 @@
+{
+  "titre": "Paramètres Chimiques et Seuils de Fertilité",
+  "parametres": {
+    "ph_eau": {
+      "tres_acide": {
+        "intervalle": [
+          3.8,
+          4.9
+        ],
+        "diagnostic": "Toxicité aluminique possible, blocage du phosphore. Amendement calcaire impératif."
+      },
+      "acide": {
+        "intervalle": [
+          5.0,
+          5.8
+        ],
+        "diagnostic": "Adapté à la pomme de terre et au manioc. Tomate nécessite chaulage léger."
+      },
+      "optimal": {
+        "intervalle": [
+          5.9,
+          6.8
+        ],
+        "diagnostic": "Zone idéale pour la majorité des cultures maraîchères."
+      },
+      "alcalin": {
+        "intervalle": [
+          7.5,
+          8.5
+        ],
+        "diagnostic": "Blocage des oligo-éléments (fer, zinc)."
+      }
+    },
+    "matiere_organique": {
+      "carence_critique": "< 1.5%",
+      "moyen": "1.5% - 2.8%",
+      "riche": "> 3.0% (présent dans les sols volcaniques d'altitude)"
+    },
+    "elements_nutritifs_majeurs": {
+      "azote_n": "Moteur du développement végétatif foliaire.",
+      "phosphore_p2o5": "Développement racinaire et floraison; très souvent fixé sur les sols volcaniques et ferrallitiques camerounais.",
+      "potassium_k2o": "Remplissage des tubercules de pomme de terre et qualité gustative/fermeté de la tomate.",
+      "calcium_ca": "Essentiel contre la nécrose apicale ('cul noir') de la tomate."
+    }
+  }
+}

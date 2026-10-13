@@ -1,0 +1,26 @@
+{
+  "code": "REG_LT",
+  "nom": "Littoral",
+  "chef_lieu": "Douala",
+  "zone_agroecologique": "CLIM_ZONE_IV",
+  "altitude_m": [
+    0,
+    300
+  ],
+  "sols_dominants": [
+    "SOL_FERRALLITIQUE",
+    "SOL_HYDROMORPHE",
+    "SOL_SABLEUX"
+  ],
+  "cultures_principales": [
+    "palmier_a_huile",
+    "banane",
+    "cacao",
+    "manioc",
+    "maraîchage"
+  ],
+  "contraintes": [
+    "Pluies diluviennes (> 3500 mm)",
+    "Engorgement rapide des bas-fonds"
+  ]
+}

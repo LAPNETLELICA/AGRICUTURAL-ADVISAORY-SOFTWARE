@@ -1,0 +1,25 @@
+{
+  "code": "SOL_SABLEUX",
+  "nom": "Sols sableux dunaires",
+  "description": "Sols filtrants des cordons sableux de l'Extrême-Nord et du littoral côtier.",
+  "couleur": "Jaune clair à gris blanchâtre",
+  "texture": "Sableuse grossière",
+  "drainage": "Excessif",
+  "chimie": {
+    "ph_typique": [
+      5.5,
+      7.0
+    ],
+    "matiere_organique_pct": [
+      0.2,
+      0.8
+    ],
+    "particularite": "Très faible rétention d'eau et de nutriments minéraux."
+  },
+  "aptitudes_agricoles": "Niébé, manioc doux, arachide.",
+  "risques": "Sécheresse rapide, lessivage instantané des engrais solubles.",
+  "regions_dominantes": [
+    "REG_EN",
+    "REG_LT"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "culture_code": "CULT_POMME_DE_TERRE",
+  "ravageurs_principaux": [
+    {
+      "code": "RAV_PUCERON",
+      "nom": "Pucerons (Myzus persicae)",
+      "degats": "Colonies sur jeunes pousses suçant la sève et transmettant les virus de dégénérescence des semences (PVY, PLRV).",
+      "mesures": "Pulvérisation d'extraits savonneux ou insecticide sélectif dès apparition des premières colonies."
+    },
+    {
+      "code": "RAV_TEIGNE_PDT",
+      "nom": "Teigne de la pomme de terre (Phthorimaea operculella)",
+      "degats": "Galeries creusées dans les feuilles et surtout dans les tubercules en champ et en magasin de stockage.",
+      "mesures": "Buttage haut et soigné pour que les tubercules ne soient jamais exposés à la lumière ni aux papillons pontes; protection des stocks avec feuilles sèches d'eucalyptus ou de neem."
+    },
+    {
+      "code": "RAV_NEMATODE",
+      "nom": "Nématodes à galles (Meloidogyne spp.)",
+      "degats": "Galles sur racines et déformation pustuleuse des tubercules.",
+      "mesures": "Rotation de 4 ans minimum; incorporation de tourteau de neem ou culture intercalaire de Tagetes (œillet d'Inde)."
+    }
+  ]
+}

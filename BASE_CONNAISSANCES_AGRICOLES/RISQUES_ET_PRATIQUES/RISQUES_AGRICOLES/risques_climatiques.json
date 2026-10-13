@@ -1,0 +1,20 @@
+{
+  "titre": "Risques Climatiques et Mesures Préventives au Cameroun",
+  "risques": [
+    {
+      "code": "RISQ_SECHERESSE_PRECOCE",
+      "description": "Fausse installation des pluies en mars suivie de 2 à 3 semaines de sécheresse.",
+      "mesures": "Attendre impérativement 3 événements pluvieux significatifs avant le semis généralisé; paillage épais."
+    },
+    {
+      "code": "RISQ_PLUIES_TORRENTIELLES",
+      "description": "Averses violentes provoquant la battance des sols et le ravinement des billons.",
+      "mesures": "Aménagements anti-érosifs, billonnage selon les courbes de niveau, maintien d'une couverture végétale."
+    },
+    {
+      "code": "RISQ_COULURE_FLORALE",
+      "description": "Coulure des fleurs de tomate provoquée par des températures diurnes > 32°C ou un air excessivement sec.",
+      "mesures": "Irrigation régulière au pied, brise-vents vivants, choix de variétés thermotolérantes."
+    }
+  ]
+}

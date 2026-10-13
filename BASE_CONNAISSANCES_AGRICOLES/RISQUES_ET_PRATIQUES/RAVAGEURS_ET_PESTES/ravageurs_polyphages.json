@@ -1,0 +1,17 @@
+{
+  "titre": "Ravageurs Polyphages Généraux",
+  "ravageurs": [
+    {
+      "code": "RAV_CRIQUET_PUANT",
+      "nom": "Criquet puant (Zonocerus variegatus)",
+      "degats": "Défoliation massive et destruction des tiges en saison sèche dans tout le Sud Cameroun.",
+      "mesures": "Destruction manuelle des manchons de larves au lever du jour; débroussaillement des abords."
+    },
+    {
+      "code": "RAV_VERS_GRIS",
+      "nom": "Vers gris / Noctuelles terricoles (Agrotis spp.)",
+      "degats": "Sectionnement des plantules au niveau du collet pendant la nuit.",
+      "mesures": "Arrosage au collet avec macération d'ail ou purin de piment."
+    }
+  ]
+}

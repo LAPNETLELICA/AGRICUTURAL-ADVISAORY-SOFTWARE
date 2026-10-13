@@ -1,0 +1,21 @@
+{
+  "titre": "Gestion et Restauration de la Matière Organique",
+  "description": "Entretien du stock humique indispensable à la fertilité et à la rétention d'eau.",
+  "pratiques": [
+    {
+      "pratique": "Apport de fientes de volaille compostées",
+      "dose_indicative": "5 à 10 t/ha (0.5 à 1 kg/poquet).",
+      "effet": "Remontée rapide de l'activité biologique, apport en phosphore et azote organique."
+    },
+    {
+      "pratique": "Compost de résidus végétaux et fumier de ferme",
+      "dose_indicative": "15 à 25 t/ha tous les 2 ans.",
+      "effet": "Amélioration de la capacité d'échange cationique et restructuration des sols battants."
+    },
+    {
+      "pratique": "Paillage végétal (Mulching)",
+      "materiaux": "Paille de graminées, herbe sèche, feuilles de bananier.",
+      "effet": "Freine l'évaporation, protège le sol contre le choc des gouttes de pluie et fournit de la matière organique en se dégradant."
+    }
+  ]
+}

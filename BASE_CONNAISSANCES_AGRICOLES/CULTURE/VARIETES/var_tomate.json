@@ -1,0 +1,63 @@
+{
+  "culture_code": "CULT_TOMATE",
+  "description": "Variétés de tomate recommandées et cultivées au Cameroun",
+  "varietes": [
+    {
+      "code": "VAR_TOM_COBRA",
+      "nom": "Cobra F1",
+      "type_croissance": "Indéterminée vigoureuse",
+      "cycle_jours": 120,
+      "resistance_tolérance": [
+        "Tolérance élevée au flétrissement bactérien (Ralstonia solanacearum)",
+        "Tolérance modérée au mildiou"
+      ],
+      "usage_cameroun": "Variété de référence dans l'Ouest (Foumbot, Galim, Dschang) pour sa rusticité en saison humide.",
+      "caracteristique_fruit": "Fruit ferme, rouge vif, rond, poids moyen 130-150g, bonne tenue au transport interurbain."
+    },
+    {
+      "code": "VAR_TOM_NADIRA",
+      "nom": "Nadira F1",
+      "type_croissance": "Indéterminée",
+      "cycle_jours": 125,
+      "resistance_tolérance": [
+        "Résistance au TYLCV (virus des feuilles jaunes en cuillère)",
+        "Tolérant aux nématodes"
+      ],
+      "usage_cameroun": "Recommandée en basse altitude et en saison sèche sous forte pression d'aleurodes.",
+      "caracteristique_fruit": "Fruits homogènes, excellente conservation post-récolte."
+    },
+    {
+      "code": "VAR_TOM_RIO_GRANDE",
+      "nom": "Rio Grande",
+      "type_croissance": "Déterminée",
+      "cycle_jours": 110,
+      "resistance_tolérance": [
+        "Tolérance à la verticilliose et fusariose"
+      ],
+      "usage_cameroun": "Très cultivée par les petits producteurs pour son coût de semence modéré et sa rusticité.",
+      "caracteristique_fruit": "Fruit allongé type 'Roma', très ferme, idéal pour le transport sur pistes rugueuses."
+    },
+    {
+      "code": "VAR_TOM_LINDO",
+      "nom": "Lindo F1",
+      "type_croissance": "Indéterminée",
+      "cycle_jours": 130,
+      "resistance_tolérance": [
+        "Bonne tolérance aux craquements des fruits sous pluies intenses"
+      ],
+      "usage_cameroun": "Bassin de Bafoussam et Dschang.",
+      "caracteristique_fruit": "Gros calibre (160-180g), chair dense."
+    },
+    {
+      "code": "VAR_TOM_PANTHERE_17",
+      "nom": "Panthère 17",
+      "type_croissance": "Indéterminée",
+      "cycle_jours": 120,
+      "resistance_tolérance": [
+        "Tolérance aux maladies foliaires tropicales"
+      ],
+      "usage_cameroun": "Bassin maraîcher de l'Ouest et du Littoral.",
+      "caracteristique_fruit": "Très productif sous abri ou tuteurage soigné."
+    }
+  ]
+}
