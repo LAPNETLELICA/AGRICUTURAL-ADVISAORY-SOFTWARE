@@ -1,62 +1,15 @@
-from knowledge.repository import KnowledgeRepository
+from repositories import CameroonKnowledgeRepository
 
 
-def test_tomato_profile_exists():
-    repo = KnowledgeRepository()
-    profile = repo.get_crop_profile("tomato")
-    assert profile is not None
-    assert profile.crop_id == "tomato"
-    assert profile.name == "Tomate"
-    assert profile.family == "Solanaceae"
-    assert profile.cycle_days == 125
-    assert profile.cycle_length_days == 125
-    assert "pepiniere" in profile.growth_stages
-    assert "recolte" in profile.growth_stages
-    assert profile.tolerances.get("optimal_temperature_c") == [20, 24]
-    assert profile.tolerances.get("optimal_ph") == [5.5, 7.0]
+def test_base_is_canonical_and_lists_crops() -> None:
+    repo = CameroonKnowledgeRepository()
+    crops = repo.list_crops()
+    assert crops
+    assert any(crop.get("code") == "CULT_TOMATE" for crop in crops)
 
 
-def test_tomato_rules_are_crop_scoped():
-    repo = KnowledgeRepository()
-    rules = repo.get_relevant_rule_definitions("tomato", ["soil", "weather", "timing"])
-    assert rules
-    assert all(rule.crop_id == "tomato" for rule in rules)
-
-
-def test_tomato_rules_coverage():
-    repo = KnowledgeRepository()
-    expected_trees = {"profile", "soil", "region", "topography", "weather", "timing", "practices_risks"}
-    rules = [r for r in repo.get_rules() if r.crop_id == "tomato"]
-    assert len(rules) >= 7
-    found_trees = {r.tree for r in rules}
-    assert expected_trees.issubset(found_trees)
-
-
-def test_crops_in_repository():
-    repo = KnowledgeRepository()
-    crops = repo.get_crop_ids()
-    assert set(crops) == {"tomato", "irish-potato"}
-
-
-def test_irish_potato_profile_exists():
-    repo = KnowledgeRepository()
-    profile = repo.get_crop_profile("irish-potato")
-    assert profile is not None
-    assert profile.crop_id == "irish-potato"
-    assert profile.name == "Pomme de terre"
-    assert profile.family == "Solanaceae"
-    assert profile.cycle_days == 100
-    assert profile.cycle_length_days == 100
-    assert "planting" in profile.growth_stages
-    assert "maturity" in profile.growth_stages
-    assert profile.tolerances.get("optimal_temperature_c") == [15, 20]
-    assert profile.tolerances.get("optimal_ph") == [5.0, 6.5]
-
-
-def test_irish_potato_rules_coverage():
-    repo = KnowledgeRepository()
-    expected_trees = {"profile", "soil", "region", "topography", "weather", "timing", "practices_risks"}
-    rules = [r for r in repo.get_rules() if r.crop_id == "irish-potato"]
-    assert len(rules) >= 7
-    found_trees = {r.tree for r in rules}
-    assert expected_trees.issubset(found_trees)
+def test_get_crop_accepts_short_code() -> None:
+    repo = CameroonKnowledgeRepository()
+    crop = repo.get_crop("TOMATE")
+    assert crop is not None
+    assert crop["code"] == "CULT_TOMATE"

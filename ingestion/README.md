@@ -1,0 +1,3 @@
+# Pipeline d'ingestion
+
+Pipeline cible : DISCOVER -> FETCH -> SNAPSHOT -> EXTRACT -> NORMALIZE -> COMPARE -> STAGE -> HUMAN REVIEW -> VALIDATE -> RELEASE -> PUBLISH.

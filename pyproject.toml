@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agrisense-cameroon-knowledge-backend"
+version = "2.0.0"
+description = "AgriSense Backend2 - canonical Cameroon agricultural knowledge service"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "fastapi>=0.115,<1.0",
+  "pydantic>=2.10,<3.0",
+  "uvicorn[standard]>=0.30,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx>=0.28,<1.0",
+  "mypy>=1.14,<2.0",
+  "pytest>=8.3,<9.0",
+  "pytest-cov>=6.0,<7.0",
+  "ruff>=0.9,<1.0",
+]
+
+[project.scripts]
+agrisense-knowledge-api = "api.app:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["api", "repositories", "schemas", "services", "validation", "sources", "ingestion", "publication", "BASE_CONNAISSANCES_AGRICOLES"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["api", "repositories", "schemas", "services", "validation"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["api", "repositories", "schemas", "services", "validation"]
