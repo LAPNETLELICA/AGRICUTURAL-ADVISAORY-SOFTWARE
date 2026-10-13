@@ -54,7 +54,7 @@ from integrations.speech.fish_audio import FishAudioSpeechProvider
 from integrations.speech.groq import GroqTranscriptionProvider
 from integrations.translation.passthrough import PassthroughTranslator
 from integrations.weather.providers import UnavailableWeatherProvider
-from integrations.weather.weatherapi import WeatherAPIProvider
+from integrations.weather.openweathermap import OpenWeatherMapProvider
 
 
 def _configured_key(value: str | None) -> bool:
@@ -165,9 +165,9 @@ def build_container(
         weather_provider=(
             weather_provider
             or (
-                WeatherAPIProvider(settings.weatherapi_key)
-                if settings.weather_provider == "weatherapi"
-                and _configured_key(settings.weatherapi_key)
+                OpenWeatherMapProvider(settings.openweathermap_api_key)
+                if settings.weather_provider == "openweathermap"
+                and _configured_key(settings.openweathermap_api_key)
                 else UnavailableWeatherProvider()
             )
         ),

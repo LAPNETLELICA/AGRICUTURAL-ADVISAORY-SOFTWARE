@@ -16,8 +16,8 @@ def test_settings_from_environment(monkeypatch):
     monkeypatch.setenv("CORS_ORIGINS", "https://one.example, https://two.example")
     monkeypatch.setenv("GROQ_API_KEY", "gsk-test")
     monkeypatch.setenv("FISH_AUDIO_API_KEY", "fish-test")
-    monkeypatch.setenv("WEATHERAPI_KEY", "weather-test")
-    monkeypatch.setenv("WEATHER_PROVIDER", "weatherapi")
+    monkeypatch.setenv("OPENWEATHERMAP_API_KEY", "weather-test")
+    monkeypatch.setenv("WEATHER_PROVIDER", "openweathermap")
     monkeypatch.setenv("SPEECH_PROVIDER", "fish_audio")
     monkeypatch.setenv("TRANSCRIPTION_PROVIDER", "groq")
     settings = Settings.from_env()
@@ -30,7 +30,8 @@ def test_settings_from_environment(monkeypatch):
     assert settings.cors_origins == ("https://one.example", "https://two.example")
     assert settings.groq_api_key == "gsk-test"
     assert settings.fish_audio_api_key == "fish-test"
-    assert settings.weatherapi_key == "weather-test"
+    assert settings.openweathermap_api_key == "weather-test"
+    assert settings.weather_provider == "openweathermap"
     assert settings.transcription_provider == "groq"
 
 
@@ -39,8 +40,8 @@ def test_settings_loads_provider_keys_from_project_dotenv(monkeypatch, tmp_path)
     (tmp_path / ".env").write_text(
         "GROQ_API_KEY=gsk-from-dotenv\n"
         "FISH_AUDIO_API_KEY=fish-from-dotenv\n"
-        "WEATHERAPI_KEY=weather-from-dotenv\n"
-        "WEATHER_PROVIDER=weatherapi\n"
+        "OPENWEATHERMAP_API_KEY=weather-from-dotenv\n"
+        "WEATHER_PROVIDER=openweathermap\n"
         "SPEECH_PROVIDER=fish_audio\n"
         "TRANSCRIPTION_PROVIDER=groq\n",
         encoding="utf-8",
@@ -49,7 +50,7 @@ def test_settings_loads_provider_keys_from_project_dotenv(monkeypatch, tmp_path)
     for variable in (
         "GROQ_API_KEY",
         "FISH_AUDIO_API_KEY",
-        "WEATHERAPI_KEY",
+        "OPENWEATHERMAP_API_KEY",
         "WEATHER_PROVIDER",
         "SPEECH_PROVIDER",
         "TRANSCRIPTION_PROVIDER",
@@ -60,8 +61,8 @@ def test_settings_loads_provider_keys_from_project_dotenv(monkeypatch, tmp_path)
 
     assert settings.groq_api_key == "gsk-from-dotenv"
     assert settings.fish_audio_api_key == "fish-from-dotenv"
-    assert settings.weatherapi_key == "weather-from-dotenv"
-    assert settings.weather_provider == "weatherapi"
+    assert settings.openweathermap_api_key == "weather-from-dotenv"
+    assert settings.weather_provider == "openweathermap"
     assert settings.speech_provider == "fish_audio"
     assert settings.transcription_provider == "groq"
 
@@ -69,8 +70,8 @@ def test_settings_loads_provider_keys_from_project_dotenv(monkeypatch, tmp_path)
 def test_placeholder_provider_keys_keep_safe_fallbacks():
     settings = Settings(
         knowledge_path=Path(__file__).resolve().parents[1] / "BASE_CONNAISSANCES_AGRICOLES",
-        weather_provider="weatherapi",
-        weatherapi_key="your_actual_weatherapi_key_here",
+        weather_provider="openweathermap",
+        openweathermap_api_key="your_actual_openweathermap_key_here",
         speech_provider="fish_audio",
         fish_audio_api_key="your_actual_fish_audio_key_here",
         transcription_provider="groq",

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import base64
+import importlib.util
 from types import SimpleNamespace
 from typing import Any
 
@@ -14,7 +15,6 @@ from engine.exceptions import ProviderUnavailableError
 from engine.models.requests import MobileAdvisoryRequest
 from integrations.speech.fish_audio import FishAudioSpeechProvider
 from integrations.speech.groq import GroqTranscriptionProvider
-from integrations.weather.weatherapi import WeatherAPIProvider
 
 
 class _Response:
@@ -29,7 +29,10 @@ class _Response:
         return self._payload
 
 
-def test_weatherapi_uses_cameroon_location_and_maps_conditions(monkeypatch):
+def test_openweathermap_uses_cameroon_location_and_maps_conditions(monkeypatch):
+    assert importlib.util.find_spec("integrations.weather.openweathermap") is not None
+    from integrations.weather.openweathermap import OpenWeatherMapProvider
+
     sent: dict[str, Any] = {}
 
     def fake_get(url: str, **kwargs: Any) -> _Response:
@@ -37,44 +40,37 @@ def test_weatherapi_uses_cameroon_location_and_maps_conditions(monkeypatch):
         sent.update(kwargs)
         return _Response(
             {
-                "current": {
-                    "temp_c": 22.0,
-                    "precip_mm": 4.2,
-                    "humidity": 88,
-                    "condition": {"text": "Light rain"},
-                },
-                "forecast": {
-                    "forecastday": [
-                        {"day": {"totalprecip_mm": 2.0}},
-                        {
-                            "day": {
-                                "totalprecip_mm": 8.5,
-                                "mintemp_c": 16.0,
-                                "maxtemp_c": 24.0,
-                                "condition": {"text": "Moderate rain"},
-                            }
-                        },
-                    ]
-                },
+                "main": {"temp": 22.0, "humidity": 88},
+                "rain": {"1h": 4.2},
+                "weather": [{"description": "light rain"}],
+                "list": [
+                    {
+                        "main": {"temp_min": 16.0, "temp_max": 24.0},
+                        "rain": {"3h": 8.5},
+                        "weather": [{"description": "moderate rain"}],
+                    }
+                ],
             }
         )
 
     monkeypatch.setattr(requests, "get", fake_get)
-    provider = WeatherAPIProvider("weather-test")
+    provider = OpenWeatherMapProvider("weather-test")
 
     current = provider.get_current("West", "Bafoussam", "irish-potato")
     forecast = provider.get_forecast("West", "Bafoussam", "irish-potato")
 
-    assert sent["url"] == "https://api.weatherapi.com/v1/forecast.json"
+    assert sent["url"] == "https://api.openweathermap.org/data/2.5/forecast"
     assert sent["params"]["q"] == "Bafoussam, West, Cameroon"
+    assert sent["params"]["appid"] == "weather-test"
+    assert sent["params"]["units"] == "metric"
     assert current == {
         "temperature_c": 22.0,
         "rainfall_mm": 4.2,
         "humidity": 88,
-        "condition": "Light rain",
+        "condition": "light rain",
     }
     assert forecast["rainfall_mm"] == 8.5
-    assert forecast["condition"] == "Moderate rain"
+    assert forecast["condition"] == "moderate rain"
 
 
 def test_fish_audio_returns_mp3_bytes(monkeypatch):
@@ -117,14 +113,16 @@ def test_groq_transcribes_an_audio_upload(monkeypatch):
 
 
 @pytest.mark.parametrize(
-    ("provider", "key"),
+    ("module", "provider_name", "key"),
     [
-        (WeatherAPIProvider, "your_actual_weatherapi_key_here"),
-        (FishAudioSpeechProvider, "your_actual_fish_audio_key_here"),
-        (GroqTranscriptionProvider, "gsk_your_actual_groq_key_here"),
+        ("integrations.weather.openweathermap", "OpenWeatherMapProvider", "your_actual_openweathermap_key_here"),
+        ("integrations.speech.fish_audio", "FishAudioSpeechProvider", "your_actual_fish_audio_key_here"),
+        ("integrations.speech.groq", "GroqTranscriptionProvider", "gsk_your_actual_groq_key_here"),
     ],
 )
-def test_provider_rejects_placeholder_key(provider: Any, key: str):
+def test_provider_rejects_placeholder_key(module: str, provider_name: str, key: str):
+    assert importlib.util.find_spec(module) is not None
+    provider = getattr(__import__(module, fromlist=[provider_name]), provider_name)
     with pytest.raises(ProviderUnavailableError):
         provider(key)
 

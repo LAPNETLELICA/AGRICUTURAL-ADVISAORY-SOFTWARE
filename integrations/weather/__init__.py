@@ -2,6 +2,6 @@ from integrations.weather.providers import (
     StaticWeatherProvider,
     UnavailableWeatherProvider,
 )
-from integrations.weather.weatherapi import WeatherAPIProvider
+from integrations.weather.openweathermap import OpenWeatherMapProvider
 
-__all__ = ["StaticWeatherProvider", "UnavailableWeatherProvider", "WeatherAPIProvider"]
+__all__ = ["StaticWeatherProvider", "UnavailableWeatherProvider", "OpenWeatherMapProvider"]

@@ -45,7 +45,7 @@ class Settings:
     proactive_sms_interval_seconds: int = 3600
     groq_api_key: str | None = None
     fish_audio_api_key: str | None = None
-    weatherapi_key: str | None = None
+    openweathermap_api_key: str | None = None
     media_storage_path: Path = Path("runtime/media")
     media_max_bytes: int = 10 * 1024 * 1024
     media_retention_days: int = 180
@@ -135,7 +135,7 @@ class Settings:
             proactive_sms_interval_seconds=proactive_sms_interval_seconds,
             groq_api_key=os.getenv("GROQ_API_KEY") or None,
             fish_audio_api_key=os.getenv("FISH_AUDIO_API_KEY") or None,
-            weatherapi_key=os.getenv("WEATHERAPI_KEY") or None,
+            openweathermap_api_key=os.getenv("OPENWEATHERMAP_API_KEY") or None,
             media_storage_path=Path(os.getenv("MEDIA_STORAGE_PATH", "runtime/media")),
             media_max_bytes=media_max_bytes,
             media_retention_days=retention_days("MEDIA_RETENTION_DAYS", 180),
