@@ -18,6 +18,11 @@ unchanged. Each endpoint gains an optional `conversation_id` request field and
 returns it. Existing clients that omit it use the farmer's most recently
 updated open conversation; a new client must retain and send the identifier.
 
+The additional endpoint `GET /questionnaire/conversations/{conversation_id}`
+returns the owned conversation's status, accumulated context, complete ordered
+message history, and its final recommendation when available. It allows a
+mobile client to reopen any saved conversation without recreating it.
+
 `/questionnaire/answer` keeps accepting `answer`, but treats it as a neutral
 farmer message. This preserves the current frontend contract while correcting
 the semantic error that all typed questions are answers.
