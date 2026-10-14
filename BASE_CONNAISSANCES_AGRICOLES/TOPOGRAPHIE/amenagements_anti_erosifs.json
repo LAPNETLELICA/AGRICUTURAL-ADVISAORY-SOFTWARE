@@ -1,0 +1,21 @@
+{
+  "titre": "Aménagements Topographiques Anti-Érosifs",
+  "classes_de_pente": [
+    {
+      "pente": "Faible (0 à 3%)",
+      "action": "Billonnage standard, pas d'aménagement anti-érosif lourd requis."
+    },
+    {
+      "pente": "Moyenne (3 à 8%)",
+      "action": "Billonnage obligatoirement selon les courbes de niveau. Interposition de bandes d'arrêt herbeuses tous les 15 à 20 mètres."
+    },
+    {
+      "pente": "Forte (8 à 15%)",
+      "action": "Confection de billons cloisonnés, fascines de retenue en bambou, talus stabilisés par vétiver. Interdiction absolue du désherbage total à blanc."
+    },
+    {
+      "pente": "Très forte (> 15%)",
+      "action": "Terrasses en gradins obligatoires ou maintien sous arboriculture et agroforesterie pérenne pour fixer les sols."
+    }
+  ]
+}

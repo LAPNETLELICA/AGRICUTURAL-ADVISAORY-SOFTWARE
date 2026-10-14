@@ -1,0 +1,36 @@
+{
+  "culture_code": "CULT_TOMATE",
+  "ravageurs_principaux": [
+    {
+      "code": "RAV_TUTA_ABSOLUTA",
+      "nom": "Mineuse de la tomate (Tuta absoluta)",
+      "degats": "Chenille minant l'intérieur des feuilles (galeries translucides) et perforant les fruits verts et mûrs, rendant la récolte invendable.",
+      "mesures_preventives": [
+        "Pose de pièges à phéromones dès la pépinière pour détecter les premiers vols.",
+        "Filets anti-insectes sur pépinières.",
+        "Élimination et brûlage des fruits piqués."
+      ],
+      "lutte_curative": "Traitements ciblés à base de Bacillus thuringiensis ou insecticides homologués (émamectine benzoate) en respectant les délais avant récolte (DAR)."
+    },
+    {
+      "code": "RAV_BEMISIA",
+      "nom": "Mouche blanche (Bemisia tabaci)",
+      "degats": "Piqures nutritionnelles affaiblissant la plante et surtout vecteur primaire du virus TYLCV causant l'enroulement et le rabougrissement des plants.",
+      "mesures_preventives": [
+        "Paillage argenté réfléchissant",
+        "Pièges jaunes englués",
+        "Traitements à l'huile de neem artisanale."
+      ]
+    },
+    {
+      "code": "RAV_NOCTUELLE",
+      "nom": "Noctuelle de la tomate (Helicoverpa armigera)",
+      "degats": "Chenilles voraces dévorant les boutons floraux et forant de gros trous circulaires dans les fruits.",
+      "mesures_preventives": [
+        "Surveillance rapprochée",
+        "Ramassage manuel sur petites parcelles",
+        "Biopesticides à base de neem."
+      ]
+    }
+  ]
+}

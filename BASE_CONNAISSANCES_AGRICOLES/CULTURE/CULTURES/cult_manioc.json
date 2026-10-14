@@ -1,0 +1,38 @@
+{
+  "code": "CULT_MANIOC",
+  "nom_courant": "Manioc",
+  "nom_scientifique": "Manihot esculenta",
+  "famille_code": "FAM_TUBERCULES_RACINES",
+  "groupe_culture": "Racine vivrière pérenne",
+  "cycle_jours": {
+    "min": 270,
+    "optimal": 365,
+    "max": 450
+  },
+  "conditions_generales": "Très rustique, résistant à la sécheresse une fois établi. S'adapte aux sols acides et pauvres en phosphore.",
+  "varietes_recommandees": [
+    "VAR_MANIOC_IRAD_8034",
+    "VAR_MANIOC_TMS_92_0326"
+  ],
+  "liens_dossiers": {
+    "sols_favorables": [
+      "SOL_FERRALLITIQUE",
+      "SOL_VOLCANIQUE"
+    ],
+    "sols_defavorables": [
+      "SOL_HYDROMORPHE"
+    ],
+    "regions_principales": [
+      "REG_CE",
+      "REG_SU",
+      "REG_ES",
+      "REG_LT"
+    ],
+    "zones_climatiques": [
+      "CLIM_ZONE_V",
+      "CLIM_ZONE_IV"
+    ]
+  },
+  "source": "PNDRT / IRAD Nkolbisson",
+  "date_mise_a_jour": "2026-09-29"
+}

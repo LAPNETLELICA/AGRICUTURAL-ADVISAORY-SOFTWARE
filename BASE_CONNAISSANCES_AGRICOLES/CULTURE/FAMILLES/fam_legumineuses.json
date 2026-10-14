@@ -1,0 +1,14 @@
+{
+  "code": "FAM_LEGUMINEUSES",
+  "nom": "Légumineuses à graines",
+  "description": "Plantes de la famille des Fabacées capables de fixer l'azote atmosphérique grâce à leurs nodosités racinaires.",
+  "cultures_incluses": [
+    "CULT_HARICOT",
+    "soja",
+    "arachide",
+    "niebe"
+  ],
+  "importance_cameroun": "Source essentielle de protéines végétales. Le haricot commun prédomine dans les hauts plateaux de l'Ouest et du Nord-Ouest; l'arachide et le niébé dans le Grand Nord et le Centre.",
+  "role_rotation": "Plantes améliorantes majeures enrichissant le sol en azote pour la culture suivante.",
+  "source": "Fiches techniques Légumineuses vivrières (IRAD)"
+}

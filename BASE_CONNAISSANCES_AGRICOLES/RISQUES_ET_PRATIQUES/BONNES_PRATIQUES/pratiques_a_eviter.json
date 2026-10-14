@@ -1,0 +1,22 @@
+{
+  "code": "PRAT_A_EVITER_01",
+  "titre": "Pratiques Culturales Dangereuses à Proscrire Absolument",
+  "interdictions": [
+    {
+      "pratique": "Arroser le feuillage de la tomate ou de la pomme de terre en aspersion en milieu de journée",
+      "consequences": "Choc thermique, brûlure foliaire et germination foudroyante des spores de mildiou."
+    },
+    {
+      "pratique": "Enfouir du fumier frais non décomposé au moment du semis/plantation",
+      "consequences": "Fermentation anaérobie brûlant les racines, pourriture bactérienne immédiate des semences de pomme de terre."
+    },
+    {
+      "pratique": "Laisser les résidus de plants malades (mildiou, flétrissement) sur la parcelle ou les mettre au compost",
+      "consequences": "Pérénisation des foyers infectieux. Les résidus malades doivent être brûlés ou enterrés profondément hors de la parcelle."
+    },
+    {
+      "pratique": "Tracer des billons dans le sens de la pente",
+      "consequences": "Création de rigoles d'érosion, ravinement des billons, perte de terre fertile et déchaussement des plants."
+    }
+  ]
+}

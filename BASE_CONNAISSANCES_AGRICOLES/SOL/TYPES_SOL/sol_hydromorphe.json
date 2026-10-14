@@ -1,0 +1,26 @@
+{
+  "code": "SOL_HYDROMORPHE",
+  "nom": "Sols hydromorphes / Alluviaux de bas-fonds",
+  "description": "Sols marqués par la présence temporaire ou permanente d'une nappe d'eau superficielle dans les vallées et bas-fonds.",
+  "couleur": "Gris bleuté ou verdâtre (gley), avec taches rouille d'oxydoréduction",
+  "texture": "Variable, souvent riche en limons fins et argiles",
+  "drainage": "Très lent à inexistant sans canalisation",
+  "chimie": {
+    "ph_typique": [
+      5.0,
+      6.5
+    ],
+    "matiere_organique_pct": [
+      2.5,
+      5.0
+    ],
+    "particularite": "Milieu anoxique (manque d'oxygène) en période d'engorgement."
+  },
+  "aptitudes_agricoles": "Riziculture inondée, maraîchage de contre-saison sèche après drainage superficiel.",
+  "risques": "Asphyxie racinaire fatale pour les Solanacées (tomate, pomme de terre) si les billons ne sont pas surélevés ou hors saison des pluies.",
+  "regions_dominantes": [
+    "REG_LT",
+    "REG_EN",
+    "Toutes régions (vallées fluviales)"
+  ]
+}

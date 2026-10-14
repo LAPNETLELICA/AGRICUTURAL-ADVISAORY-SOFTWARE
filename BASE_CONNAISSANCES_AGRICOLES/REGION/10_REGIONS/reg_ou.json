@@ -1,0 +1,26 @@
+{
+  "code": "REG_OU",
+  "nom": "Ouest",
+  "chef_lieu": "Bafoussam",
+  "zone_agroecologique": "CLIM_ZONE_III",
+  "altitude_m": [
+    1000,
+    2000
+  ],
+  "sols_dominants": [
+    "SOL_VOLCANIQUE",
+    "SOL_FERRALLITIQUE"
+  ],
+  "cultures_principales": [
+    "CULT_TOMATE",
+    "CULT_POMME_DE_TERRE",
+    "CULT_MAIS",
+    "CULT_HARICOT",
+    "café_arabica"
+  ],
+  "contraintes": [
+    "Forte pression foncière",
+    "Mildiou et flétrissement bactérien",
+    "Érosion sur parcelles en pente"
+  ]
+}

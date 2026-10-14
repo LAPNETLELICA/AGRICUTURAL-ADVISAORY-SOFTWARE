@@ -1,0 +1,69 @@
+{
+  "version": "1.0.0",
+  "authored_at": "2026-09-29T16:00:00Z",
+  "document_reference": "Structure_des_connaissances_agricoles_Cameroun.pdf",
+  "description": "Registre central des identifiants et codes uniques stables pour la base de connaissances agricoles du Cameroun",
+  "prefixes": {
+    "FAM": "Famille agricole",
+    "CULT": "Culture agricole",
+    "VAR": "Variété cultivée",
+    "SOL": "Type ou caractéristique de sol",
+    "REG": "Région administrative du Cameroun",
+    "LOC": "Localité / Département / Bassin agricole",
+    "CLIM": "Zone agro-écologique ou paramètre climatique",
+    "CAL": "Calendrier cultural / Opération",
+    "PRAT": "Pratique agricole / Entretien",
+    "ENG": "Engrais / Amendement / Pratique de fertilisation",
+    "RAV": "Ravageur / Peste / Risque biotique",
+    "RISQ": "Risque abiotique / climatique / terrain",
+    "REST": "Restauration / Repos / Jachère / Rotation",
+    "TOPO": "Caractéristique topographique / Aménagement",
+    "PHOTO": "Ressource photographique / Illustration"
+  },
+  "codes": {
+    "familles": [
+      {"code": "FAM_CEREALES", "nom": "Céréales", "description": "Maïs, sorgho, mil, riz..."},
+      {"code": "FAM_LEGUMINEUSES", "nom": "Légumineuses à graines", "description": "Haricot commun, soja, niébé, arachide..."},
+      {"code": "FAM_TUBERCULES_RACINES", "nom": "Tubercules et racines", "description": "Pomme de terre, manioc, igname, patate douce, macabo/taro..."},
+      {"code": "FAM_MARAICHAGE", "nom": "Maraîchage et légumes-fruits", "description": "Tomate, piment, poivron, gombo, oignon, chou, carotte..."},
+      {"code": "FAM_FRUITS", "nom": "Cultures fruitières", "description": "Mangue, avocat, papaye, agrumes, ananas..."},
+      {"code": "FAM_BANANES_PLANTAINS", "nom": "Bananes et plantains", "description": "Bananier plantain, banane douce..."},
+      {"code": "FAM_CULTURES_INDUSTRIELLES", "nom": "Cultures industrielles et de rente", "description": "Cacao, caféier arabica/robusta, palmier à huile, coton, hévéa..."}
+    ],
+    "cultures": [
+      {"code": "CULT_TOMATE", "nom_courant": "Tomate", "nom_scientifique": "Solanum lycopersicum", "famille_code": "FAM_MARAICHAGE"},
+      {"code": "CULT_POMME_DE_TERRE", "nom_courant": "Pomme de terre", "nom_scientifique": "Solanum tuberosum", "famille_code": "FAM_TUBERCULES_RACINES"},
+      {"code": "CULT_MAIS", "nom_courant": "Maïs", "nom_scientifique": "Zea mays", "famille_code": "FAM_CEREALES"},
+      {"code": "CULT_HARICOT", "nom_courant": "Haricot commun", "nom_scientifique": "Phaseolus vulgaris", "famille_code": "FAM_LEGUMINEUSES"},
+      {"code": "CULT_MANIOC", "nom_courant": "Manioc", "nom_scientifique": "Manihot esculenta", "famille_code": "FAM_TUBERCULES_RACINES"},
+      {"code": "CULT_BANANIER_PLANTAIN", "nom_courant": "Bananier plantain", "nom_scientifique": "Musa paradisiaca", "famille_code": "FAM_BANANES_PLANTAINS"}
+    ],
+    "regions": [
+      {"code": "REG_AD", "nom": "Adamaoua", "chef_lieu": "Ngaoundéré"},
+      {"code": "REG_CE", "nom": "Centre", "chef_lieu": "Yaoundé"},
+      {"code": "REG_ES", "nom": "Est", "chef_lieu": "Bertoua"},
+      {"code": "REG_EN", "nom": "Extrême-Nord", "chef_lieu": "Maroua"},
+      {"code": "REG_LT", "nom": "Littoral", "chef_lieu": "Douala"},
+      {"code": "REG_NO", "nom": "Nord", "chef_lieu": "Garoua"},
+      {"code": "REG_NW", "nom": "Nord-Ouest", "chef_lieu": "Bamenda"},
+      {"code": "REG_OU", "nom": "Ouest", "chef_lieu": "Bafoussam"},
+      {"code": "REG_SU", "nom": "Sud", "chef_lieu": "Ebolowa"},
+      {"code": "REG_SW", "nom": "Sud-Ouest", "chef_lieu": "Buea"}
+    ],
+    "zones_climatiques": [
+      {"code": "CLIM_ZONE_I", "nom": "Zone Soudano-Sahélienne", "regions": ["REG_EN", "REG_NO"]},
+      {"code": "CLIM_ZONE_II", "nom": "Zone des Hautes Savanes Guinéennes", "regions": ["REG_AD"]},
+      {"code": "CLIM_ZONE_III", "nom": "Zone des Hauts Plateaux de l'Ouest", "regions": ["REG_OU", "REG_NW"]},
+      {"code": "CLIM_ZONE_IV", "nom": "Zone de Forêt Humide à Pluviométrie Monomodale", "regions": ["REG_LT", "REG_SW"]},
+      {"code": "CLIM_ZONE_V", "nom": "Zone de Forêt Humide à Pluviométrie Bimodale", "regions": ["REG_CE", "REG_SU", "REG_ES"]}
+    ],
+    "types_sol": [
+      {"code": "SOL_VOLCANIQUE", "nom": "Sols volcaniques / Andosols", "zones_dominantes": ["REG_OU", "REG_NW", "REG_SW"]},
+      {"code": "SOL_FERRALLITIQUE", "nom": "Sols ferrallitiques rouges et jaunes", "zones_dominantes": ["REG_CE", "REG_SU", "REG_ES", "REG_LT", "REG_OU"]},
+      {"code": "SOL_FERRUGINEUX", "nom": "Sols ferrugineux tropicaux", "zones_dominantes": ["REG_NO", "REG_EN", "REG_AD"]},
+      {"code": "SOL_HYDROMORPHE", "nom": "Sols hydromorphes / Alluviaux de bas-fonds", "zones_dominantes": ["REG_LT", "REG_EN", "Toutes régions (bas-fonds)"]},
+      {"code": "SOL_VERTISOL", "nom": "Vertisols (Karal)", "zones_dominantes": ["REG_EN", "REG_NO"]},
+      {"code": "SOL_SABLEUX", "nom": "Sols sableux dunaires", "zones_dominantes": ["REG_EN"]}
+    ]
+  }
+}
