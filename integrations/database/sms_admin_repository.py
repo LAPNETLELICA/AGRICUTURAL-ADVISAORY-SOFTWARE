@@ -108,3 +108,70 @@ class PostgresSMSAdminRepository:
                 }
                 for row in session.scalars(statement).all()
             ]
+
+
+class InMemorySMSAdminRepository:
+    """In-memory repository for development and environments without PostgreSQL."""
+
+    def __init__(self) -> None:
+        self._registrations: dict[str, SMSRegistration] = {}
+        self._deliveries: list[dict[str, object]] = []
+
+    def create_registration(
+        self, *, phone: str, region: CameroonRegion | str, active: bool = True
+    ) -> SMSRegistration:
+        parsed_region = region if isinstance(region, CameroonRegion) else CameroonRegion.parse(region)
+        normalized_phone = normalize_cameroon_phone(phone)
+        registration = SMSRegistration(
+            registration_id=str(uuid4()),
+            phone=normalized_phone,
+            region=parsed_region,
+            active=active,
+        )
+        self._registrations[registration.registration_id] = registration
+        return registration
+
+    def list_registrations(self) -> list[SMSRegistration]:
+        return list(reversed(list(self._registrations.values())))
+
+    def resolve_active_recipients(self, scope: DeliveryScope) -> list[SMSRegistration]:
+        recipients = [r for r in self._registrations.values() if r.active]
+        if scope.kind is DeliveryScopeKind.REGION:
+            return [r for r in recipients if r.region == scope.region]
+        if scope.kind is DeliveryScopeKind.REGISTRATION:
+            return [r for r in recipients if r.registration_id == scope.registration_id]
+        return recipients
+
+    def create_delivery(
+        self, *, registration_id: str, scope: DeliveryScope, source: str, message: str,
+        status: str, alert_fingerprint: str | None = None,
+    ) -> str:
+        registration = self._registrations.get(registration_id)
+        if registration is None:
+            raise ValueError("SMS registration not found")
+        delivery_id = str(uuid4())
+        self._deliveries.append({
+            "delivery_id": delivery_id,
+            "registration_id": registration_id,
+            "phone": registration.phone,
+            "scope": scope.kind.value,
+            "region": scope.region.value if scope.region else None,
+            "source": source,
+            "message": message,
+            "status": status,
+            "alert_fingerprint": alert_fingerprint,
+            "created_at": datetime.now(UTC).isoformat(),
+        })
+        return delivery_id
+
+    def was_alert_delivered(self, registration_id: str, alert_fingerprint: str) -> bool:
+        return any(
+            d["registration_id"] == registration_id
+            and d.get("alert_fingerprint") == alert_fingerprint
+            and d["status"] == "sent"
+            for d in self._deliveries
+        )
+
+    def list_deliveries(self, limit: int = 100) -> list[dict[str, object]]:
+        return list(reversed(self._deliveries))[:limit]
+

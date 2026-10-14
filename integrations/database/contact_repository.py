@@ -90,3 +90,52 @@ class AgriculturalContactRepository:
         return AgriculturalContact(
             **{name: getattr(row, name) for name in AgriculturalContact.__dataclass_fields__}
         )
+
+
+class InMemoryContactRepository:
+    """In-memory contact repository for environments without PostgreSQL."""
+
+    def __init__(self) -> None:
+        self._contacts: dict[str, AgriculturalContact] = {}
+
+    def create(self, contact: AgriculturalContact) -> AgriculturalContact:
+        self._contacts[contact.contact_id] = contact
+        return contact
+
+    def list(self) -> list[AgriculturalContact]:
+        return list(self._contacts.values())
+
+    def get(self, contact_id: str) -> AgriculturalContact | None:
+        return self._contacts.get(contact_id)
+
+    def update(self, contact_id: str, **changes: object) -> AgriculturalContact | None:
+        contact = self._contacts.get(contact_id)
+        if contact is None:
+            return None
+        data = asdict(contact)
+        for key, value in changes.items():
+            if key in AgriculturalContact.__dataclass_fields__:
+                data[key] = value
+        updated = AgriculturalContact(**data)
+        self._contacts[contact_id] = updated
+        return updated
+
+    def find_public(
+        self, contact_type: str, category: str | None, crop_id: str | None,
+        region: str | None, location: str | None,
+    ) -> list[AgriculturalContact]:
+        contacts = [
+            c for c in self._contacts.values()
+            if c.contact_type == contact_type and c.verified and c.active
+        ]
+        return sorted(
+            contacts,
+            key=lambda item: (
+                item.category != category,
+                crop_id not in item.crop_ids if crop_id else True,
+                item.region != region,
+                item.location != location,
+                item.name.casefold(),
+            ),
+        )
+
