@@ -1,7 +1,12 @@
+from dataclasses import dataclass
+
 from engine.models.enums import Channel, RecommendationType
 from engine.models.responses import CanonicalRecommendationItem, Recommendation
 from api.technical_fiches import _pdf_document
+from api.education import education_technical_fiches
+from services.auth import Principal
 from services.technical_fiche import TechnicalFicheService
+from types import SimpleNamespace
 
 
 def test_problem_fiche_contains_contextual_diagnosis_protection_calendar_and_safety() -> None:
@@ -45,3 +50,25 @@ def test_pdf_document_paginates_long_structured_fiche_content() -> None:
     assert document.startswith(b"%PDF-")
     assert b"page 1/3" in document
     assert b"page 3/3" in document
+
+
+def test_education_lists_published_fiches_with_download_urls() -> None:
+    @dataclass
+    class Fiche:
+        fiche_id: str
+        crop_id: str
+        subject: str
+        status: str
+
+    fiche = Fiche(fiche_id="fiche-1", crop_id="tomato", subject="leaf spots", status="PUBLISHED")
+    request = SimpleNamespace(
+        app=SimpleNamespace(
+            state=SimpleNamespace(
+                technical_fiche_service=SimpleNamespace(list_published=lambda **_: [fiche])
+            )
+        )
+    )
+
+    result = education_technical_fiches(request, Principal("farmer-1", "farmer"))
+
+    assert result[0]["download_url"] == "/api/v1/technical-fiches/fiche-1/download"

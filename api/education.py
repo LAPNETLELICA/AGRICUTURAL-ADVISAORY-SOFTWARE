@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import asdict
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request, status
@@ -11,6 +12,26 @@ from api.security import PrincipalDependency
 from engine.models.domain import StrictModel
 
 router = APIRouter(prefix="/api/v1/education", tags=["education"])
+
+
+@router.get("/technical-fiches")
+def education_technical_fiches(
+    request: Request,
+    principal: PrincipalDependency,
+    crop_id: str | None = None,
+    subject: str | None = None,
+) -> list[dict[str, Any]]:
+    del principal
+    fiches = request.app.state.technical_fiche_service.list_published(
+        crop_id=crop_id, subject=subject
+    )
+    return [
+        {
+            **asdict(fiche),
+            "download_url": f"/api/v1/technical-fiches/{fiche.fiche_id}/download",
+        }
+        for fiche in fiches
+    ]
 
 
 @router.get("/crops")
