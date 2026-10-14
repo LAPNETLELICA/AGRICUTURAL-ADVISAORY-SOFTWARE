@@ -23,7 +23,13 @@ class Settings:
     log_level: str = "INFO"
     knowledge_path: Path = Path("BASE_CONNAISSANCES_AGRICOLES")
     sms_max_length: int = 160
-    cors_origins: tuple[str, ...] = ("http://localhost:3000", "http://localhost:8080")
+    cors_origins: tuple[str, ...] = (
+        "http://localhost:3000",
+        "http://localhost:8080",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "https://lapnetlelica.github.io",
+    )
     database_url: str | None = None
     auth_required: bool = False
     auth_secret: str = "development-auth-secret-change-me"
@@ -109,7 +115,10 @@ class Settings:
             knowledge_path=Path(os.getenv("KNOWLEDGE_PATH", "BASE_CONNAISSANCES_AGRICOLES")),
             sms_max_length=sms_max_length,
             cors_origins=_csv(
-                os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:8080")
+                os.getenv(
+                    "CORS_ORIGINS",
+                    "http://localhost:3000,http://localhost:8080,http://localhost:8000,http://127.0.0.1:8000,https://lapnetlelica.github.io",
+                )
             ),
             database_url=os.getenv("DATABASE_URL") or None,
             auth_required=auth_required,
