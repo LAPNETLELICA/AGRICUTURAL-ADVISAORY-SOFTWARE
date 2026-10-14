@@ -12,8 +12,8 @@ dependencies = [
   "alembic>=1.14,<2",
   "bcrypt==4.0.1",
   "email-validator>=2.3.0",
-  "fastapi==0.141.1",
-  "starlette==0.48.0",
+  "fastapi==0.115.6",
+  "starlette==0.41.3",
   "google",
   "google-auth>=2.58.0",
   "passlib>=1.7.4",
@@ -30,10 +30,12 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+  "asgi-lifespan>=2.1,<3.0",
   "httpx>=0.28,<1",
   "mypy>=1.14,<2.0",
   "pytest>=8.3,<9.0",
   "pytest-cov>=6.0,<7.0",
+  "pytest-timeout>=2.4,<3.0",
   "ruff>=0.9,<1.0",
 ]
 
@@ -45,6 +47,7 @@ packages = ["api", "engine", "integrations", "languages", "services"]
 
 [tool.pytest.ini_options]
 addopts = "-ra --strict-config --strict-markers"
+timeout = 30
 testpaths = ["tests"]
 markers = [
   "scenario: end-to-end crop-centered scenario tests",
