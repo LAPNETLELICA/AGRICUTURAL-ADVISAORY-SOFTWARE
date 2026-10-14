@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+from textwrap import wrap
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import Response
@@ -15,7 +16,7 @@ router = APIRouter(prefix="/api/v1/technical-fiches", tags=["technical fiches"])
 
 
 def _pdf_document(lines: list[str]) -> bytes:
-    """Create a small dependency-free PDF from already-sanitized text."""
+    """Create a paginated A4 PDF from already-sanitized text."""
 
     def escape(line: str) -> str:
         return (
@@ -26,18 +27,25 @@ def _pdf_document(lines: list[str]) -> bytes:
             .replace(")", "\\)")
         )
 
-    commands = [f"({escape(line)[:110]}) Tj 0 -16 Td" for line in lines]
-    content = "BT /F1 11 Tf 50 780 Td " + " ".join(commands) + " ET"
+    wrapped = [segment for line in lines for segment in (wrap(line, width=86) or [""])]
+    page_size = 42
+    pages = [wrapped[index:index + page_size] for index in range(0, len(wrapped), page_size)] or [[]]
+    page_object_numbers = [4 + index * 2 for index in range(len(pages))]
     objects = [
         "<< /Type /Catalog /Pages 2 0 R >>",
-        "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
-        (
-            "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] "
-            "/Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>"
-        ),
+        "<< /Type /Pages /Kids [" + " ".join(f"{number} 0 R" for number in page_object_numbers) + f"] /Count {len(pages)} >>",
         "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
-        f"<< /Length {len(content.encode('latin-1'))} >>\nstream\n{content}\nendstream",
     ]
+    for index, page_lines in enumerate(pages, start=1):
+        content_number = 4 + (index - 1) * 2 + 1
+        commands = [f"({escape(line)}) Tj 0 -16 Td" for line in page_lines]
+        commands.append(f"1 0 0 1 50 40 Tm (page {index}/{len(pages)}) Tj")
+        content = "BT /F1 11 Tf 50 780 Td " + " ".join(commands) + " ET"
+        objects.append(
+            "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] "
+            f"/Resources << /Font << /F1 3 0 R >> >> /Contents {content_number} 0 R >>"
+        )
+        objects.append(f"<< /Length {len(content.encode('latin-1'))} >>\nstream\n{content}\nendstream")
     output = bytearray(b"%PDF-1.4\n")
     offsets = [0]
     for index, obj in enumerate(objects, 1):

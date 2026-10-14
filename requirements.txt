@@ -28,7 +28,7 @@ dnspython==2.9.0
     # via email-validator
 email-validator==2.3.0
     # via agricultural-advisory-engine (pyproject.toml)
-fastapi==0.141.1
+fastapi==0.115.6
     # via agricultural-advisory-engine (pyproject.toml)
 google==3.0.0
     # via agricultural-advisory-engine (pyproject.toml)
@@ -87,7 +87,7 @@ sqlalchemy==2.0.54
     # via
     #   agricultural-advisory-engine (pyproject.toml)
     #   alembic
-starlette==1.8.0
+starlette==0.41.3
     # via fastapi
 typing-extensions==4.16.0
     # via
