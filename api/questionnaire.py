@@ -1,5 +1,6 @@
 """Adaptive farmer questionnaire endpoints."""
 
+from dataclasses import asdict
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request
@@ -63,7 +64,27 @@ def answer(
         raise HTTPException(status_code=403, detail="Conversation does not belong to farmer")
     if result.ready_request is not None:
         recommendation = container.engine.advise(AdvisoryRequest.from_mobile(result.ready_request))
-        return {"complete": True, "conversation_id": conversation_id, "recommendation": recommendation}
+        trace = container.traces.get(recommendation.trace_id)
+        weather = (
+            (trace.future_conditions_used or {}).get("weather", {})
+            if trace is not None
+            else {}
+        )
+        fiche = request.app.state.technical_fiche_service.from_recommendation(
+            owner_id=payload.farmer_id,
+            recommendation=recommendation,
+            subject=recommendation.primary.name,
+            language=str(result.conversation.context.get("language", payload.language)),
+            context=result.conversation.context,
+            weather=weather,
+        )
+        fiche = request.app.state.technical_fiche_service.set_status(fiche.fiche_id, "PUBLISHED")
+        return {
+            "complete": True,
+            "conversation_id": conversation_id,
+            "recommendation": recommendation,
+            "technical_fiche": asdict(fiche),
+        }
     return {"complete": False, "conversation_id": conversation_id, "step": result.step}
 
 
