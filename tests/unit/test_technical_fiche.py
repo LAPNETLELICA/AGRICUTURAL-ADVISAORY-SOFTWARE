@@ -1,5 +1,6 @@
 from engine.models.enums import Channel, RecommendationType
 from engine.models.responses import CanonicalRecommendationItem, Recommendation
+from api.technical_fiches import _pdf_document
 from services.technical_fiche import TechnicalFicheService
 
 
@@ -36,3 +37,11 @@ def test_problem_fiche_contains_contextual_diagnosis_protection_calendar_and_saf
     assert fiche.content["action_calendar"][0]["status"] == "À planifier"
     assert "Heavy rain expected" in fiche.content["safety"]["weather"]
     assert "farmer_id" not in str(fiche.content)
+
+
+def test_pdf_document_paginates_long_structured_fiche_content() -> None:
+    document = _pdf_document([f"Action {index}: monitor the crop carefully." for index in range(100)])
+
+    assert document.startswith(b"%PDF-")
+    assert b"page 1/3" in document
+    assert b"page 3/3" in document
