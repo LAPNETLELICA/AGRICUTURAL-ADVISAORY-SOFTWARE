@@ -33,8 +33,14 @@ from engine import __version__
 from engine.bootstrap import ApplicationContainer, build_container
 from engine.config import Settings
 from engine.exceptions import CropNotFoundError
-from integrations.database.contact_repository import AgriculturalContactRepository
-from integrations.database.sms_admin_repository import PostgresSMSAdminRepository
+from integrations.database.contact_repository import (
+    AgriculturalContactRepository,
+    InMemoryContactRepository,
+)
+from integrations.database.sms_admin_repository import (
+    InMemorySMSAdminRepository,
+    PostgresSMSAdminRepository,
+)
 from integrations.storage import PrivateFilesystemStorage
 from services.action_guidance import ActionGuidanceService
 from services.application_context import ApplicationContextService
@@ -77,12 +83,12 @@ def create_app(
     app.state.contact_repository = (
         AgriculturalContactRepository(resolved_container.database.sessions)
         if resolved_container.database is not None
-        else None
+        else InMemoryContactRepository()
     )
     app.state.sms_admin_repository = (
         PostgresSMSAdminRepository(resolved_container.database.sessions)
         if resolved_container.database is not None
-        else None
+        else InMemorySMSAdminRepository()
     )
     auth_service = AuthService(
         resolved_settings.auth_secret,
