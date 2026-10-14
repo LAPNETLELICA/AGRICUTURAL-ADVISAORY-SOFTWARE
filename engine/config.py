@@ -25,9 +25,12 @@ class Settings:
     sms_max_length: int = 160
     cors_origins: tuple[str, ...] = (
         "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://0.0.0.0:3000",
         "http://localhost:8080",
         "http://localhost:8000",
         "http://127.0.0.1:8000",
+        "http://0.0.0.0:8000",
         "https://lapnetlelica.github.io",
     )
     database_url: str | None = None
@@ -117,7 +120,7 @@ class Settings:
             cors_origins=_csv(
                 os.getenv(
                     "CORS_ORIGINS",
-                    "http://localhost:3000,http://localhost:8080,http://localhost:8000,http://127.0.0.1:8000,https://lapnetlelica.github.io",
+                    "http://localhost:3000,http://127.0.0.1:3000,http://0.0.0.0:3000,http://localhost:8080,http://localhost:8000,http://127.0.0.1:8000,http://0.0.0.0:8000,https://lapnetlelica.github.io",
                 )
             ),
             database_url=os.getenv("DATABASE_URL") or None,
