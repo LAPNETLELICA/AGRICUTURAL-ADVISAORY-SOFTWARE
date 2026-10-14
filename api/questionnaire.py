@@ -17,6 +17,7 @@ class StartPayload(BaseModel):
     region: str | None = None
     locality: str | None = None
     profile_level: str = "beginner"
+    language: str = Field(default="en", min_length=2, max_length=20)
     conversation_id: str | None = None
 
 
@@ -54,6 +55,8 @@ def answer(
         conversation_id = active.conversation_id
     try:
         result = request.app.state.questionnaire_service.receive_message(conversation_id, payload.answer)
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="Conversation not found") from exc
     if result.conversation.farmer_id != payload.farmer_id:
