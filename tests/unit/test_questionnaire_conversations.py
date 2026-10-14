@@ -99,3 +99,20 @@ def test_questionnaire_start_payload_keeps_language() -> None:
     payload = StartPayload(farmer_id="farmer-1", language="fr")
 
     assert payload.language == "fr"
+
+
+def test_french_soil_question_requests_location_before_crop_and_uses_known_context() -> None:
+    repository = InMemoryConversationRepository()
+    service = QuestionnaireService(CameroonKnowledgeProvider(Path("BASE_CONNAISSANCES_AGRICOLES")), repository)
+    started = service.start_conversation(farmer_id="farmer-1", language="fr")
+
+    location = service.receive_message(
+        started.conversation.conversation_id, "Mon sol est pauvre et je veux le fertiliser"
+    )
+    concern = service.receive_message(location.conversation.conversation_id, "Bafoussam, West")
+
+    assert location.step.key == "location"
+    assert concern.step.key == "soil_concern"
+    assert concern.conversation.context["locality"] == "Bafoussam"
+    assert concern.step.key != "crop"
+    assert "topography" in concern.step.known_context

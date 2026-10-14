@@ -68,6 +68,8 @@ class QuestionnaireService:
         else:
             intent = conversation.intent or "free_text"
         facts = self._extract(normalized)
+        if conversation.expected_field == "location":
+            facts.update(self._extract_location(message))
         if conversation.expected_field == "onset":
             facts["onset"] = message
         elif conversation.expected_field and conversation.expected_field != "crop":
@@ -140,11 +142,27 @@ class QuestionnaireService:
             return "crop_problem"
         if message in {"improve soil", "soil improvement"} or "soil" in message:
             return "soil"
+        if any(word in message for word in ("sol", "fertilis", "fumier", "engrais")):
+            return "soil"
         if message in {"when to plant", "planting time"} or "plant" in message:
             return "planting"
         if any(word in message for word in ("spot", "leaf", "leaves", "yellow", "pest", "disease")):
             return "crop_problem"
         return current or "free_text"
+
+    @staticmethod
+    def _extract_location(message: str) -> dict[str, str]:
+        normalized = message.casefold()
+        localities = {"bafoussam": "Bafoussam"}
+        regions = {"west": "West", "ouest": "West"}
+        locality = next((value for key, value in localities.items() if key in normalized), None)
+        region = next((value for key, value in regions.items() if key in normalized), None)
+        facts: dict[str, str] = {}
+        if locality:
+            facts["locality"] = locality
+        if region:
+            facts["region"] = region
+        return facts
 
     @staticmethod
     def _option_value(field: str, normalized: str, message: str) -> str:
@@ -191,6 +209,12 @@ class QuestionnaireService:
         if conversation.intent == "planting":
             return QuestionnaireStep("crop", "Which crop do you want to plant?", self._crop_options(include_unknown=False), known_context=known)
         if conversation.intent == "soil":
+            if not context.get("region") or not context.get("locality"):
+                return QuestionnaireStep(
+                    "location",
+                    "In which locality and region is your plot?",
+                    known_context=known,
+                )
             return QuestionnaireStep("soil_concern", "What soil or fertiliser problem do you have?", known_context=known)
         return QuestionnaireStep("free_text", "Please describe your agricultural question.", known_context=known)
 
