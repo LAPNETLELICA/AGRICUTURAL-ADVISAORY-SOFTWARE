@@ -54,8 +54,8 @@ class AuthService:
 
     @staticmethod
     def _hash_password(password: str, salt: bytes | None = None) -> str:
-        if len(password) < 10:
-            raise AuthError("password must contain at least 10 characters")
+        if len(password) < 8:
+            raise AuthError("password must contain at least 8 characters")
         salt = salt or secrets.token_bytes(16)
         digest = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 210_000)
         return f"pbkdf2_sha256$210000${AuthService._b64(salt)}${AuthService._b64(digest)}"
@@ -102,6 +102,34 @@ class AuthService:
                 "role": role,
             }
             self._persist()
+
+    @property
+    def has_admin(self) -> bool:
+        """Return True when at least one admin-role account exists."""
+        with self._lock:
+            return any(
+                record.get("role") in {"admin", "knowledge_admin", "service"}
+                for record in self._users.values()
+            )
+
+    def bootstrap_admin(self, username: str, password: str) -> Principal:
+        """Create the first admin account exactly once.
+
+        Raises AuthError when an admin already exists, so this endpoint
+        can never be reused to hijack an existing deployment.
+        """
+        with self._lock:
+            if any(
+                record.get("role") in {"admin", "knowledge_admin", "service"}
+                for record in self._users.values()
+            ):
+                raise AuthError("admin account already initialized")
+            self._users[username] = {
+                "password_hash": self._hash_password(password),
+                "role": "admin",
+            }
+            self._persist()
+        return Principal(username, "admin")
 
     def register_farmer(self, username: str, password: str) -> Principal:
         with self._lock:

@@ -21,8 +21,8 @@ from api import (
     mobile,
     notifications,
     privacy,
-    questionnaire,
     profile,
+    questionnaire,
     sms,
     system,
     technical_fiches,
@@ -53,8 +53,8 @@ from services.knowledge_admin import KnowledgeAdminService
 from services.media import MediaService
 from services.notifications import NotificationService
 from services.privacy import PrivacyService
-from services.retention import RetentionService
 from services.questionnaire import QuestionnaireService
+from services.retention import RetentionService
 from services.technical_fiche import TechnicalFicheService
 
 
@@ -95,13 +95,13 @@ def create_app(
         resolved_settings.auth_store_path,
         resolved_settings.auth_token_ttl_seconds,
     )
-    bootstrap_admin_password = resolved_settings.admin_password
-    if bootstrap_admin_password is None and resolved_settings.environment != "production":
-        bootstrap_admin_password = "change-me-now"
-    if bootstrap_admin_password:
+    # NOTE: no automatic admin is created here on purpose. The very first
+    # admin account is created through POST /api/v1/auth/setup (first-login
+    # password creation). In production, ADMIN_PASSWORD may still pre-seed it.
+    if resolved_settings.admin_password:
         auth_service.ensure_user(
             resolved_settings.admin_username,
-            bootstrap_admin_password,
+            resolved_settings.admin_password,
             "admin",
         )
     app.state.auth_service = auth_service
