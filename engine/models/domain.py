@@ -26,6 +26,7 @@ from engine.models.enums import (
 )
 
 IDENTIFIER_PATTERN = r"^[-A-Za-z0-9_.:]{1,100}$"
+RECIPIENT_PATTERN = r"^\+?[-A-Za-z0-9_.:]{1,100}$"
 RULE_CROP_PATTERN = r"^(?:\*|[-A-Za-z0-9_.:]{1,100})$"
 
 
