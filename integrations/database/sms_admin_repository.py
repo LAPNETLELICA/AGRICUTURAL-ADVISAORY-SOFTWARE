@@ -6,6 +6,7 @@ from datetime import UTC, datetime
 from uuid import uuid4
 
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session, sessionmaker
 
 from engine.sms import (
@@ -48,8 +49,11 @@ class PostgresSMSAdminRepository:
             region=parsed_region,
             active=row.active,
         )
-        with repository_session(self._sessions, write=True) as session:
-            session.add(row)
+        try:
+            with repository_session(self._sessions, write=True) as session:
+                session.add(row)
+        except IntegrityError as exc:
+            raise ValueError(f"phone number {normalized_phone} is already registered") from exc
         return registration
 
     def list_registrations(self) -> list[SMSRegistration]:

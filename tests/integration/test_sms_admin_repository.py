@@ -1,5 +1,6 @@
 """Persistence tests for regional SMS registrations and deliveries."""
 
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -33,6 +34,14 @@ def test_registration_is_normalized_and_listed_for_admin_use() -> None:
 
     assert registration.phone == "+237677123456"
     assert sms_repository.list_registrations() == [registration]
+
+
+def test_duplicate_phone_registration_raises_value_error() -> None:
+    sms_repository = repository()
+    sms_repository.create_registration(phone="+237677123456", region="South")
+
+    with pytest.raises(ValueError, match="already registered"):
+        sms_repository.create_registration(phone="6 77 12 34 56", region="Centre")
 
 
 def test_alert_fingerprint_is_retained_for_deduplication() -> None:

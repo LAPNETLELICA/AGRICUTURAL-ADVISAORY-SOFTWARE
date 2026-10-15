@@ -56,7 +56,10 @@ def create_registration(
     try:
         registration = _repository(request).create_registration(**payload.model_dump())
     except ValueError as exc:
-        raise HTTPException(status_code=422, detail=str(exc)) from exc
+        message = str(exc)
+        if "already registered" in message:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=message) from exc
+        raise HTTPException(status_code=422, detail=message) from exc
     request.app.state.audit_service.record(
         actor_id=admin.subject,
         action="sms.registration.create",
