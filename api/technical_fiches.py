@@ -29,11 +29,13 @@ def _pdf_document(lines: list[str]) -> bytes:
 
     wrapped = [segment for line in lines for segment in (wrap(line, width=86) or [""])]
     page_size = 42
-    pages = [wrapped[index:index + page_size] for index in range(0, len(wrapped), page_size)] or [[]]
+    pages = [wrapped[i : i + page_size] for i in range(0, len(wrapped), page_size)] or [[]]
     page_object_numbers = [4 + index * 2 for index in range(len(pages))]
     objects = [
         "<< /Type /Catalog /Pages 2 0 R >>",
-        "<< /Type /Pages /Kids [" + " ".join(f"{number} 0 R" for number in page_object_numbers) + f"] /Count {len(pages)} >>",
+        "<< /Type /Pages /Kids ["
+        + " ".join(f"{number} 0 R" for number in page_object_numbers)
+        + f"] /Count {len(pages)} >>",
         "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
     ]
     for index, page_lines in enumerate(pages, start=1):
@@ -45,7 +47,9 @@ def _pdf_document(lines: list[str]) -> bytes:
             "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] "
             f"/Resources << /Font << /F1 3 0 R >> >> /Contents {content_number} 0 R >>"
         )
-        objects.append(f"<< /Length {len(content.encode('latin-1'))} >>\nstream\n{content}\nendstream")
+        objects.append(
+            f"<< /Length {len(content.encode('latin-1'))} >>\nstream\n{content}\nendstream"
+        )
     output = bytearray(b"%PDF-1.4\n")
     offsets = [0]
     for index, obj in enumerate(objects, 1):
@@ -134,7 +138,9 @@ def update_fiche_status(
 def download_fiche(fiche_id: str, request: Request, principal: PrincipalDependency) -> Response:
     fiche = read_fiche(fiche_id, request, principal)
     lines = ["AGRIADVISE technical fiche"]
-    lines.extend(f"{key}: {value}" for key, value in fiche["content"].items())
+    content = fiche["content"]
+    if isinstance(content, dict):
+        lines.extend(f"{key}: {value}" for key, value in content.items())
     return Response(
         _pdf_document(lines),
         media_type="application/pdf",
