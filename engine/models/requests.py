@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from pydantic import Field, field_validator, model_validator
 
-from engine.models.domain import IDENTIFIER_PATTERN, StrictModel
+from engine.models.domain import IDENTIFIER_PATTERN, RECIPIENT_PATTERN, StrictModel
 from engine.models.enums import Channel, Objective
 
 
@@ -61,7 +61,7 @@ class MobileAdvisoryRequest(StrictModel):
 
 class SMSAdvisoryRequest(StrictModel):
     request_id: str = Field(default_factory=lambda: str(uuid4()), pattern=IDENTIFIER_PATTERN)
-    recipient_id: str = Field(pattern=IDENTIFIER_PATTERN)
+    recipient_id: str = Field(pattern=RECIPIENT_PATTERN)
     crop_id: str = Field(pattern=IDENTIFIER_PATTERN)
     farmer_id: str | None = Field(default=None, pattern=IDENTIFIER_PATTERN)
     passport_id: str | None = Field(default=None, pattern=IDENTIFIER_PATTERN)
@@ -85,7 +85,7 @@ class AdvisoryRequest(StrictModel):
     crop_description: str | None = None
     crop_discovery: bool = False
     farmer_id: str | None = Field(default=None, pattern=IDENTIFIER_PATTERN)
-    recipient_id: str | None = Field(default=None, pattern=IDENTIFIER_PATTERN)
+    recipient_id: str | None = Field(default=None, pattern=RECIPIENT_PATTERN)
     passport_id: str | None = Field(default=None, pattern=IDENTIFIER_PATTERN)
     plot_ref: str = Field(default="default-plot", pattern=IDENTIFIER_PATTERN)
     current_stage: str | None = None
@@ -144,7 +144,7 @@ class AdvisoryRequest(StrictModel):
 
 
 class SMSDeliveryRequest(StrictModel):
-    recipient_id: str = Field(pattern=IDENTIFIER_PATTERN)
+    recipient_id: str = Field(pattern=RECIPIENT_PATTERN)
     crop_id: str = Field(pattern=IDENTIFIER_PATTERN)
     message: str = Field(min_length=1, max_length=918)
     recommendation_id: str | None = Field(default=None, pattern=IDENTIFIER_PATTERN)

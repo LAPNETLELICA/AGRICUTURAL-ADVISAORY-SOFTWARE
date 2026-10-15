@@ -5,6 +5,9 @@ Voice stays an explicit text fallback until a real TTS adapter is configured.
 
 from __future__ import annotations
 
+import base64
+import logging
+
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
@@ -12,6 +15,8 @@ from api.dependencies import ContainerDependency
 from api.security import PrincipalDependency, enforce_owner
 from engine.exceptions import ProviderUnavailableError
 from engine.models.requests import AdvisoryRequest, MobileAdvisoryRequest
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1/advisory", tags=["voice"])
 
@@ -32,8 +37,6 @@ def voice_advisory(
     container: ContainerDependency,
     principal: PrincipalDependency,
 ) -> VoiceResponse:
-    import base64
-
     enforce_owner(principal, request.farmer_id)
     try:
         http_request.app.state.media_service.validate_references(
@@ -54,6 +57,12 @@ def voice_advisory(
             audio_available=False,
             fallback_reason=str(exc),
         )
+    except Exception as exc:
+        logger.warning("TTS provider failed, returning text fallback: %s", exc)
+        raise HTTPException(
+            status_code=503,
+            detail=f"text fallback available but speech synthesis failed: {exc}",
+        ) from exc
     return VoiceResponse(
         text=text,
         language=request.language,

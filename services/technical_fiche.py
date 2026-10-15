@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping
 from copy import deepcopy
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from threading import RLock
+from typing import TypeVar, overload
 from uuid import uuid4
 
 from engine.models.responses import Recommendation
@@ -29,6 +31,21 @@ class TechnicalFiche:
     content: dict[str, object]
     created_at: datetime
     updated_at: datetime
+
+
+_T = TypeVar("_T")
+
+
+@overload
+def sanitize(value: Mapping[str, _T]) -> dict[str, _T]: ...
+
+
+@overload
+def sanitize(value: list[_T]) -> list[_T]: ...
+
+
+@overload
+def sanitize(value: _T) -> _T: ...
 
 
 def sanitize(value: object) -> object:
@@ -116,7 +133,9 @@ class TechnicalFicheService:
         weather_advice = [
             str(value)
             for value in weather.values()
-            if value and "unavailable" not in str(value).casefold() and "provider" not in str(value).casefold()
+            if value
+            and "unavailable" not in str(value).casefold()
+            and "provider" not in str(value).casefold()
         ]
         if weather_advice:
             safety["weather"] = weather_advice
