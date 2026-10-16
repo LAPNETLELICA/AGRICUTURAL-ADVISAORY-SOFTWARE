@@ -21,9 +21,8 @@ def education_technical_fiches(
     crop_id: str | None = None,
     subject: str | None = None,
 ) -> list[dict[str, Any]]:
-    del principal
-    fiches = request.app.state.technical_fiche_service.list_published(
-        crop_id=crop_id, subject=subject
+    fiches = request.app.state.technical_fiche_service.list_visible(
+        owner_id=principal.subject, crop_id=crop_id, subject=subject
     )
     return [
         {
@@ -49,7 +48,8 @@ def crop_curriculum(
 ) -> dict[str, Any]:
     del principal
     try:
-        return request.app.state.education_service.curriculum(crop_id)
+        curriculum: dict[str, Any] = request.app.state.education_service.curriculum(crop_id)
+        return curriculum
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
 
@@ -67,9 +67,14 @@ def adaptive_curriculum(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT, detail="complete your profile first"
         )
-    return request.app.state.education_service.learning_curriculum(
-        subject=payload.subject,
-        knowledge_level=profile.knowledge_level,
-        language=profile.language,
-        vocabulary_level=profile.vocabulary_level,
-    )
+    try:
+        curriculum: dict[str, Any] = request.app.state.education_service.learning_curriculum(
+            subject=payload.subject,
+            identity_type=profile.identity_type,
+            knowledge_level=profile.knowledge_level,
+            language=profile.language,
+            vocabulary_level=profile.vocabulary_level,
+        )
+        return curriculum
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc

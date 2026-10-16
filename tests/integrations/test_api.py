@@ -43,7 +43,7 @@ def test_mobile_advisory_and_trace_retrieval(client):
     response = client.post("/api/v1/advisory/mobile", json=full_mobile_payload())
     assert response.status_code == 200, response.text
     recommendation = response.json()
-    assert recommendation["primary"]["candidate_id"] == "cameroon.potato.t1"
+    assert recommendation["primary"]["candidate_id"] == "cameroon.potato.t7"
     detail = client.get(f"/api/v1/recommendations/{recommendation['recommendation_id']}")
     assert detail.status_code == 200
     assert detail.json()["trace"]["trace_id"] == recommendation["trace_id"]

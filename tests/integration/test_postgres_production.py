@@ -8,9 +8,12 @@ from __future__ import annotations
 
 import os
 import subprocess
+import sys
 from datetime import UTC, datetime, timedelta
 
 import pytest
+from alembic.config import Config
+from alembic.script import ScriptDirectory
 from sqlalchemy import func, select, text
 
 from integrations.database.connection import Database
@@ -18,10 +21,13 @@ from integrations.database.tables import AuditEventRow
 from integrations.database.uow import DatabaseUnitOfWork, repository_session
 
 TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
-pytestmark = pytest.mark.skipif(
-    not TEST_DATABASE_URL,
-    reason="TEST_DATABASE_URL is required for ephemeral PostgreSQL integration tests",
-)
+pytestmark = [
+    pytest.mark.integration,
+    pytest.mark.skipif(
+        not TEST_DATABASE_URL,
+        reason="TEST_DATABASE_URL is required for ephemeral PostgreSQL integration tests",
+    ),
+]
 
 
 @pytest.fixture(scope="module")
@@ -29,7 +35,9 @@ def postgres_database() -> Database:
     assert TEST_DATABASE_URL is not None
     environment = os.environ.copy()
     environment["DATABASE_URL"] = TEST_DATABASE_URL
-    subprocess.run(["alembic", "upgrade", "head"], check=True, env=environment)
+    subprocess.run(
+        [sys.executable, "-m", "alembic", "upgrade", "head"], check=True, env=environment
+    )
     database = Database(TEST_DATABASE_URL)
     yield database
     database.close()
@@ -39,7 +47,8 @@ def test_postgres_migration_and_ping(postgres_database: Database) -> None:
     postgres_database.ping()
     with postgres_database.engine.connect() as connection:
         revision = connection.execute(text("SELECT version_num FROM alembic_version")).scalar_one()
-    assert revision == "9b81c2276e10"
+    expected_head = ScriptDirectory.from_config(Config("alembic.ini")).get_current_head()
+    assert revision == expected_head
 
 
 def test_postgres_uow_rolls_back_atomically(postgres_database: Database) -> None:

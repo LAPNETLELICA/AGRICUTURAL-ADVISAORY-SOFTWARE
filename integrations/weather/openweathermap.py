@@ -39,8 +39,8 @@ class OpenWeatherMapProvider:
             )
             response.raise_for_status()
             payload = response.json()
-        except (requests.RequestException, ValueError) as exc:
-            raise ProviderUnavailableError("OpenWeatherMap is unavailable") from exc
+        except (requests.RequestException, ValueError):
+            raise ProviderUnavailableError("OpenWeatherMap is unavailable") from None
         if not isinstance(payload, dict):
             raise ProviderUnavailableError("OpenWeatherMap returned an invalid response")
         return payload
@@ -64,7 +64,8 @@ class OpenWeatherMapProvider:
     def get_current(self, region: str | None, locality: str | None, crop_id: str) -> dict[str, Any]:
         del crop_id
         payload = self._payload(self._CURRENT_URL, region, locality)
-        current = payload.get("main") if isinstance(payload.get("main"), dict) else {}
+        raw_current = payload.get("main")
+        current = raw_current if isinstance(raw_current, dict) else {}
         return {
             "temperature_c": current.get("temp"),
             "rainfall_mm": self._rainfall(payload),
@@ -78,8 +79,13 @@ class OpenWeatherMapProvider:
         del crop_id
         payload = self._payload(self._FORECAST_URL, region, locality)
         entries = payload.get("list")
-        day = entries[0] if isinstance(entries, list) and entries and isinstance(entries[0], dict) else {}
-        temperatures = day.get("main") if isinstance(day.get("main"), dict) else {}
+        day = (
+            entries[0]
+            if isinstance(entries, list) and entries and isinstance(entries[0], dict)
+            else {}
+        )
+        raw_temperatures = day.get("main")
+        temperatures = raw_temperatures if isinstance(raw_temperatures, dict) else {}
         return {
             "rainfall_mm": self._rainfall(day),
             "temperature_min_c": temperatures.get("temp_min"),

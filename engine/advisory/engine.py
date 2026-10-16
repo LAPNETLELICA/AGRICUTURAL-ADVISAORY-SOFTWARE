@@ -25,8 +25,8 @@ from engine.interfaces.providers import (
     TraceRecorder,
     TransactionManager,
 )
-from engine.models.domain import AgriculturalContext, Rule, RuleEvaluation
-from engine.models.enums import Channel, EvaluationOutcome, TreeId
+from engine.models.domain import AgriculturalContext, Rule, RuleEvaluation, ScoreContribution
+from engine.models.enums import Channel, EvaluationOutcome, Objective, TreeId
 from engine.models.requests import AdvisoryRequest
 from engine.models.responses import (
     CandidateScoreRecord,
@@ -80,17 +80,65 @@ class AdvisoryEngine:
             request = request.model_copy(update={"passport_id": passport.passport_id})
 
         context = self._context_builder.build(request)
+        criteria_review = self._review_criteria(context)
         selected_trees = self._tree_selector.select(context)
         rules, evaluations, selected_trees = self._evaluate_forest(context, selected_trees)
-        del rules
+        domains = {rule.rule_id: rule.domain for rule in rules}
 
         eligible, constraint_decisions, penalties = self._constraint_processor.apply(
             evaluations, context
         )
         strategy = self._sms_scoring if context.channel is Channel.SMS else self._mobile_scoring
         scored = strategy.score(eligible, penalties)
+        objective_tree = {
+            Objective.SOIL_IMPROVEMENT: TreeId.SOIL,
+            Objective.SUITABILITY: TreeId.REGION,
+            Objective.PLANTING: TreeId.TIMING,
+            Objective.RISK: TreeId.PRACTICES_RISKS,
+            Objective.YIELD_IMPROVEMENT: TreeId.PRACTICES_RISKS,
+            Objective.EDUCATION: TreeId.CROP_PROFILE,
+            Objective.CROP_DISCOVERY: TreeId.CROP_PROFILE,
+        }.get(request.objective)
+        if objective_tree is not None:
+            scored = [
+                item.model_copy(
+                    update={
+                        "score": item.score + 1.0,
+                        "breakdown": [
+                            *item.breakdown,
+                            ScoreContribution(
+                                component="objective_fit",
+                                raw_value=1.0,
+                                weight=1.0,
+                                contribution=1.0,
+                            ),
+                        ],
+                    }
+                )
+                if domains.get(item.candidate.rule_id) is objective_tree
+                else item
+                for item in scored
+            ]
         ranked = self._ranker.rank(scored)
         resolution = self._conflict_resolver.resolve(ranked)
+        avoid_candidate_id = request.metadata.get("avoid_candidate_id")
+        if isinstance(avoid_candidate_id, str) and avoid_candidate_id:
+            remaining = [
+                item
+                for item in resolution.active
+                if item.candidate.candidate_id != avoid_candidate_id
+            ]
+            if not remaining:
+                context = context.model_copy(
+                    update={
+                        "uncertainty": [
+                            *context.uncertainty,
+                            "No different recommendation passed the current context "
+                            "and safety checks.",
+                        ]
+                    }
+                )
+            resolution = resolution.model_copy(update={"active": remaining})
 
         trace_id = str(uuid4())
         recommendation = self._recommendation_builder.build(
@@ -99,6 +147,31 @@ class AdvisoryEngine:
             selected_trees=selected_trees,
             trace_id=trace_id,
         )
+        weather = context.present.get("weather") or {}
+        forecast = context.future.get("weather") or {}
+        observations = [
+            f"current {weather['condition']}" if weather.get("condition") else "",
+            f"current rainfall class {weather['rainfall_class']}"
+            if weather.get("rainfall_class")
+            else "",
+            f"current rainfall {weather['rainfall_mm']} mm"
+            if weather.get("rainfall_mm") is not None
+            else "",
+            f"forecast {forecast['condition']}" if forecast.get("condition") else "",
+            f"forecast rainfall {forecast['rainfall_mm']} mm"
+            if forecast.get("rainfall_mm") is not None
+            else "",
+        ]
+        observations = [item for item in observations if item]
+        if observations:
+            recommendation = recommendation.model_copy(
+                update={
+                    "reasons": [
+                        *recommendation.reasons,
+                        f"Weather context: {', '.join(observations)}.",
+                    ]
+                }
+            )
         score_records = [
             CandidateScoreRecord(
                 candidate_id=item.candidate.candidate_id,
@@ -113,7 +186,7 @@ class AdvisoryEngine:
             request_id=request.request_id,
             crop_id=request.crop_id,
             channel=request.channel,
-            context_used=context.model_dump(mode="json"),
+            context_used={**context.model_dump(mode="json"), "criteria_review": criteria_review},
             relevant_history_used=context.past,
             present_conditions_used=context.present,
             future_conditions_used=context.future,
@@ -154,6 +227,29 @@ class AdvisoryEngine:
                 },
             )
         return recommendation
+
+    @staticmethod
+    def _review_criteria(context: AgriculturalContext) -> dict[str, str]:
+        """Record which T1-T7 inputs were available before ranking advice."""
+        present = context.present
+        future = context.future
+        inputs = {
+            TreeId.CROP_PROFILE: context.crop_profile is not None,
+            TreeId.SOIL: bool(present.get("soil")),
+            TreeId.REGION: bool(context.region or context.locality),
+            TreeId.TOPOGRAPHY: bool(present.get("topography")),
+            TreeId.WEATHER: bool(present.get("weather") or future.get("weather")),
+            TreeId.TIMING: bool(
+                present.get("current_stage") or present.get("cultivation_period") or future
+            ),
+            TreeId.PRACTICES_RISKS: bool(
+                present.get("practices")
+                or present.get("observations")
+                or context.past.get("history")
+                or context.past.get("passport")
+            ),
+        }
+        return {tree.value: "available" if inputs[tree] else "missing" for tree in TreeId}
 
     def _evaluate_forest(
         self,

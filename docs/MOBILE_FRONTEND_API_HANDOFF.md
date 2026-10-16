@@ -47,6 +47,13 @@ Location rule: region/locality knowledge is used first for local soils, climate,
 | POST `/technical-fiches`; GET `/technical-fiches`, `/{fiche_id}`, `/{fiche_id}/download` | technical fiches |
 | GET `/privacy/me`, `/privacy/export`; DELETE `/privacy/me` | privacy controls |
 
+### Education, files, and another recommendation
+
+- `POST /education/learn/curriculum` accepts the existing `{ "subject": "tomato" }` body. The saved profile selects practical or technical modules. Each module now includes governed study `notes`, `lessons`, `tree_id`, and `source` alongside the existing fields. Use a crop name or crop ID from `GET /education/crops`.
+- `POST /technical-fiches` still accepts `recommendation_id`, `subject`, and optional `language`. It returns a draft. Its owner can immediately find it in `GET /education/technical-fiches`, read it, and download it at `GET /technical-fiches/{fiche_id}/download`. Other farmers only see published files.
+- To ask for a different recommendation, call the existing `POST /advisory/mobile` route with the full current crop/context and `metadata.previous_recommendation_id` set to the prior recommendation ID. The backend checks ownership, fetches weather again, and excludes the previous primary candidate after safety checks. If no other candidate qualifies, it returns the existing insufficient-evidence response with an explanation.
+- `GET /recommendations/{recommendation_id}` exposes the trace. `trace.context_used.criteria_review` records whether inputs for each of T1–T7 were available; the engine still selects relevant trees for rule ranking.
+
 ## System and SMS endpoints
 
 | Endpoint | Use |

@@ -40,13 +40,17 @@ class CropContextBuilder:
 
         uncertainty: list[str] = []
         current_weather, forecast_weather = self._weather(request, uncertainty)
-        present_weather = dict(current_weather or {})
-        present_weather.update(request.evidence.weather)
+        present_weather = dict(request.evidence.weather)
+        present_weather.update(
+            {key: value for key, value in (current_weather or {}).items() if value is not None}
+        )
         future = dict(request.evidence.future)
         supplied_forecast = future.get("weather")
         if isinstance(supplied_forecast, dict):
-            merged_forecast = dict(forecast_weather or {})
-            merged_forecast.update(supplied_forecast)
+            merged_forecast = dict(supplied_forecast)
+            merged_forecast.update(
+                {key: value for key, value in (forecast_weather or {}).items() if value is not None}
+            )
             future["weather"] = merged_forecast
         elif forecast_weather:
             future["weather"] = forecast_weather
@@ -110,15 +114,20 @@ class CropContextBuilder:
             current = self._weather_provider.get_current(
                 request.region, request.locality, request.crop_id
             )
+        except (ProviderUnavailableError, TimeoutError, ConnectionError) as exc:
+            current = None
+            uncertainty.append(f"Weather provider unavailable: {exc}")
+        if current is None:
+            uncertainty.append("Current weather data is unavailable.")
+        try:
             forecast = self._weather_provider.get_forecast(
                 request.region, request.locality, request.crop_id
             )
-            if current is None:
-                uncertainty.append("Current weather data is unavailable.")
-            if forecast is None:
-                uncertainty.append("Forecast weather data is unavailable.")
         except (ProviderUnavailableError, TimeoutError, ConnectionError) as exc:
+            forecast = None
             uncertainty.append(f"Weather provider unavailable: {exc}")
+        if forecast is None:
+            uncertainty.append("Forecast weather data is unavailable.")
         return current, forecast
 
     @staticmethod

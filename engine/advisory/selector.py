@@ -17,7 +17,7 @@ class CropTreeSelector:
         future = context.future
         objective = present.get("objective")
 
-        if present.get("soil"):
+        if present.get("soil") or objective == Objective.SOIL_IMPROVEMENT:
             selected.add(TreeId.SOIL)
         if context.region or context.locality:
             selected.add(TreeId.REGION)

@@ -36,7 +36,7 @@ class EducationService:
         modules: list[dict[str, Any]] = []
         for tree in TreeId:
             rules = self._knowledge.get_relevant_rules(crop_id, context, [tree])
-            lessons = [
+            lessons: list[dict[str, Any]] = [
                 {
                     "rule_id": rule.rule_id,
                     "title": rule.candidate.name,
@@ -87,36 +87,62 @@ class EducationService:
         }
 
     def learning_curriculum(
-        self, *, subject: str, knowledge_level: str, language: str, vocabulary_level: str
+        self,
+        *,
+        subject: str,
+        knowledge_level: str,
+        language: str,
+        vocabulary_level: str,
+        identity_type: str = "farmer",
     ) -> dict[str, Any]:
-        """Return learning content, separate from recommendation rules.
-
-        Rule data can be referenced as governed source material, but a rule is
-        never exposed as a lesson.  The lesson plan controls explanation depth.
-        """
+        """Build level-appropriate study material from the governed crop forest."""
         normalized = subject.strip().lower()
         if not normalized:
             raise ValueError("subject is required")
-        depth = {
-            "beginner": ["Introduction", "Recognition", "Practical actions", "Protection"],
-            "basic": ["Fundamentals", "Observation", "Field practices", "Prevention"],
-            "intermediate": ["Processes", "Diagnosis", "Management options", "Monitoring"],
-            "advanced": ["Systems", "Mechanisms", "Trade-offs", "Evaluation"],
-        }.get(knowledge_level.lower())
-        if depth is None:
+        if knowledge_level.lower() not in {"beginner", "basic", "intermediate", "advanced"}:
             raise ValueError("unknown knowledge level")
-        label = subject.strip().title()
-        modules = [
-            {
-                "module_id": f"{normalized}-{index + 1}",
-                "title": f"{label}: {title}",
-                "lesson_count": 1,
-                "learning_outcome": f"Understand {title.lower()} for {label.lower()}.",
-            }
-            for index, title in enumerate(depth)
-        ]
+        professional = identity_type.lower() in {
+            "professional",
+            "agronomist",
+            "expert",
+            "extension_worker",
+            "agricultural_professional",
+        }
+        technical = professional or knowledge_level.lower() in {"intermediate", "advanced"}
+        crop = self._knowledge.get_crop_profile(normalized)
+        if crop is None:
+            raise ValueError("crop not found in the knowledge forest")
+        forest = self.curriculum(crop.crop_id)
+        tree_ids = {tree.value for tree in TreeId} if technical else {"T1", "T2", "T6", "T7"}
+        modules: list[dict[str, Any]] = []
+        for section in forest["seven_criteria"]:
+            if section["tree_id"] not in tree_ids:
+                continue
+            lessons = section["lessons"]
+            notes = []
+            for lesson in lessons:
+                if lesson["summary"]:
+                    notes.append(str(lesson["summary"]))
+                notes.extend(str(action) for action in lesson["actions"] if action)
+                notes.extend(str(warning) for warning in lesson["warnings"] if warning)
+            if not technical:
+                notes = notes[:4]
+            modules.append(
+                {
+                    "module_id": f"{crop.crop_id}-{section['tree_id'].lower()}",
+                    "tree_id": section["tree_id"],
+                    "title": section["title"],
+                    "lesson_count": len(lessons),
+                    "learning_outcome": f"Apply {section['title'].lower()} to {crop.name}.",
+                    "notes": notes,
+                    "lessons": lessons,
+                    "source": lessons[0]["source"]
+                    if lessons
+                    else crop.source.model_dump(mode="json"),
+                }
+            )
         return {
-            "subject": normalized,
+            "subject": crop.crop_id,
             "knowledge_level": knowledge_level.lower(),
             "language": language,
             "vocabulary_level": vocabulary_level.lower(),

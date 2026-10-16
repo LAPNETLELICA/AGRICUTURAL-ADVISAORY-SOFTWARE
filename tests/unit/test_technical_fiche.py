@@ -1,12 +1,12 @@
 from dataclasses import dataclass
+from types import SimpleNamespace
 
+from api.education import education_technical_fiches
+from api.technical_fiches import _pdf_document
 from engine.models.enums import Channel, RecommendationType
 from engine.models.responses import CanonicalRecommendationItem, Recommendation
-from api.technical_fiches import _pdf_document
-from api.education import education_technical_fiches
 from services.auth import Principal
 from services.technical_fiche import TechnicalFicheService
-from types import SimpleNamespace
 
 
 def test_problem_fiche_contains_contextual_diagnosis_protection_calendar_and_safety() -> None:
@@ -45,7 +45,9 @@ def test_problem_fiche_contains_contextual_diagnosis_protection_calendar_and_saf
 
 
 def test_pdf_document_paginates_long_structured_fiche_content() -> None:
-    document = _pdf_document([f"Action {index}: monitor the crop carefully." for index in range(100)])
+    document = _pdf_document(
+        [f"Action {index}: monitor the crop carefully." for index in range(100)]
+    )
 
     assert document.startswith(b"%PDF-")
     assert b"page 1/3" in document
@@ -64,7 +66,7 @@ def test_education_lists_published_fiches_with_download_urls() -> None:
     request = SimpleNamespace(
         app=SimpleNamespace(
             state=SimpleNamespace(
-                technical_fiche_service=SimpleNamespace(list_published=lambda **_: [fiche])
+                technical_fiche_service=SimpleNamespace(list_visible=lambda **_: [fiche])
             )
         )
     )
