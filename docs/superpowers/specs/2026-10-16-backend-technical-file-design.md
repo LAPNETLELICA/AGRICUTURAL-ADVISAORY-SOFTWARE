@@ -80,9 +80,12 @@ untrusted text before passing it to rich-text components. Return `application/pd
 with attachment disposition on the existing download route. Render in memory;
 no persistent temporary file is needed.
 
-Select English or French document labels from the saved language/profile setting;
-unsupported language settings fall back to English and state that fallback in
-the document. Keep agricultural recommendation text in the original governed
+Select English or French document labels from the language supplied by the
+existing frontend/API flow, falling back to the saved profile setting when no
+language was supplied. Normalize regional codes such as `fr-CM` and `en-US`
+to their supported base language without changing the API contract. Unsupported
+settings fall back to English and state that fallback in the document; they do
+not fail fiche creation or download. Keep agricultural recommendation text in the original governed
 source language because there is no safe translation pipeline. If it differs
 from the label language, state that the agronomic wording is retained unchanged.
 Knowledge-level presentation may alter explanations or layout, never the
@@ -106,7 +109,8 @@ checked before reading or downloading, including on the Education listing.
 ## Verification and handoff
 
 Automated tests cover all nine sections, real recommendation/trace values,
-missing information, unsupported language fallback, French Unicode extraction,
+missing information, frontend language-code precedence and regional variants,
+unsupported language fallback, French Unicode extraction,
 long multi-page tables, private-by-default access, old published personal files,
 rendering failure, safe provider diagnostics, and unchanged recommendation flow.
 Inspect a generated sample with `pdfinfo` and `pdftotext` and run the full Python
