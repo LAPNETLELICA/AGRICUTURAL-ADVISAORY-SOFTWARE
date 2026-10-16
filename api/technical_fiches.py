@@ -64,6 +64,31 @@ def _pdf_document(lines: list[str]) -> bytes:
     return bytes(output)
 
 
+def _content_lines(content: dict[str, object]) -> list[str]:
+    """Render structured fiche sections as readable PDF lines."""
+    lines: list[str] = []
+
+    def add(value: object, depth: int) -> None:
+        if isinstance(value, dict):
+            for key, item in value.items():
+                label = str(key).replace("_", " ").title()
+                if isinstance(item, (dict, list)):
+                    lines.append(f"{'  ' * depth}{label}")
+                    add(item, depth + 1)
+                elif item is not None:
+                    lines.append(f"{'  ' * depth}{label}: {item}")
+        elif isinstance(value, list):
+            for index, item in enumerate(value, 1):
+                if isinstance(item, dict):
+                    lines.append(f"{'  ' * depth}{index}.")
+                    add(item, depth + 1)
+                else:
+                    lines.append(f"{'  ' * depth}- {item}")
+
+    add(content, 0)
+    return lines
+
+
 class FicheCreate(StrictModel):
     recommendation_id: str = Field(min_length=1, max_length=100)
     subject: str = Field(min_length=1, max_length=100)
@@ -90,6 +115,12 @@ def create_fiche(
         recommendation=recommendation,
         subject=payload.subject,
         language=payload.language,
+        context={
+            "region": trace.context_used.get("region") if trace else None,
+            "locality": trace.context_used.get("locality") if trace else None,
+            "stage": trace.present_conditions_used.get("current_stage") if trace else None,
+        },
+        weather=trace.future_conditions_used.get("weather", {}) if trace else {},
     )
     return asdict(fiche)
 
@@ -101,11 +132,10 @@ def public_fiches(
     crop_id: str | None = None,
     subject: str | None = None,
 ) -> list[dict[str, object]]:
-    del principal
     return [
         asdict(item)
-        for item in request.app.state.technical_fiche_service.list_published(
-            crop_id=crop_id, subject=subject
+        for item in request.app.state.technical_fiche_service.list_visible(
+            owner_id=principal.subject, crop_id=crop_id, subject=subject
         )
     ]
 
@@ -114,9 +144,12 @@ def public_fiches(
 def read_fiche(
     fiche_id: str, request: Request, principal: PrincipalDependency
 ) -> dict[str, object]:
-    del principal
     fiche = request.app.state.technical_fiche_service.get(fiche_id)
-    if fiche is None or fiche.status != "PUBLISHED":
+    if fiche is None or (
+        fiche.status != "PUBLISHED"
+        and fiche.owner_id != principal.subject
+        and not principal.is_admin
+    ):
         raise HTTPException(status_code=404, detail="technical fiche not found")
     return asdict(fiche)
 
@@ -140,7 +173,7 @@ def download_fiche(fiche_id: str, request: Request, principal: PrincipalDependen
     lines = ["AGRIADVISE technical fiche"]
     content = fiche["content"]
     if isinstance(content, dict):
-        lines.extend(f"{key}: {value}" for key, value in content.items())
+        lines.extend(_content_lines(content))
     return Response(
         _pdf_document(lines),
         media_type="application/pdf",

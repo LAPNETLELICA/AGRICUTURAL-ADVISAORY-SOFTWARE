@@ -19,6 +19,36 @@ def mobile_advisory(
     principal: PrincipalDependency,
 ) -> Recommendation:
     enforce_owner(principal, request.farmer_id)
+    previous_id = request.metadata.get("previous_recommendation_id")
+    if previous_id is not None:
+        if not isinstance(previous_id, str):
+            raise HTTPException(
+                status_code=422, detail="previous_recommendation_id must be a string"
+            )
+        previous = container.recommendations.get(previous_id)
+        if previous is None:
+            raise HTTPException(status_code=404, detail="previous recommendation not found")
+        previous_trace = container.traces.get(previous.trace_id)
+        if previous_trace is None:
+            raise HTTPException(status_code=404, detail="previous recommendation trace not found")
+        if previous_trace.context_used.get("farmer_id") != request.farmer_id:
+            raise HTTPException(
+                status_code=403, detail="previous recommendation ownership required"
+            )
+        if container.knowledge.normalize_crop_id(
+            previous.crop_id
+        ) != container.knowledge.normalize_crop_id(request.crop_id or ""):
+            raise HTTPException(
+                status_code=422, detail="previous recommendation is for another crop"
+            )
+        request = request.model_copy(
+            update={
+                "metadata": {
+                    **request.metadata,
+                    "avoid_candidate_id": previous.primary.candidate_id,
+                }
+            }
+        )
     try:
         http_request.app.state.media_service.validate_references(
             request.farmer_id, request.evidence.image_references

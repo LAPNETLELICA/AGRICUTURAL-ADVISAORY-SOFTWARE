@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import base64
 import importlib.util
+import traceback
 from types import SimpleNamespace
 from typing import Any
 
@@ -73,6 +74,20 @@ def test_openweathermap_uses_cameroon_location_and_maps_conditions(monkeypatch):
     assert forecast["condition"] == "moderate rain"
 
 
+def test_openweathermap_failure_does_not_expose_api_key_in_traceback(monkeypatch):
+    from integrations.weather.openweathermap import OpenWeatherMapProvider
+
+    key = "secret-test-weather-key"
+
+    def failed_get(*args, **kwargs):
+        raise requests.ConnectionError(f"request failed: appid={key}")
+
+    monkeypatch.setattr(requests, "get", failed_get)
+    with pytest.raises(ProviderUnavailableError) as failure:
+        OpenWeatherMapProvider(key).get_current("West", "Bafoussam", "tomato")
+    assert key not in "".join(traceback.format_exception(failure.value))
+
+
 def test_fish_audio_returns_mp3_bytes(monkeypatch):
     sent: dict[str, Any] = {}
 
@@ -115,8 +130,16 @@ def test_groq_transcribes_an_audio_upload(monkeypatch):
 @pytest.mark.parametrize(
     ("module", "provider_name", "key"),
     [
-        ("integrations.weather.openweathermap", "OpenWeatherMapProvider", "your_actual_openweathermap_key_here"),
-        ("integrations.speech.fish_audio", "FishAudioSpeechProvider", "your_actual_fish_audio_key_here"),
+        (
+            "integrations.weather.openweathermap",
+            "OpenWeatherMapProvider",
+            "your_actual_openweathermap_key_here",
+        ),
+        (
+            "integrations.speech.fish_audio",
+            "FishAudioSpeechProvider",
+            "your_actual_fish_audio_key_here",
+        ),
         ("integrations.speech.groq", "GroqTranscriptionProvider", "gsk_your_actual_groq_key_here"),
     ],
 )

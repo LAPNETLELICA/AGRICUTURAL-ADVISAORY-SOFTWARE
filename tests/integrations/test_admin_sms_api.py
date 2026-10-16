@@ -83,3 +83,5 @@ def test_admin_send_delivers_only_to_the_selected_region(container) -> None:
     assert response.status_code == 200
     assert response.json()["sent"] == 1
     assert response.json()["failed"] == 0
+
+

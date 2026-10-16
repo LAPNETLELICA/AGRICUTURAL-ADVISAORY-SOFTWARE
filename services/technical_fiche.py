@@ -129,7 +129,14 @@ class TechnicalFicheService:
             {"action": action, "period": "À planifier", "status": "À planifier"}
             for action in actions
         ]
-        safety: dict[str, object] = {"warnings": list(recommendation.warnings)}
+        safety: dict[str, object] = {
+            "warnings": [
+                warning
+                for warning in recommendation.warnings
+                if "provider unavailable" not in warning.casefold()
+                and "weather data is unavailable" not in warning.casefold()
+            ]
+        }
         weather_advice = [
             str(value)
             for value in weather.values()
@@ -161,6 +168,17 @@ class TechnicalFicheService:
             if f.status == "PUBLISHED"
             and (not crop_id or f.crop_id == crop_id)
             and (not subject or f.subject == subject)
+        ]
+
+    def list_visible(
+        self, *, owner_id: str, crop_id: str | None = None, subject: str | None = None
+    ) -> list[TechnicalFiche]:
+        return [
+            fiche
+            for fiche in self._all()
+            if (fiche.status == "PUBLISHED" or fiche.owner_id == owner_id)
+            and (not crop_id or fiche.crop_id == crop_id)
+            and (not subject or fiche.subject == subject)
         ]
 
     def set_status(self, fiche_id: str, status: str) -> TechnicalFiche:
