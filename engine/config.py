@@ -40,6 +40,7 @@ class Settings:
     auth_token_ttl_seconds: int = 3600
     admin_username: str = "admin"
     admin_password: str | None = None
+    google_client_id: str | None = None
     weather_provider: str = "disabled"
     translation_provider: str = "passthrough"
     speech_provider: str = "disabled"
@@ -130,6 +131,7 @@ class Settings:
             auth_token_ttl_seconds=int(os.getenv("AUTH_TOKEN_TTL_SECONDS", "3600")),
             admin_username=os.getenv("ADMIN_USERNAME", "admin"),
             admin_password=admin_password,
+            google_client_id=os.getenv("GOOGLE_CLIENT_ID") or None,
             weather_provider=os.getenv("WEATHER_PROVIDER", "disabled"),
             translation_provider=os.getenv("TRANSLATION_PROVIDER", "passthrough"),
             speech_provider=os.getenv("SPEECH_PROVIDER", "disabled"),
